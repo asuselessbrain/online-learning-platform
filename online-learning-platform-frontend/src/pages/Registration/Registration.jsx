@@ -1,7 +1,7 @@
 import img2 from "../../assets/images/shape-4.webp"
 import img4 from "../../assets/images/login.png"
 import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { use, useState } from "react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { AuthContext } from "../../Providers/AuthContext";
@@ -18,7 +18,8 @@ const Registration = () => {
         confirmPassword: ""
     });
 
-    const { createUser } = use(AuthContext)
+    const { createUser, updateUser } = use(AuthContext)
+    const navigate = useNavigate()
 
     const handleSignUp = async (e) => {
         e.preventDefault();
@@ -60,14 +61,38 @@ const Registration = () => {
             return;
         }
 
+        const formData = new FormData();
+
+        formData.append('file', image)
+        formData.append('upload_preset', "my_preset")
+
         console.log("VALID ✔", { name, email, password, confirmPassword, image });
 
-        try{
-           const res =  await createUser(email, password)
-           if(res.user){
-            toast.success("Registration successful!")
-           }
-        }catch(error){
+
+
+        try {
+            const res = await createUser(email, password)
+            if (res.user) {
+                const imgRes = await fetch('https://api.cloudinary.com/v1_1/dwduymu1l/image/upload', {
+                    method: "POST",
+                    body: formData
+                })
+                const data = await imgRes.json()
+                const photoURL = data.secure_url
+
+                const payload = {
+                    displayName: name,
+                    photoURL
+                }
+
+                await updateUser(payload)
+
+                toast.success("Registration successful!")
+                navigate("/")
+            }
+
+        } catch (error) {
+            console.log(error)
             toast.error(error.message.split("/")[1].split(")")[0])
         }
     };

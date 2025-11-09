@@ -1,6 +1,6 @@
 import { auth } from "../firebaseConfig/firebase.config";
 import { AuthContext } from "./AuthContext"
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
 
 const AuthProvider = ({children}) => {
@@ -9,8 +9,13 @@ const AuthProvider = ({children}) => {
         return createUserWithEmailAndPassword(auth, email, password)
     }
 
+    const updateUser = (payload) => {
+        return updateProfile(auth.currentUser, payload)
+    }
+
     const value = {
-        createUser
+        createUser,
+        updateUser
     }
     return <AuthContext value={value}>{children}</AuthContext>
 };

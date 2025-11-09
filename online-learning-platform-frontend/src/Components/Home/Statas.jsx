@@ -1,8 +1,8 @@
 
 const Statas = () => {
     return (
-        <section className="bg-[#309255]">
-            <div className="max-w-[1440px] mx-auto py-10 flex items-center justify-between">
+        <section className="bg-[#309255] px-4 2xl:px-0">
+            <div className="max-w-[1440px] mx-auto py-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
                 <div className="text-center text-white space-y-2">
                     <h2 className="text-6xl font-semibold">335K</h2>
                     <p className="text-xl">Exclusive Professors</p>

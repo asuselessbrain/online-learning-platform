@@ -2,13 +2,14 @@ import { use, useState } from "react";
 import { Link, NavLink } from "react-router";
 import logo from "../../assets/images/logo.png"
 import { AuthContext } from "../../Providers/AuthContext";
+import { toast } from "react-toastify";
 
 const NavBar = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleMenu = () => setIsOpen(!isOpen);
 
-    const { user } = use(AuthContext)
+    const { user, logout } = use(AuthContext)
 
     const menuItems = [
         { path: "/", name: "Home" },
@@ -16,6 +17,15 @@ const NavBar = () => {
         { path: "/about", name: "About" },
         { path: "/contact-us", name: "Contact Us" },
     ]
+
+    const handelLogout = async () => {
+        try {
+            await logout();
+            toast.success("Logout successful!")
+        } catch (error) {
+            toast.error(error.message.split("/")[1].split(")")[0])
+        }
+    }
 
     return (
         <nav className="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
@@ -35,6 +45,7 @@ const NavBar = () => {
                     {
                         user ? <button
                             type="button"
+                            onClick={handelLogout}
                             className="text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-500/50 font-medium rounded text-sm cursor-pointer px-4 py-2 text-center dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-500/50"
                         >
                             Logout

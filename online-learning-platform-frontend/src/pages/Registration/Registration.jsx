@@ -18,7 +18,7 @@ const Registration = () => {
         confirmPassword: ""
     });
 
-    const { createUser, updateUser } = use(AuthContext)
+    const { createUser, updateUser, user } = use(AuthContext)
     const navigate = useNavigate()
 
     const handleSignUp = async (e) => {
@@ -167,8 +167,8 @@ const Registration = () => {
 
 
 
-                            <button className="bg-[#309255] w-full p-4 rounded-xl dark:bg-green-600 text-white hover:bg-black/80 transition-all duration-700 cursor-pointer mb-4 dark:hover:bg-gray-700">Create an account</button>
-                            <button className="bg-[#e7f8ee] w-full p-4 rounded-xl text-[#309255] hover:bg-black/80 dark:hover:bg-gray-700 hover:text-white transition-all duration-700 cursor-pointer flex items-center gap-2 justify-center"><FcGoogle size={24} />Login With Google</button>
+                            <button disabled={user} className="bg-[#309255] w-full p-4 rounded-xl dark:bg-green-600 text-white hover:bg-black/80 transition-all duration-700 cursor-pointer mb-4 dark:hover:bg-gray-700 disabled:cursor-not-allowed">Create an account</button>
+                            <button disabled={user} className="bg-[#e7f8ee] w-full p-4 rounded-xl text-[#309255] hover:bg-black/80 dark:hover:bg-gray-700 hover:text-white transition-all duration-700 cursor-pointer flex items-center gap-2 justify-center disabled:cursor-not-allowed"><FcGoogle size={24} />Login With Google</button>
                             <p className="text-sm flex items-center justify-center mt-4 text-gray-600 dark:text-gray-300">Already have an account? <Link to='/login' className="ml-1 underline text-[#309255] dark:text-green-400">{" "}Login</Link></p>
                         </form>
                     </div>

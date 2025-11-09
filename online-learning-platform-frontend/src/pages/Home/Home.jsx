@@ -1,6 +1,7 @@
 import React, { use } from 'react';
 import { AuthContext } from '../../Providers/AuthContext';
 import NavBar from '../../Components/Shared/NavBar';
+import Hero from '../../Components/Home/Hero';
 
 const Home = () => {
 
@@ -8,8 +9,7 @@ const Home = () => {
     console.log(user)
     return (
         <div>
-            <NavBar />
-            Home
+           <Hero />
         </div>
     );
 };

@@ -18,7 +18,7 @@ const Registration = () => {
         confirmPassword: ""
     });
 
-    const { createUser, updateUser, user } = use(AuthContext)
+    const { createUser, updateUser, user, loginWithGoogle } = use(AuthContext)
     const navigate = useNavigate()
 
     const handleSignUp = async (e) => {
@@ -96,6 +96,18 @@ const Registration = () => {
         }
     };
 
+    const handleGoogleLogin = async () => {
+        try {
+            const res = await loginWithGoogle()
+            if(res.user){
+                toast.success("Registration successful!")
+                navigate("/")
+            }
+        } catch (error) {
+            toast.error(error.message.split("/")[1].split(")")[0])
+        }
+    }
+
     return (
         <section className="flex items-center justify-center min-h-screen p-6 dark:bg-black dark:text-white transition-colors duration-300">
             <div className="max-w-7xl border border-[rgba(48,146,85,0.2)] mx-auto rounded-xl xl:p-16 w-full p-8 flex items-stretch justify-between gap-8 lg:gap-16 dark:border-gray-700 dark:bg-gray-900 transition-colors duration-300 z-10">
@@ -167,7 +179,7 @@ const Registration = () => {
 
 
                             <button disabled={user} className="bg-[#309255] w-full p-4 rounded-xl dark:bg-green-600 text-white hover:bg-black/80 transition-all duration-700 cursor-pointer mb-4 dark:hover:bg-gray-700 disabled:cursor-not-allowed">Create an account</button>
-                            <button disabled={user} className="bg-[#e7f8ee] w-full p-4 rounded-xl text-[#309255] hover:bg-black/80 dark:hover:bg-gray-700 hover:text-white transition-all duration-700 cursor-pointer flex items-center gap-2 justify-center disabled:cursor-not-allowed"><FcGoogle size={24} />Login With Google</button>
+                            <button onClick={handleGoogleLogin} disabled={user} className="bg-[#e7f8ee] w-full p-4 rounded-xl text-[#309255] hover:bg-black/80 dark:hover:bg-gray-700 hover:text-white transition-all duration-700 cursor-pointer flex items-center gap-2 justify-center disabled:cursor-not-allowed"><FcGoogle size={24} />Login With Google</button>
                             <p className="text-sm flex items-center justify-center mt-4 text-gray-600 dark:text-gray-300">Already have an account? <Link to='/login' className="ml-1 underline text-[#309255] dark:text-green-400">{" "}Login</Link></p>
                         </form>
                     </div>

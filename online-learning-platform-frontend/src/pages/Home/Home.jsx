@@ -6,6 +6,7 @@ import Statas from '../../Components/Home/Statas';
 import BecomeAInstructor from '../../Components/Home/BecomeAInstructor';
 import HowItWork from '../../Components/Home/HowItWork';
 import StudentTestimonial from '../../Components/Home/StudentTestimonial';
+import ReadyToStart from '../../Components/Home/ReadyTostart';
 
 const Home = () => {
 
@@ -17,6 +18,7 @@ const Home = () => {
            <Statas />
            <BecomeAInstructor />
            <HowItWork />
+           <ReadyToStart />
            <StudentTestimonial />
         </div>
     );

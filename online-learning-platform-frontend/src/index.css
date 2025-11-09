@@ -8,18 +8,38 @@ body {
   font-style: normal;
 }
 
-.animation-arrow{
-    animation: leftRight 4s linear infinite;
+.animation-arrow {
+  animation: leftRight 4s linear infinite;
 }
 
 @keyframes leftRight {
-    0%{
-        right: -90%;
-    }
-    60%{
-        right: -65%;
-    }
-    100%{
-        right: -90%
-    }
+  0% {
+    right: -90%;
+  }
+
+  60% {
+    right: -65%;
+  }
+
+  100% {
+    right: -90%
+  }
+}
+
+.animate-left-to-right {
+  animation: animateArrow 4s linear infinite;
+}
+
+@keyframes animateArrow {
+  0% {
+    transform: translateX(0);
+  }
+
+  60% {
+    transform: translateX(100px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
 }

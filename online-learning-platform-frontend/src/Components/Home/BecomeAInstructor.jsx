@@ -3,7 +3,7 @@ import img from "../../assets/images/shape-4.webp"
 const BecomeAInstructor = () => {
     return (
         <section className="bg-[#eefbf3] px-4 2xl:px-0">
-            <div className="max-w-[1440px] mx-auto py-10 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="max-w-[1440px] mx-auto py-30 flex flex-col md:flex-row items-center justify-between gap-4">
                 <div className="max-w-[415px]">
                     <p className="text-xl text-[#309255]">Become A Instructor</p>
                     <h2 className="text-[40px] mt-6">You can join with Edule as <span className="text-[#329357]">a instructor?</span></h2>

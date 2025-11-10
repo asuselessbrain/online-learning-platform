@@ -7,6 +7,7 @@ import BecomeAInstructor from '../../Components/Home/BecomeAInstructor';
 import HowItWork from '../../Components/Home/HowItWork';
 import StudentTestimonial from '../../Components/Home/StudentTestimonial';
 import ReadyToStart from '../../Components/Home/ReadyTostart';
+import LatestNews from '../../Components/Home/LatestNews';
 
 const Home = () => {
 
@@ -20,6 +21,7 @@ const Home = () => {
            <HowItWork />
            <ReadyToStart />
            <StudentTestimonial />
+           <LatestNews />
         </div>
     );
 };

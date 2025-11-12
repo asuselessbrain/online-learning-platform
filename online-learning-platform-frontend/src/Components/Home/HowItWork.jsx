@@ -5,7 +5,7 @@ import { TbCertificate } from "react-icons/tb";
 
 const HowItWork = () => {
     return (
-        <section>
+        <section className="my-20">
             <HomePageHeadingSubHeading subTitle="Over 1,235+ Course" firstTitle="How It" secondTitle="Work?" />
 
             <div className="max-w-[1440px] mx-auto flex flex-col lg:flex-row items-center justify-between gap-6 px-4 2xl:px-0">

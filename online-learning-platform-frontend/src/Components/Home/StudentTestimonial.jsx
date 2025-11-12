@@ -59,7 +59,7 @@ const StudentTestimonial = () => {
         ;
 
     return (
-        <section className="max-w-[1440px] mx-auto mb-20 px-4 2xl:px-0">
+        <section className="max-w-[1440px] mx-auto my-20 px-4 2xl:px-0">
             <HomePageHeadingSubHeading
                 subTitle="Student Testimonial"
                 firstTitle="Feedback From"

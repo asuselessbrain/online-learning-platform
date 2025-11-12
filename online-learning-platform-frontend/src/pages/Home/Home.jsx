@@ -8,6 +8,7 @@ import StudentTestimonial from '../../Components/Home/StudentTestimonial';
 import ReadyToStart from '../../Components/Home/ReadyTostart';
 import LatestNews from '../../Components/Home/LatestNews';
 import Supporter from '../../Components/Home/Supporter';
+import PopularCourses from '../../Components/Home/PopularCourses';
 
 const Home = () => {
 
@@ -17,6 +18,7 @@ const Home = () => {
         <div>
            <Hero />
            <Statas />
+           <PopularCourses />
            <BecomeAInstructor />
            <HowItWork />
            <ReadyToStart />

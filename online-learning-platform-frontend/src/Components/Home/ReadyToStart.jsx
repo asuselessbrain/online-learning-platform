@@ -1,6 +1,6 @@
 const ReadyToStart = () => {
     return (
-        <section className="bg-[#309255] px-4 2xl:px-0 my-20 text-white relative overflow-hidden">
+        <section className="bg-[#309255] px-4 2xl:px-0 text-white relative overflow-hidden">
             <div className="max-w-[1440px] mx-auto py-30 flex flex-col md:flex-row items-center justify-between gap-4">
                 <div className="max-w-[400px] lg:max-w-[500px]">
                     <p className="text-xl">Ready to start?</p>

@@ -74,7 +74,7 @@ const DashboardSummary = () => {
                 setError(null);
 
                 // Fetch all courses
-                const coursesRes = await axios.get('http://localhost:3000/api/v1/courses');
+                const coursesRes = await axios.get('https://online-learning-platform-backend-two.vercel.app/api/v1/courses');
                 const courses = coursesRes.data.data || [];
                 setTotalCourses(courses.length);
 
@@ -92,12 +92,12 @@ const DashboardSummary = () => {
                 setCategoriesData(categoriesArray);
 
                 // Fetch enrollment statistics
-                const enrollmentStatsRes = await axios.get('http://localhost:3000/api/v1/stats');
+                const enrollmentStatsRes = await axios.get('https://online-learning-platform-backend-two.vercel.app/api/v1/stats');
                 const enrollmentStats = enrollmentStatsRes.data.data;
                 setTotalEnrolled(enrollmentStats.total);
 
                 // Fetch overall rating statistics
-                const ratingStatsRes = await axios.get('http://localhost:3000/api/v1/reviews/overall-stats');
+                const ratingStatsRes = await axios.get('https://online-learning-platform-backend-two.vercel.app/api/v1/reviews/overall-stats');
                 const ratingStats = ratingStatsRes.data.data;
                 setAverageRating(ratingStats.averageRating);
                 setTotalReviews(ratingStats.totalReviews);
@@ -107,7 +107,7 @@ const DashboardSummary = () => {
                 setTotalEarnings("$12.4k"); // This would need an earnings API
 
                 // Fetch monthly enrollment statistics
-                const monthlyStatsRes = await axios.get('http://localhost:3000/api/v1/monthly-stats?months=6');
+                const monthlyStatsRes = await axios.get('https://online-learning-platform-backend-two.vercel.app/api/v1/monthly-stats?months=6');
                 setMonthlyData(monthlyStatsRes.data.data);
 
             } catch (err) {

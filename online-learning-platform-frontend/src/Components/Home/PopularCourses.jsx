@@ -14,7 +14,7 @@ const PopularCourses = () => {
             try {
                 setLoading(true);
 
-                const res = await axios.get(`http://localhost:3000/api/v1/courses`);
+                const res = await axios.get(`https://online-learning-platform-backend-two.vercel.app/api/v1/courses`);
                 setCourse(res.data.data)
                 setError(null);
             } catch {

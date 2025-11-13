@@ -20,11 +20,11 @@ const MyProfile = () => {
         try {
             setLoading(true);
             // Fetch enrollments
-            const enrollmentsRes = await axios.get(`http://localhost:3000/api/v1/my-enrollments?studentEmail=${user.email}`);
+            const enrollmentsRes = await axios.get(`https://online-learning-platform-backend-two.vercel.app/api/v1/my-enrollments?studentEmail=${user.email}`);
             setEnrollments(enrollmentsRes.data.data);
 
             // Fetch my courses
-            const coursesRes = await axios.get(`http://localhost:3000/api/v1/courses/my-added-courses?instructorEmail=${user.email}`);
+            const coursesRes = await axios.get(`https://online-learning-platform-backend-two.vercel.app/api/v1/courses/my-added-courses?instructorEmail=${user.email}`);
             setMyCourses(coursesRes.data.data);
         } catch {
             // Error handled silently

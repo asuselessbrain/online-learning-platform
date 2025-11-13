@@ -16,7 +16,7 @@ const MyEnrollments = () => {
             if (!user?.email) return;
             try {
                 setLoading(true);
-                const res = await axios.get(`http://localhost:3000/api/v1/my-enrollments?studentEmail=${user.email}`);
+                const res = await axios.get(`https://online-learning-platform-backend-two.vercel.app/api/v1/my-enrollments?studentEmail=${user.email}`);
                 setEnrollments(res.data.data);
                 setError(null);
             } catch {
@@ -30,7 +30,7 @@ const MyEnrollments = () => {
 
     const handleUnenroll = async (courseId) => {
         try {
-            await axios.delete('http://localhost:3000/api/v1/unenroll', {
+            await axios.delete('https://online-learning-platform-backend-two.vercel.app/api/v1/unenroll', {
                 data: { studentEmail: user.email, courseId }
             });
             setEnrollments(enrollments.filter(e => e.courseId._id !== courseId));

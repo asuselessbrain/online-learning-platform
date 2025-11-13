@@ -24,7 +24,7 @@ const AllCourses = () => {
                 params.append('sortBy', 'createdAt');
                 params.append('sortDir', sortDir);
                 
-                const res = await axios.get(`http://localhost:3000/api/v1/courses?${params.toString()}`);
+                const res = await axios.get(`https://online-learning-platform-backend-two.vercel.app/api/v1/courses?${params.toString()}`);
                 setCourses(res.data.data);
                 // derive categories from fetched courses
                 const cats = new Set();

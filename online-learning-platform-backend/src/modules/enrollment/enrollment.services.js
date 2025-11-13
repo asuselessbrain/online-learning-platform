@@ -2,18 +2,15 @@ import { Enrollment } from './enrollment.model.js';
 import { Course } from '../course/course.model.js';
 
 const enrollInCourse = async (studentEmail, courseId) => {
-    // Check if course exists
     const course = await Course.findById(courseId);
     if (!course) {
         throw new Error('Course not found');
     }
 
-    // Check if student is trying to enroll in their own course
     if (course.instructorEmail === studentEmail) {
         throw new Error('You cannot enroll in your own course');
     }
 
-    // Check if already enrolled
     const existingEnrollment = await Enrollment.findOne({ studentEmail, courseId });
     if (existingEnrollment) {
         throw new Error('Already enrolled in this course');
@@ -87,7 +84,6 @@ const getMonthlyEnrollmentStats = async (months = 12) => {
         }
     ]);
 
-    // Convert to the format expected by the frontend
     const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
     return stats.map(stat => ({

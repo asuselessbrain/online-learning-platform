@@ -23,7 +23,7 @@ const CourseDetails = () => {
         const fetchCourse = async () => {
             try {
                 setLoading(true);
-                const res = await axios.get(`http://localhost:3000/api/v1/courses/${id}`);
+                const res = await axios.get(`https://online-learning-platform-backend-two.vercel.app/api/v1/courses/${id}`);
                 setCourse(res.data.data);
                 setRatingStats(res.data.data.ratingStats);
                 setError(null);
@@ -39,7 +39,7 @@ const CourseDetails = () => {
     useEffect(() => {
         const fetchReviews = async () => {
             try {
-                const res = await axios.get(`http://localhost:3000/api/v1/reviews/course/${id}`);
+                const res = await axios.get(`https://online-learning-platform-backend-two.vercel.app/api/v1/reviews/course/${id}`);
                 setReviews(res.data.data);
             } catch {
                 setReviews([]);
@@ -53,7 +53,7 @@ const CourseDetails = () => {
         const fetchEnrollmentStatus = async () => {
             if (user?.email && id) {
                 try {
-                    const res = await axios.get(`http://localhost:3000/api/v1/enrollments/${user.email}/${id}`);
+                    const res = await axios.get(`https://online-learning-platform-backend-two.vercel.app/api/v1/enrollments/${user.email}/${id}`);
                     setEnrollmentStatus(res.data.data);
                 } catch {
                     setEnrollmentStatus(null);
@@ -81,18 +81,18 @@ const CourseDetails = () => {
 
             if (userReview) {
                 // Update existing review
-                await axios.put('http://localhost:3000/api/v1/reviews', reviewData);
+                await axios.put('https://online-learning-platform-backend-two.vercel.app/api/v1/reviews', reviewData);
                 toast.success('Review updated successfully');
             } else {
                 // Create new review
-                await axios.post('http://localhost:3000/api/v1/reviews', reviewData);
+                await axios.post('https://online-learning-platform-backend-two.vercel.app/api/v1/reviews', reviewData);
                 toast.success('Review submitted successfully');
             }
 
             // Refresh reviews and user review
             const [reviewsRes, userReviewRes] = await Promise.all([
-                axios.get(`http://localhost:3000/api/v1/reviews/course/${id}`),
-                axios.get(`http://localhost:3000/api/v1/reviews/my-review/${id}?studentEmail=${user.email}`)
+                axios.get(`https://online-learning-platform-backend-two.vercel.app/api/v1/reviews/course/${id}`),
+                axios.get(`https://online-learning-platform-backend-two.vercel.app/api/v1/reviews/my-review/${id}?studentEmail=${user.email}`)
             ]);
 
             setReviews(reviewsRes.data.data);
@@ -115,14 +115,14 @@ const CourseDetails = () => {
         try {
             if (enrollmentStatus) {
                 // Unenroll
-                await axios.delete('http://localhost:3000/api/v1/unenroll', {
+                await axios.delete('https://online-learning-platform-backend-two.vercel.app/api/v1/unenroll', {
                     data: { studentEmail: user.email, courseId: id }
                 });
                 setEnrollmentStatus(null);
                 toast.success('Unenrolled successfully');
             } else {
                 // Enroll
-                const res = await axios.post('http://localhost:3000/api/v1/enroll', {
+                const res = await axios.post('https://online-learning-platform-backend-two.vercel.app/api/v1/enroll', {
                     studentEmail: user.email,
                     courseId: id
                 });

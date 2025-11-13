@@ -76,7 +76,7 @@ const AddCourse = () => {
       };
 
 
-      const response = await axios.post('http://localhost:3000/api/v1/courses', data, {
+      const response = await axios.post('https://online-learning-platform-backend-two.vercel.app/api/v1/courses', data, {
         headers: { 'Content-Type': 'application/json' },
       });
 

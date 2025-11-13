@@ -37,11 +37,6 @@ const getAllCourses = async (req, res) => {
 const myAddedCourses = async (req, res) => {
     try {
         let result = await courseService.myAddedCourses(req.query || {});
-        // Add full URL to thumbnails
-        result = result.map(course => ({
-            ...course.toObject(),
-            thumbnail: course.thumbnail ? `${process.env.BASE_URL || 'http://localhost:3000'}/uploads/${course.thumbnail}` : null
-        }));
         res.status(200).json({
             success: true,
             message: "My added courses fetched successfully",
@@ -62,11 +57,8 @@ const getCourseById = async (req, res) => {
         if (!course) {
             return res.status(404).json({ success: false, message: 'Course not found' });
         }
-
-        // Get rating stats for the course
         const ratingStats = await reviewService.getCourseRatingStats(id);
 
-        // Combine course data with rating stats
         const courseWithRating = {
             ...course.toObject(),
             ratingStats

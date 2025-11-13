@@ -9,10 +9,8 @@ const reviewSchema = new mongoose.Schema({
     updatedAt: { type: Date, default: Date.now },
 });
 
-// Compound index to ensure one review per student per course
 reviewSchema.index({ courseId: 1, studentEmail: 1 }, { unique: true });
 
-// Update the updatedAt field before saving
 reviewSchema.pre('save', function(next) {
     this.updatedAt = Date.now();
     next();

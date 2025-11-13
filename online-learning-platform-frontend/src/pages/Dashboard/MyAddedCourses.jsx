@@ -39,7 +39,7 @@ const MyAddedCourses = () => {
     const fetchCourses = useCallback(async () => {
         try {
             setLoading(true);
-            const res = await axios.get(`http://localhost:3000/api/v1/my-added-courses?instructorEmail=${user?.email}`);
+            const res = await axios.get(`https://online-learning-platform-backend-two.vercel.app/api/v1/my-added-courses?instructorEmail=${user?.email}`);
             setCourses(res.data.data);
             setError(null);
         } catch (err) {
@@ -123,7 +123,7 @@ const MyAddedCourses = () => {
 
     const handleDelete = async (id) => {
         try {
-            const res = await axios.delete(`http://localhost:3000/api/v1/courses/${id}`);
+            const res = await axios.delete(`https://online-learning-platform-backend-two.vercel.app/api/v1/courses/${id}`);
 
             if (res.data.success) {
                 toast.success("Course deleted successfully");
@@ -208,7 +208,7 @@ const MyAddedCourses = () => {
         };
 
         try {
-            const res = await axios.put(`http://localhost:3000/api/v1/courses/${editingCourse._id}`, updateData, {
+            const res = await axios.put(`https://online-learning-platform-backend-two.vercel.app/api/v1/courses/${editingCourse._id}`, updateData, {
                 headers: { 'Content-Type': 'application/json' }
             });
             if (res.data.success) {

@@ -3,13 +3,11 @@ import { Enrollment } from '../enrollment/enrollment.model.js';
 import mongoose from 'mongoose';
 
 const createReview = async (courseId, studentEmail, rating, review) => {
-    // Check if student is enrolled in the course
     const enrollment = await Enrollment.findOne({ studentEmail, courseId });
     if (!enrollment) {
         throw new Error('You must be enrolled in this course to leave a review');
     }
 
-    // Check if review already exists
     const existingReview = await Review.findOne({ courseId, studentEmail });
     if (existingReview) {
         throw new Error('You have already reviewed this course');

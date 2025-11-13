@@ -25,7 +25,6 @@ const parseNumeric = (str) => {
     const suffix = suffixMatch ? suffixMatch[0] : '';
     const numStr = s.replace(/[^0-9.-]/g, '');
     let value = parseFloat(numStr || '0');
-    // interpret k as thousands
     if (/k$/i.test(suffix)) value = value * 1000;
     return { value: isNaN(value) ? 0 : value, prefix, suffix };
 };
@@ -53,15 +52,14 @@ const DashboardSummary = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     
-    // Dynamic data states
     const [totalEnrolled, setTotalEnrolled] = useState(0);
     const [totalCourses, setTotalCourses] = useState(0);
     const [averageRating, setAverageRating] = useState(0);
     const [totalEarnings, setTotalEarnings] = useState("$0");
     const [totalUsers, setTotalUsers] = useState(0);
     const [totalReviews, setTotalReviews] = useState(0);
-    const [messages] = useState({ unread: 5, total: 24 }); // Keep static for now
-    const [completions] = useState({ count: 42, percent: 8.4 }); // Keep static for now
+    const [messages] = useState({ unread: 5, total: 24 });
+    const [completions] = useState({ count: 42, percent: 8.4 });
     const [categoriesData, setCategoriesData] = useState([]);
     const [monthlyData, setMonthlyData] = useState([]);
 
@@ -73,12 +71,10 @@ const DashboardSummary = () => {
                 setLoading(true);
                 setError(null);
 
-                // Fetch all courses
                 const coursesRes = await axios.get('https://online-learning-platform-backend-two.vercel.app/api/v1/courses');
                 const courses = coursesRes.data.data || [];
                 setTotalCourses(courses.length);
 
-                // Calculate courses by category
                 const categoryStats = {};
                 courses.forEach(course => {
                     if (course.category) {
@@ -91,22 +87,18 @@ const DashboardSummary = () => {
                 }));
                 setCategoriesData(categoriesArray);
 
-                // Fetch enrollment statistics
                 const enrollmentStatsRes = await axios.get('https://online-learning-platform-backend-two.vercel.app/api/v1/stats');
                 const enrollmentStats = enrollmentStatsRes.data.data;
                 setTotalEnrolled(enrollmentStats.total);
 
-                // Fetch overall rating statistics
                 const ratingStatsRes = await axios.get('https://online-learning-platform-backend-two.vercel.app/api/v1/reviews/overall-stats');
                 const ratingStats = ratingStatsRes.data.data;
                 setAverageRating(ratingStats.averageRating);
                 setTotalReviews(ratingStats.totalReviews);
 
-                // For now, keep some values static until backend supports them
-                setTotalUsers(4820); // This would need a users API
-                setTotalEarnings("$12.4k"); // This would need an earnings API
+                setTotalUsers(4820); 
+                setTotalEarnings("$12.4k");
 
-                // Fetch monthly enrollment statistics
                 const monthlyStatsRes = await axios.get('https://online-learning-platform-backend-two.vercel.app/api/v1/monthly-stats?months=6');
                 setMonthlyData(monthlyStatsRes.data.data);
 
@@ -227,7 +219,6 @@ const DashboardSummary = () => {
                 </div>
             </section>
 
-            {/* Charts: enrollments by category and monthly enrollments */}
             <section className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
                 <div className="bg-white rounded-lg p-4 shadow-sm">
                     <div className="font-semibold mb-2 text-gray-800">Courses by category</div>

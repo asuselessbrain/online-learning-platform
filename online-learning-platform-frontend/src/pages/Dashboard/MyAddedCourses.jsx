@@ -176,11 +176,10 @@ const MyAddedCourses = () => {
 
         setSaving(true);
 
-        let thumbnailUrl = editingCourse.thumbnail || ''; // default to existing
+        let thumbnailUrl = editingCourse.thumbnail || '';
 
         const fileInput = document.getElementById('edit-thumbnail');
         if (fileInput && fileInput.files[0]) {
-            // Upload to Cloudinary
             const formData = new FormData();
             formData.append('file', fileInput.files[0]);
             formData.append('upload_preset', "my_preset")

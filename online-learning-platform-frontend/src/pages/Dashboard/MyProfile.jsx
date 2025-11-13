@@ -19,15 +19,14 @@ const MyProfile = () => {
 
         try {
             setLoading(true);
-            // Fetch enrollments
             const enrollmentsRes = await axios.get(`https://online-learning-platform-backend-two.vercel.app/api/v1/my-enrollments?studentEmail=${user.email}`);
             setEnrollments(enrollmentsRes.data.data);
 
-            // Fetch my courses
             const coursesRes = await axios.get(`https://online-learning-platform-backend-two.vercel.app/api/v1/courses/my-added-courses?instructorEmail=${user.email}`);
             setMyCourses(coursesRes.data.data);
-        } catch {
-            // Error handled silently
+        // eslint-disable-next-line no-unused-vars
+        } catch(err) {
+            toast.error('Failed to load profile data');
         } finally {
             setLoading(false);
         }
@@ -77,11 +76,10 @@ const MyProfile = () => {
         <div className="min-h-screen bg-gray-50 py-8">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-                    {/* Profile Header */}
                     <div className="bg-[#309255] text-white p-6">
                         <div className="flex items-center space-x-4">
                             <img
-                                src={user.photoURL || `https://via.placeholder.com/100x100?text=${encodeURIComponent(user.displayName || user.email)}`}
+                                src={user.photoURL }
                                 alt="Profile"
                                 className="w-20 h-20 rounded-full border-4 border-white"
                             />
@@ -93,7 +91,6 @@ const MyProfile = () => {
                     </div>
 
                     <div className="p-6">
-                        {/* Stats Cards */}
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                             <div className="bg-[#e7f8ee] rounded-lg p-6 text-center">
                                 <div className="text-3xl font-bold text-[#309255] mb-2">{enrollments.length}</div>
@@ -111,7 +108,6 @@ const MyProfile = () => {
                             </div>
                         </div>
 
-                        {/* Profile Information */}
                         <div className="mb-8">
                             <div className="flex justify-between items-center mb-4">
                                 <h2 className="text-xl font-semibold text-gray-800">Profile Information</h2>
@@ -187,7 +183,6 @@ const MyProfile = () => {
                             )}
                         </div>
 
-                        {/* Recent Activity */}
                         <div>
                             <h2 className="text-xl font-semibold text-gray-800 mb-4">Recent Enrollments</h2>
                             {loading ? (

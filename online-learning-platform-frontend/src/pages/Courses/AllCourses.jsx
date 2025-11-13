@@ -26,7 +26,6 @@ const AllCourses = () => {
                 
                 const res = await axios.get(`https://online-learning-platform-backend-two.vercel.app/api/v1/courses?${params.toString()}`);
                 setCourses(res.data.data);
-                // derive categories from fetched courses
                 const cats = new Set();
                 (res.data.data || []).forEach(c => { if (c.category) cats.add(c.category); });
                 setCategories(Array.from(cats).sort());
@@ -51,10 +50,9 @@ const AllCourses = () => {
                     <p className="text-gray-600">Explore our wide range of courses and start learning today.</p>
                 </div>
                 
-                {/* Filters and Search */}
                 <div className="mb-8 bg-white p-6 rounded-lg shadow-sm">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        {/* Search Input */}
+
                         <div>
                             <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-1">
                                 Search Courses
@@ -69,7 +67,6 @@ const AllCourses = () => {
                             />
                         </div>
                         
-                        {/* Category Filter */}
                         <div>
                             <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1">
                                 Category
@@ -87,7 +84,6 @@ const AllCourses = () => {
                             </select>
                         </div>
                         
-                        {/* Sort Direction */}
                         <div>
                             <label htmlFor="sortDir" className="block text-sm font-medium text-gray-700 mb-1">
                                 Order

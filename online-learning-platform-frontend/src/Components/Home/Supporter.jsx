@@ -42,11 +42,11 @@ const Supporter = () => {
 
 
     return (
-        <section className="bg-[#eefbf3] px-4 2xl:px-0 py-20">
+        <section className="bg-[#e7f8ee] px-4 2xl:px-0 py-20">
             <div className="max-w-[1440px] mx-auto overflow-hidden">
                 <h2 className="text-[40px] mt-2 mb-6">
                     Best Supporter of{" "}
-                    <span className="relative inline-block text-[#329357]">
+                    <span className="relative inline-block text-[#309255]">
                         Edule.
                         <img
                             src={img}

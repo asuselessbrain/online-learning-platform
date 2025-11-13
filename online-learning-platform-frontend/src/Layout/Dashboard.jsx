@@ -18,7 +18,7 @@ const Dashboard = () => {
                 />
             )}
 
-            <main className="ml-0 sm:ml-60 p-5 flex-1">
+            <main className="ml-0 sm:ml-60 flex-1">
                 <div className="sm:hidden mb-4">
                     <button
                         className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 bg-white shadow-sm"

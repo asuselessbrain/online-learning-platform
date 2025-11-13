@@ -2,15 +2,15 @@ import img from "../../assets/images/shape-26.webp"
 import img2 from "../../assets/images/shape-4.webp"
 import img3 from "../../assets/images/register-login.webp"
 import { FcGoogle } from "react-icons/fc";
-import { Link, useLocation, useNavigate } from "react-router";
-import { use, useState } from "react";
+import { Link, useNavigate } from "react-router";
+import React, { useState, useContext } from "react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../Providers/AuthContext";
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false)
 
-    const { loginWithGoogle, loginWithEmail, loading, user } = use(AuthContext)
+    const { loginWithGoogle, loginWithEmail, loading, user } = useContext(AuthContext)
     const navigate = useNavigate()
 
 
@@ -53,25 +53,34 @@ const Login = () => {
                 </div>
                 <div className="flex-1">
                     <h2 className="text-3xl relative w-fit">Login <span className="text-[#309255] dark:text-green-500">Now <img src={img2} className="w-24 right-0 absolute" alt="icon" /></span></h2>
-                    <div className="mt-16">
-                        <form onSubmit={handLogin}>
-                            <input type="email" name="email" placeholder="Usename or Email" className="block p-4 rounded-xl border border-[rgba(48,146,85,0.2)] focus:outline-none focus:ring-0 focus:border-[rgba(48,146,85,0.2)] w-full mb-6 dark:bg-gray-800 dark:border-gray-700 dark:text-white transition-colors duration-300" />
-                            <div className="relative">
-                                <input type={showPassword ? 'text' : 'password'} name="password" placeholder="Password" className="block p-4 rounded-xl border border-[rgba(48,146,85,0.2)] focus:outline-none focus:ring-0 focus:border-[rgba(48,146,85,0.2)] w-full dark:bg-gray-800 dark:border-gray-700 dark:text-white transition-colors duration-300" />
-                                {
-                                    showPassword ?
-                                        <FaRegEyeSlash onClick={() => setShowPassword(false)} size={24} className="absolute top-[50%] right-4 -translate-y-[50%] text-gray-600/90 dark:text-gray-400 cursor-pointer" />
-                                        : <FaRegEye onClick={() => setShowPassword(true)} size={24} className="absolute top-[50%] right-4 -translate-y-[50%] text-gray-600/90 dark:text-gray-400 cursor-pointer" />
-                                }
+                    <div className="mt-12">
+                        <form onSubmit={handLogin} className="space-y-4">
+                            <div>
+                                <label htmlFor="email" className="sr-only">Email or username</label>
+                                <input id="email" name="email" type="email" placeholder="Email or username" aria-label="Email or username" required className="block p-3 rounded-xl border border-[#309255]/20 focus:outline-none focus:ring-2 focus:ring-[#309255]/30 focus:border-[#309255] w-full mb-3 bg-white transition-colors duration-150" />
                             </div>
 
-                            <p className="text-[#309255] dark:text-green-500 text-sm my-2 flex items-center justify-end underline cursor-pointer">Forget Password</p>
+                            <div className="relative">
+                                <label htmlFor="password" className="sr-only">Password</label>
+                                <input id="password" name="password" type={showPassword ? 'text' : 'password'} placeholder="Password" aria-label="Password" required className="block p-3 rounded-xl border border-[#309255]/20 focus:outline-none focus:ring-2 focus:ring-[#309255]/30 focus:border-[#309255] w-full bg-white transition-colors duration-150" />
+                                <button type="button" aria-pressed={showPassword} onClick={() => setShowPassword(!showPassword)} className="absolute top-1/2 right-3 -translate-y-1/2 text-gray-600 hover:text-gray-800" aria-label={showPassword ? 'Hide password' : 'Show password'}>
+                                    {showPassword ? <FaRegEyeSlash size={20} /> : <FaRegEye size={20} />}
+                                </button>
+                            </div>
 
-                            {
-                                loading ? <button disabled className="bg-[#309255] disabled:cursor-not-allowed w-full p-4 rounded-xl dark:bg-green-600 text-white hover:bg-black/80 transition-all duration-700 cursor-pointer mb-4 dark:hover:bg-gray-700">Loading....</button> : <button disabled={loading || user} className="bg-[#309255] disabled:cursor-not-allowed w-full p-4 rounded-xl dark:bg-green-600 text-white hover:bg-black/80 transition-all duration-700 cursor-pointer mb-4 dark:hover:bg-gray-700">Login</button>
-                            }
-                            <button onClick={handleGoogleLogin} disabled={loading || user} className="bg-[#e7f8ee] disabled:cursor-not-allowed w-full p-4 rounded-xl text-[#309255] hover:bg-black/80 dark:hover:bg-gray-700 hover:text-white transition-all duration-700 cursor-pointer flex items-center gap-2 justify-center"><FcGoogle size={24} />Login With Google</button>
-                            <p className="text-sm flex items-center justify-center mt-4 text-gray-600 dark:text-gray-300">Don't have an account? <Link to='/registration' className="ml-1 underline text-[#309255] dark:text-green-400">{" "}Create Account</Link></p>
+                            <div className="flex justify-end">
+                                <Link to="/forgot" className="text-sm text-[#309255] underline">Forgot password?</Link>
+                            </div>
+
+                            <div>
+                                <button type="submit" disabled={loading || user} className="w-full p-3 rounded-xl bg-[#309255] disabled:opacity-60 text-white font-medium hover:bg-[#267a46] transition-colors">{loading ? 'Loading...' : 'Login'}</button>
+                            </div>
+
+                            <div>
+                                <button type="button" onClick={handleGoogleLogin} disabled={loading || user} className="w-full p-3 rounded-xl bg-[#e7f8ee] disabled:opacity-60 text-[#309255] flex items-center justify-center gap-2 hover:bg-[#d9f2df] transition-colors"><FcGoogle size={20} />Login with Google</button>
+                            </div>
+
+                            <p className="text-sm text-center text-gray-600">Don't have an account? <Link to='/registration' className="ml-1 underline text-[#309255]">Create Account</Link></p>
                         </form>
                     </div>
                 </div>

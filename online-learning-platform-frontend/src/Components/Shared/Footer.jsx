@@ -65,7 +65,7 @@ const Footer = () => {
                         </p>
                         <form>
                             <input type="email" placeholder="Email here" className="bg-white p-4 rounded-md block border border-[rgba(48,146,85,0.2)] focus:outline-none focus:ring-0 focus:border-[rgba(48,146,85,0.2)] w-full mt-10" />
-                            <button className="mt-6 bg-[#329357] px-6 py-4 text-white rounded-md">Start A Course</button>
+                            <button className="mt-6 bg-[#309255] px-6 py-4 text-white rounded-md">Start A Course</button>
                         </form>
                     </div>
                 </div>

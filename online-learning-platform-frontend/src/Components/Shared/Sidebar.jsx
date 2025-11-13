@@ -13,7 +13,7 @@ const Sidebar = ({ isOpen = false, setIsOpen = () => {} }) => {
 
   return (
     <aside
-      className={`fixed top-0 left-0 h-screen w-60 bg-linear-to-b from-[#e7f8ee] to-white border-r border-[#e6f3ea] p-5 flex flex-col gap-3 overflow-auto z-40 transform transition-transform duration-200 ease-in-out
+      className={`fixed top-0 left-0 h-screen w-60 bg-[#e7f8ee] border-r border-gray-200 p-5 flex flex-col gap-3 overflow-auto z-40 transform transition-transform duration-200 ease-in-out
         ${isOpen ? "translate-x-0" : "-translate-x-full"} sm:translate-x-0`}
     >
       <div className="flex items-center justify-between pb-2 border-b border-transparent">
@@ -44,18 +44,18 @@ const Sidebar = ({ isOpen = false, setIsOpen = () => {} }) => {
           <span>My Added Courses</span>
         </Link>
 
-        <Link to="/dashboard/enrolled" className="flex items-center gap-3 px-2 py-2 rounded-md text-gray-800 font-semibold hover:bg-[#309255]/10 hover:text-[#309255]" onClick={() => setIsOpen(false)}>
+        <Link to="/dashboard/my-enrollments" className="flex items-center gap-3 px-2 py-2 rounded-md text-gray-800 font-semibold hover:bg-[#309255]/10 hover:text-[#309255]" onClick={() => setIsOpen(false)}>
           <FiUsers className="text-[#309255] text-lg" />
           <span>My Enrolled Courses</span>
         </Link>
 
-        <Link to="/dashboard/profile" className="flex items-center gap-3 px-2 py-2 rounded-md text-gray-800 font-semibold hover:bg-[#309255]/10 hover:text-[#309255]" onClick={() => setIsOpen(false)}>
+        <Link to="/dashboard/my-profile" className="flex items-center gap-3 px-2 py-2 rounded-md text-gray-800 font-semibold hover:bg-[#309255]/10 hover:text-[#309255]" onClick={() => setIsOpen(false)}>
           <FiUser className="text-[#309255] text-lg" />
           <span>My Profile</span>
         </Link>
       </nav>
 
-      <div className="w-full h-px bg-[#e6f3ea] my-3 rounded" aria-hidden></div>
+      <div className="w-full h-px bg-white my-3 rounded" aria-hidden></div>
 
       <nav className="flex flex-col gap-2">
         <Link to="/" className="flex items-center gap-3 px-2 py-2 rounded-md text-gray-800 font-semibold hover:bg-[#309255]/10 hover:text-[#309255]" onClick={() => setIsOpen(false)}>

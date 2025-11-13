@@ -7,7 +7,7 @@ const HomePageHeadingSubHeading = ({subTitle, firstTitle, secondTitle}) => {
 
       <h2 className="text-[40px] mt-2 mb-6">
         {firstTitle}{" "}
-        <span className="relative inline-block text-[#329357]">
+        <span className="relative inline-block text-[#309255]">
           {secondTitle}
           <img
             src={img}

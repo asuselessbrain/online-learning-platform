@@ -66,9 +66,6 @@ const Registration = () => {
         formData.append('file', image)
         formData.append('upload_preset', "my_preset")
 
-        console.log("VALID ✔", { name, email, password, confirmPassword, image });
-
-
 
         try {
             const res = await createUser(email, password)

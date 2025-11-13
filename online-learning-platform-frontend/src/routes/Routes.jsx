@@ -6,7 +6,11 @@ import Root from "../Layout/Root";
 import AllCourses from "../pages/Courses/AllCourses";
 import Dashboard from "../Layout/Dashboard";
 import DashboardSummary from "../pages/Dashboard/DashboardSummary";
-import AddCourse from "../pages/Courses/AddCourse";
+import AddCourse from "../pages/Dashboard/AddCourse";
+import MyAddedCourses from "../pages/Dashboard/MyAddedCourses";
+import CourseDetails from "../pages/CourseDetails/CourseDetails";
+import MyEnrollments from "../pages/Dashboard/MyEnrollments";
+import MyProfile from "../pages/Dashboard/MyProfile";
 
 export const routes = createBrowserRouter([
     {
@@ -20,6 +24,10 @@ export const routes = createBrowserRouter([
             {
                 path: "/courses",
                 element: <AllCourses />
+            },
+            {
+                path: "/courses/:id",
+                element: <CourseDetails />
             }
         ]
     },
@@ -35,6 +43,18 @@ export const routes = createBrowserRouter([
             {
                 path: "add-course",
                 element: <AddCourse />
+            },
+            {
+                path: "my-courses",
+                element: <MyAddedCourses />
+            },
+            {
+                path: "my-enrollments",
+                element: <MyEnrollments />
+            },
+            {
+                path: "my-profile",
+                element: <MyProfile />
             }
         ]
     },

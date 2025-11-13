@@ -1,4 +1,5 @@
 import { courseService } from "./course.services.js";
+import { reviewService } from "../review/review.services.js";
 
 const createCourse = async (req, res) => {
     try {
@@ -18,9 +19,7 @@ const createCourse = async (req, res) => {
 
 const getAllCourses = async (req, res) => {
     try {
-        // pass query params to service for server-side filtering/sorting/pagination
         const result = await courseService.getAllCourses(req.query || {});
-        // result: { courses, meta }
         res.status(200).json({
             success: true,
             message: "Courses fetched successfully",
@@ -35,14 +34,45 @@ const getAllCourses = async (req, res) => {
     }
 }
 
+const myAddedCourses = async (req, res) => {
+    try {
+        let result = await courseService.myAddedCourses(req.query || {});
+        // Add full URL to thumbnails
+        result = result.map(course => ({
+            ...course.toObject(),
+            thumbnail: course.thumbnail ? `${process.env.BASE_URL || 'http://localhost:3000'}/uploads/${course.thumbnail}` : null
+        }));
+        res.status(200).json({
+            success: true,
+            message: "My added courses fetched successfully",
+            data: result
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message || "Failed to fetch my added courses"
+        });
+    }
+}
+
 const getCourseById = async (req, res) => {
     try {
         const id = req.params.id;
-        const course = await Course.findById(id);
+        const course = await courseService.getCourseById(id);
         if (!course) {
             return res.status(404).json({ success: false, message: 'Course not found' });
         }
-        res.status(200).json({ success: true, message: 'Course fetched', data: course });
+
+        // Get rating stats for the course
+        const ratingStats = await reviewService.getCourseRatingStats(id);
+
+        // Combine course data with rating stats
+        const courseWithRating = {
+            ...course.toObject(),
+            ratingStats
+        };
+
+        res.status(200).json({ success: true, message: 'Course fetched', data: courseWithRating });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message || 'Failed to fetch course' });
     }
@@ -79,5 +109,6 @@ export const courseController = {
     getAllCourses,
     getCourseById,
     updateCourse,
-    deleteCourse
+    deleteCourse,
+    myAddedCourses
 };

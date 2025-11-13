@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FiX, FiBarChart2, FiMail, FiCheckCircle, FiClock, FiTrendingUp, FiStar, FiDollarSign, FiUserPlus, FiUser } from "react-icons/fi";
 import { animate } from "framer-motion";
+import axios from "axios";
 import {
     ResponsiveContainer,
     AreaChart,
@@ -49,35 +50,99 @@ const Counter = ({ raw = 0, duration = 1.2, decimals = 0 }) => {
 };
 
 const DashboardSummary = () => {
-
-    const [messages] = useState({ unread: 5, total: 24 });
-    const [completions] = useState({ count: 42, percent: 8.4 });
-
-    const categoriesData = [
-        { name: 'Development', enrolled: 320 },
-        { name: 'Design', enrolled: 140 },
-        { name: 'Business', enrolled: 95 },
-        { name: 'Photography', enrolled: 60 },
-    ];
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    
+    // Dynamic data states
+    const [totalEnrolled, setTotalEnrolled] = useState(0);
+    const [totalCourses, setTotalCourses] = useState(0);
+    const [averageRating, setAverageRating] = useState(0);
+    const [totalEarnings, setTotalEarnings] = useState("$0");
+    const [totalUsers, setTotalUsers] = useState(0);
+    const [totalReviews, setTotalReviews] = useState(0);
+    const [messages] = useState({ unread: 5, total: 24 }); // Keep static for now
+    const [completions] = useState({ count: 42, percent: 8.4 }); // Keep static for now
+    const [categoriesData, setCategoriesData] = useState([]);
+    const [monthlyData, setMonthlyData] = useState([]);
 
     const chartColors = ['#34d399', '#60a5fa', '#f59e0b', '#f97316'];
 
-    // small sample metrics for overview
-    const earningsRaw = "$12.4k"; // Counter supports suffix like 'k'
-    const totalUsers = 4820;
-    const totalReviews = 3720;
+    useEffect(() => {
+        const fetchDashboardData = async () => {
+            try {
+                setLoading(true);
+                setError(null);
 
-    const monthlyData = [
-        { month: 'Jan', value: 420 },
-        { month: 'Feb', value: 380 },
-        { month: 'Mar', value: 540 },
-        { month: 'Apr', value: 480 },
-        { month: 'May', value: 620 },
-        { month: 'Jun', value: 700 },
-    ];
+                // Fetch all courses
+                const coursesRes = await axios.get('http://localhost:3000/api/v1/courses');
+                const courses = coursesRes.data.data || [];
+                setTotalCourses(courses.length);
+
+                // Calculate courses by category
+                const categoryStats = {};
+                courses.forEach(course => {
+                    if (course.category) {
+                        categoryStats[course.category] = (categoryStats[course.category] || 0) + 1;
+                    }
+                });
+                const categoriesArray = Object.entries(categoryStats).map(([name, count]) => ({
+                    name,
+                    count
+                }));
+                setCategoriesData(categoriesArray);
+
+                // Fetch enrollment statistics
+                const enrollmentStatsRes = await axios.get('http://localhost:3000/api/v1/stats');
+                const enrollmentStats = enrollmentStatsRes.data.data;
+                setTotalEnrolled(enrollmentStats.total);
+
+                // Fetch overall rating statistics
+                const ratingStatsRes = await axios.get('http://localhost:3000/api/v1/reviews/overall-stats');
+                const ratingStats = ratingStatsRes.data.data;
+                setAverageRating(ratingStats.averageRating);
+                setTotalReviews(ratingStats.totalReviews);
+
+                // For now, keep some values static until backend supports them
+                setTotalUsers(4820); // This would need a users API
+                setTotalEarnings("$12.4k"); // This would need an earnings API
+
+                // Fetch monthly enrollment statistics
+                const monthlyStatsRes = await axios.get('http://localhost:3000/api/v1/monthly-stats?months=6');
+                setMonthlyData(monthlyStatsRes.data.data);
+
+            } catch (err) {
+                console.error('Error fetching dashboard data:', err);
+                setError('Failed to load dashboard data');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchDashboardData();
+    }, []);
+
+    if (loading) {
+        return (
+            <div className="bg-linear-to-b from-[#e7f8ee] to-white p-4 sm:p-6 font-sans text-gray-900 min-h-[calc(100vh-48px)] m-6 rounded-xl">
+                <div className="flex items-center justify-center h-64">
+                    <p className="text-gray-500">Loading dashboard data...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="bg-linear-to-b from-[#e7f8ee] to-white p-4 sm:p-6 font-sans text-gray-900 min-h-[calc(100vh-48px)] m-6 rounded-xl">
+                <div className="flex items-center justify-center h-64">
+                    <p className="text-red-500">{error}</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
-        <div className="bg-linear-to-b from-[#e7f8ee] to-white p-4 sm:p-6 font-sans text-gray-900">
+        <div className="bg-linear-to-b from-[#e7f8ee] to-white p-4 sm:p-6 font-sans text-gray-900 min-h-[calc(100vh-48px)] m-6 rounded-xl">
             <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
                 <div>
                     <h1 className="text-2xl font-bold text-[#309255]">Dashboard</h1>
@@ -94,7 +159,7 @@ const DashboardSummary = () => {
                     <div className="p-3 rounded-md bg-[#309255]/10 text-[#309255]"><FiUserPlus className="text-lg" /></div>
                     <div>
                         <div className="text-sm text-gray-500">Total Enrolled</div>
-                        <div className="text-lg font-bold text-gray-900"><Counter raw={500} /></div>
+                        <div className="text-lg font-bold text-gray-900"><Counter raw={totalEnrolled} /></div>
                         <div className="text-xs text-gray-400">across all courses</div>
                     </div>
                 </div>
@@ -103,7 +168,7 @@ const DashboardSummary = () => {
                     <div className="p-3 rounded-md bg-[#309255]/10 text-[#309255]"><FiUserPlus className="text-lg" /></div>
                     <div>
                         <div className="text-sm text-gray-500">Courses Added</div>
-                        <div className="text-lg font-bold text-gray-900"><Counter raw={32} /></div>
+                        <div className="text-lg font-bold text-gray-900"><Counter raw={totalCourses} /></div>
                         <div className="text-xs text-gray-400">created this portal</div>
                     </div>
                 </div>
@@ -112,7 +177,7 @@ const DashboardSummary = () => {
                     <div className="p-3 rounded-md bg-[#309255]/10 text-[#309255]"><FiStar className="text-lg" /></div>
                     <div>
                         <div className="text-sm text-gray-500">Average Rating</div>
-                        <div className="text-lg font-bold text-gray-900"><Counter raw={Number(4.3)} decimals={1} /></div>
+                        <div className="text-lg font-bold text-gray-900"><Counter raw={Number(averageRating)} decimals={1} /></div>
                         <div className="text-xs text-gray-400">average across top courses</div>
                     </div>
                 </div>
@@ -121,7 +186,7 @@ const DashboardSummary = () => {
                     <div className="p-3 rounded-md bg-[#309255]/10 text-[#309255]"><FiDollarSign className="text-lg" /></div>
                     <div>
                         <div className="text-sm text-gray-500">Total Earnings</div>
-                        <div className="text-lg font-bold text-gray-900"><Counter raw={earningsRaw} /></div>
+                        <div className="text-lg font-bold text-gray-900"><Counter raw={totalEarnings} /></div>
                         <div className="text-xs text-gray-400">for selected period</div>
                     </div>
                 </div>
@@ -165,14 +230,14 @@ const DashboardSummary = () => {
             {/* Charts: enrollments by category and monthly enrollments */}
             <section className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
                 <div className="bg-white rounded-lg p-4 shadow-sm">
-                    <div className="font-semibold mb-2 text-gray-800">Enrollments by category</div>
+                    <div className="font-semibold mb-2 text-gray-800">Courses by category</div>
                     <div style={{ width: '100%', height: 220 }}>
                         <ResponsiveContainer>
                             <BarChart data={categoriesData} layout="vertical" margin={{ left: 0 }}>
                                 <XAxis type="number" hide />
                                 <YAxis dataKey="name" type="category" width={140} />
                                 <Tooltip />
-                                <Bar dataKey="enrolled" fill="#309255">
+                                <Bar dataKey="count" fill="#309255">
                                     {categoriesData.map((entry, idx) => (
                                         <Cell key={`cell-${idx}`} fill={chartColors[idx % chartColors.length]} />
                                     ))}

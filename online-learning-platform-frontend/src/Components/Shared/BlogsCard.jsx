@@ -9,7 +9,7 @@ const BlogsCard = () => {
                     <img src="https://lh3.googleusercontent.com/a/ACg8ocLTMCJuBcTJWgjVDsNBl7Q2XqyGruF-s0aDCFrlfBzgIPrC_Jc=s96-c" alt="Arfan Ahmed Name" className="rounded-full h-10 w-10" />
                     <h4 className="text-gray-500">Arfan Ahmed</h4>
                 </div>
-                <p className="py-2 px-4 rounded-md text-[#309255] hover:text-white bg-[#eefbf3] hover:bg-[#309255] transition-all duration-700">Science</p>
+                <p className="py-2 px-4 rounded-md text-[#309255] hover:text-white bg-[#e7f8ee] hover:bg-[#309255] transition-all duration-700">Science</p>
             </div>
             <h2 className="text-xl mt-4 hover:text-[#309255] transition-all duration-500">Data Science and Machine Learning with Python - Hands On!</h2>
             <div className="flex items-center justify-between mt-4">
@@ -22,7 +22,7 @@ const BlogsCard = () => {
                     <p>{(2568).toLocaleString("en-US")}+</p>
                 </div>
             </div>
-            <button className="bg-[#eefbf3] text-[#309255] hover:text-white hover:bg-[#309255] p-4 rounded-lg mt-6 transition-all duration-700 cursor-pointer dark:hover:bg-gray-700">Read More</button>
+            <button className="bg-[#e7f8ee] text-[#309255] hover:text-white hover:bg-[#309255] p-4 rounded-lg mt-6 transition-all duration-700 cursor-pointer dark:hover:bg-gray-700">Read More</button>
         </div>
     );
 };

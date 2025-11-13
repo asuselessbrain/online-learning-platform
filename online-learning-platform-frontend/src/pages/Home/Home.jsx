@@ -5,7 +5,7 @@ import Statas from '../../Components/Home/Statas';
 import BecomeAInstructor from '../../Components/Home/BecomeAInstructor';
 import HowItWork from '../../Components/Home/HowItWork';
 import StudentTestimonial from '../../Components/Home/StudentTestimonial';
-import ReadyToStart from '../../Components/Home/ReadyTostart';
+import ReadyToStart from '../../Components/Home/ReadyToStart';
 import LatestNews from '../../Components/Home/LatestNews';
 import Supporter from '../../Components/Home/Supporter';
 import PopularCourses from '../../Components/Home/PopularCourses';

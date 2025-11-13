@@ -1,5 +1,6 @@
 import { Course } from './course.model.js';
 import fs from 'fs';
+import mongoose from 'mongoose';
 import path from 'path';
 
 const createCourse = async (payload) => {
@@ -80,6 +81,29 @@ const getAllCourses = async (opts = {}) => {
     };
 }
 
+const myAddedCourses = async (opts = {}) => {
+    const {
+        q,
+        instructorEmail
+    } = opts;
+
+    const filter = {
+        instructorEmail: instructorEmail
+    };
+
+    if (q) {
+        const regex = new RegExp(q.toString().trim(), 'i');
+        filter.$or = [
+            { title: { $regex: regex } },
+            { shortDescription: { $regex: regex } },
+            { category: { $regex: regex } },
+        ];
+    }
+
+    const courses = await Course.find(filter);
+    return courses;
+}
+
 const deleteCourse = async (id) => {
     const course = await Course.findById(id);
     if (!course) return null;
@@ -97,9 +121,17 @@ const updateCourse = async (id, payload) => {
     return updated;
 }
 
+const getCourseById = async (id) => {
+    
+    const course = await Course.findById(id);
+    return course
+}
+
 export const courseService = {
     createCourse,
     getAllCourses,
+    myAddedCourses,
+    getCourseById,
     deleteCourse,
     updateCourse
 };

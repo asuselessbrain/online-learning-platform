@@ -14,6 +14,8 @@ import {
     Bar,
     Cell,
 } from "recharts";
+import useRole from "../../hooks/useRole";
+import { AuthContext } from "../../Providers/AuthContext";
 
 
 
@@ -64,6 +66,10 @@ const DashboardSummary = () => {
     const [categoriesData, setCategoriesData] = useState([]);
     const [monthlyData, setMonthlyData] = useState([]);
 
+    const role = useRole();
+
+    console.log(role)
+
     const chartColors = ['#34d399', '#60a5fa', '#f59e0b', '#f97316'];
 
     useEffect(() => {
@@ -75,6 +81,8 @@ const DashboardSummary = () => {
                 const coursesRes = await axios.get('https://online-learning-platform-backend-two.vercel.app/api/v1/courses');
                 const courses = coursesRes.data.data || [];
                 setTotalCourses(courses.length);
+
+
 
                 const categoryStats = {};
                 courses.forEach(course => {

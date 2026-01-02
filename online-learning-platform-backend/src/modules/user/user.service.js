@@ -4,6 +4,15 @@ const createUserInDB = async(userData) => {
     return await user.save();
 }
 
+const getUserRole = async(email) => {
+    const user = await UserModel.findOne({email})
+    if(!user){
+        throw new Error("User not found");
+    }
+    return user?.role;
+}
+
 export const UserService = {
-    createUserInDB
+    createUserInDB,
+    getUserRole
 }

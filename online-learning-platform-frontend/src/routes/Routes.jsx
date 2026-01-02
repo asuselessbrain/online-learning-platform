@@ -11,6 +11,9 @@ import MyAddedCourses from "../pages/Dashboard/MyAddedCourses";
 import CourseDetails from "../pages/CourseDetails/CourseDetails";
 import MyEnrollments from "../pages/Dashboard/MyEnrollments";
 import MyProfile from "../pages/Dashboard/MyProfile";
+import About from "../pages/About/About";
+import Contact from "../pages/Contact/Contact";
+import ProtectedRoute from "../Providers/ProtectedRoute";
 
 export const routes = createBrowserRouter([
     {
@@ -28,33 +31,41 @@ export const routes = createBrowserRouter([
             {
                 path: "/courses/:id",
                 element: <CourseDetails />
+            },
+            {
+                path: "/about",
+                element: <About />
+            },
+            {
+                path: "/contact",
+                element: <Contact />
             }
         ]
     },
     {
         path: "/dashboard",
-        element: <Dashboard />,
+        element: <ProtectedRoute><Dashboard /></ProtectedRoute>,
         children: [
             {
                 index: true,
-                element: <DashboardSummary />
+                element: <ProtectedRoute><DashboardSummary /></ProtectedRoute>
             }
             ,
             {
                 path: "add-course",
-                element: <AddCourse />
+                element: <ProtectedRoute><AddCourse /></ProtectedRoute>
             },
             {
                 path: "my-courses",
-                element: <MyAddedCourses />
+                element: <ProtectedRoute><MyAddedCourses /></ProtectedRoute>
             },
             {
                 path: "my-enrollments",
-                element: <MyEnrollments />
+                element: <ProtectedRoute><MyEnrollments /></ProtectedRoute>
             },
             {
                 path: "my-profile",
-                element: <MyProfile />
+                element: <ProtectedRoute><MyProfile /></ProtectedRoute>
             }
         ]
     },

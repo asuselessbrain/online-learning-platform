@@ -2,20 +2,42 @@ import img from "../../assets/images/shape-26.webp"
 import img2 from "../../assets/images/shape-4.webp"
 import img3 from "../../assets/images/register-login.webp"
 import { FcGoogle } from "react-icons/fc";
-import { Link, useNavigate } from "react-router";
-import React, { useState, useContext } from "react";
+import { Link, useLocation, useNavigate } from "react-router";
+import React, { useState, useContext, useEffect } from "react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../Providers/AuthContext";
+import Loading from "../../Components/Shared/Loading";
+
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false)
+    const [authLoading, setAuthLoading] = useState(false)
+    const location = useLocation();
 
     const { loginWithGoogle, loginWithEmail, loading, user } = useContext(AuthContext)
     const navigate = useNavigate()
 
+    // Redirect authenticated users away from login page
+    useEffect(() => {
+        if (!loading && user) {
+            navigate(location.state?.from || "/", { replace: true });
+        }
+    }, [user, loading, navigate, location.state]);
+
+    // Show loading while checking authentication
+    if (loading) {
+        return <Loading message="Checking authentication..." fullScreen={true} />;
+    }
+
+    // Don't render login form if user is already authenticated
+    if (user) {
+        return null;
+    }
+
 
     const handLogin = async (e) => {
         e.preventDefault()
+        setAuthLoading(true)
 
         const email = e.target.email.value;
         const password = e.target.password.value;
@@ -23,22 +45,29 @@ const Login = () => {
         try {
             const res = await loginWithEmail(email, password)
             if (res.user) {
+                navigate(location.state?.from || "/")
                 toast.success("Login successful!")
             }
         } catch (error) {
             toast.error(error.message.split("/")[1].split(")")[0])
+        } finally {
+            setAuthLoading(false)
         }
     }
 
     const handleGoogleLogin = async () => {
+        setAuthLoading(true)
         try {
             const res = await loginWithGoogle()
             if (res.user) {
                 toast.success("Login successful!")
-                navigate("/")
+                navigate(location.state?.from || "/")
+
             }
         } catch (error) {
             toast.error(error.message.split("/")[1].split(")")[0])
+        } finally {
+            setAuthLoading(false)
         }
     }
 
@@ -73,11 +102,11 @@ const Login = () => {
                             </div>
 
                             <div>
-                                <button type="submit" disabled={loading || user} className="w-full p-3 rounded-xl bg-[#309255] disabled:opacity-60 text-white font-medium hover:bg-[#267a46] transition-colors">{loading ? 'Loading...' : 'Login'}</button>
+                                <button type="submit" disabled={authLoading} className="w-full p-3 rounded-xl bg-[#309255] disabled:opacity-60 text-white font-medium hover:bg-[#267a46] transition-colors">{authLoading ? 'Logging in...' : 'Login'}</button>
                             </div>
 
                             <div>
-                                <button type="button" onClick={handleGoogleLogin} disabled={loading || user} className="w-full p-3 rounded-xl bg-[#e7f8ee] disabled:opacity-60 text-[#309255] flex items-center justify-center gap-2 hover:bg-[#d9f2df] transition-colors"><FcGoogle size={20} />Login with Google</button>
+                                <button type="button" onClick={handleGoogleLogin} disabled={authLoading} className="w-full p-3 rounded-xl bg-[#e7f8ee] disabled:opacity-60 text-[#309255] flex items-center justify-center gap-2 hover:bg-[#d9f2df] transition-colors"><FcGoogle size={20} />{authLoading ? 'Signing in...' : 'Login with Google'}</button>
                             </div>
 
                             <p className="text-sm text-center text-gray-600">Don't have an account? <Link to='/registration' className="ml-1 underline text-[#309255]">Create Account</Link></p>

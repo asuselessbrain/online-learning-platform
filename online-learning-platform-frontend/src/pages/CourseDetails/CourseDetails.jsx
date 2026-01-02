@@ -3,6 +3,7 @@ import { useParams } from 'react-router';
 import axios from 'axios';
 import { AuthContext } from '../../Providers/AuthContext';
 import { toast } from 'react-toastify';
+import Loading from '../../Components/Shared/Loading';
 
 const CourseDetails = () => {
     const { id } = useParams();
@@ -130,9 +131,8 @@ const CourseDetails = () => {
         }
     };
 
-    if (loading) return <div className="min-h-screen flex items-center justify-center"><p>Loading course details...</p></div>;
+    if (loading) return <Loading message="Loading course details..." fullScreen={true} />;
     if (error) return <div className="min-h-screen flex items-center justify-center"><p className="text-red-500">{error}</p></div>;
-    console.log('CourseDetails render:', { user: user?.email, enrollmentStatus, userReview, courseId: id });
 
     return (
         <div className="min-h-screen bg-gray-50 py-8">
@@ -142,9 +142,9 @@ const CourseDetails = () => {
                         <img
                             src={course.thumbnail}
                             alt={course.title}
-                            className="w-full h-64 sm:h-80 object-cover"
+                            className="w-full h-96 object-cover"
                         />
-                        <div className="absolute inset-0 bg-black bg-opacity-40 flex items-end">
+                        <div className="absolute inset-0 bg-black/50 bg-opacity-40 flex items-end">
                             <div className="p-6 text-white">
                                 <h1 className="text-3xl sm:text-4xl font-bold mb-2">{course.title}</h1>
                                 <div className="flex flex-wrap gap-2 mb-4">
@@ -252,7 +252,7 @@ const CourseDetails = () => {
                                 <div className="bg-gray-50 rounded-lg p-4">
                                     <div className="flex items-center gap-4">
                                         <img
-                                            src={course.instructorPhoto || `https://via.placeholder.com/80x80?text=${encodeURIComponent(course.instructorName || 'Instructor')}`}
+                                            src={course.instructorPhoto}
                                             alt={course.instructorName || 'Instructor'}
                                             className="w-16 h-16 rounded-full object-cover border-2 border-[#309255]"
                                         />

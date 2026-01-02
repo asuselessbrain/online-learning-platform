@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { Link } from "react-router";
 import { use } from "react";
 import { AuthContext } from "../../Providers/AuthContext";
+import Loading from "../../Components/Shared/Loading";
 
 const MyAddedCourses = () => {
     const [courses, setCourses] = useState([]);
@@ -223,7 +224,7 @@ const MyAddedCourses = () => {
         }
     };
 
-    if (loading) return <p>Loading courses...</p>;
+    if (loading) return <Loading message="Loading courses..." fullScreen={true} />;
     if (error) return <p>{error}</p>;
 
 

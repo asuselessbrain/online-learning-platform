@@ -4,6 +4,7 @@ import { AuthContext } from '../../Providers/AuthContext';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router';
 import { use } from 'react';
+import Loading from '../../Components/Shared/Loading';
 
 const MyEnrollments = () => {
     const { user } = use(AuthContext);
@@ -41,7 +42,7 @@ const MyEnrollments = () => {
     };
 
     if (!user) return <div className="min-h-screen flex items-center justify-center"><p>Please login to view your enrollments</p></div>;
-    if (loading) return <div className="min-h-screen flex items-center justify-center"><p>Loading enrollments...</p></div>;
+    if (loading) return <Loading message="Loading enrollments..." fullScreen={true} />;
     if (error) return <div className="min-h-screen flex items-center justify-center"><p className="text-red-500">{error}</p></div>;
 
     return (

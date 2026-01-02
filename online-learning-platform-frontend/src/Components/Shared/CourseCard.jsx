@@ -7,7 +7,7 @@ const CourseCard = ({course }) => {
     return (
         <div className="border border-[rgba(48,146,85,0.2)] hover:border-[#309255] rounded-xl p-6 transition-all duration-700 h-auto!">
             <Link to={`/courses/${course?._id}`}>
-                <img src={course?.thumbnail} alt="" />
+                <img src={course?.thumbnail} alt="" className="h-64 rounded-xl w-full" />
             </Link>
             <div className="flex items-center justify-between mt-6 mb-4">
                 <div className="flex items-center gap-4">

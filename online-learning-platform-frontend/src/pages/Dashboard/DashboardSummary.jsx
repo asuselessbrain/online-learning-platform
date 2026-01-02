@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FiX, FiBarChart2, FiMail, FiCheckCircle, FiClock, FiTrendingUp, FiStar, FiDollarSign, FiUserPlus, FiUser } from "react-icons/fi";
 import { animate } from "framer-motion";
 import axios from "axios";
+import Loading from "../../Components/Shared/Loading";
 import {
     ResponsiveContainer,
     AreaChart,
@@ -116,9 +117,7 @@ const DashboardSummary = () => {
     if (loading) {
         return (
             <div className="bg-linear-to-b from-[#e7f8ee] to-white p-4 sm:p-6 font-sans text-gray-900 min-h-[calc(100vh-48px)] m-6 rounded-xl">
-                <div className="flex items-center justify-center h-64">
-                    <p className="text-gray-500">Loading dashboard data...</p>
-                </div>
+                <Loading message="Loading dashboard data..." fullScreen={false} />
             </div>
         );
     }

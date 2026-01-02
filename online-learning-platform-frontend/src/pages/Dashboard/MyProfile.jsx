@@ -2,6 +2,7 @@ import { useState, useEffect, useContext, useCallback } from 'react';
 import { AuthContext } from '../../Providers/AuthContext';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import Loading from '../../Components/Shared/Loading';
 
 const MyProfile = () => {
     const { user, updateUser } = useContext(AuthContext);
@@ -22,11 +23,17 @@ const MyProfile = () => {
             const enrollmentsRes = await axios.get(`https://online-learning-platform-backend-two.vercel.app/api/v1/my-enrollments?studentEmail=${user.email}`);
             setEnrollments(enrollmentsRes.data.data);
 
-            const coursesRes = await axios.get(`https://online-learning-platform-backend-two.vercel.app/api/v1/courses/my-added-courses?instructorEmail=${user.email}`);
+            const coursesRes = await axios.get(`https://online-learning-platform-backend-two.vercel.app/api/v1/my-added-courses?instructorEmail=${user.email}`);
             setMyCourses(coursesRes.data.data);
-        // eslint-disable-next-line no-unused-vars
         } catch(err) {
-            toast.error('Failed to load profile data');
+            console.error('Error loading profile data:', err);
+            if (err.response?.status === 404) {
+                toast.error('API endpoint not found. Please check the backend configuration.');
+            } else if (err.response?.status >= 500) {
+                toast.error('Server error. Please try again later.');
+            } else {
+                toast.error('Failed to load profile data. Please check your connection.');
+            }
         } finally {
             setLoading(false);
         }
@@ -186,7 +193,7 @@ const MyProfile = () => {
                         <div>
                             <h2 className="text-xl font-semibold text-gray-800 mb-4">Recent Enrollments</h2>
                             {loading ? (
-                                <p>Loading...</p>
+                                <Loading message="Loading enrollments..." size="sm" />
                             ) : enrollments.length > 0 ? (
                                 <div className="space-y-4">
                                     {enrollments.slice(0, 5).map(enrollment => (

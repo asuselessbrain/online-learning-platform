@@ -16,7 +16,7 @@ const NavBar = () => {
         { path: "/courses", name: "Courses" },
         { path: "/dashboard", name: "Dashboard" },
         { path: "/about", name: "About" },
-        { path: "/contact-us", name: "Contact Us" },
+        { path: "/contact", name: "Contact Us" },
     ]
 
     const handelLogout = async () => {

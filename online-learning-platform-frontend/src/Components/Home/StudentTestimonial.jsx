@@ -9,25 +9,25 @@ const StudentTestimonial = () => {
     const testimonials = [
         {
             id: 1,
-            name: "Nusrat Jahan",
+            name: "Tofaiel Hossain Tota",
             designation: "UI/UX Designer",
-            image: "https://i.pravatar.cc/150?img=47",
+            image: "https://i.ibb.co.com/Kxg5dYBM/photo-2025-06-26-14-26-27.jpg",
             details:
                 "The UI/UX courses were incredibly well structured. I learned modern design principles that improved my portfolio significantly.",
         },
         {
             id: 2,
-            name: "Arman Kabir",
+            name: "Abhinash Kumar Shah",
             designation: "Full Stack Developer",
-            image: "https://i.pravatar.cc/150?img=12",
+            image: "https://i.ibb.co.com/7PSKkXb/photo-2025-10-31-21-32-19.jpg",
             details:
                 "This platform boosted my MERN stack skills. I built real-world projects and secured a remote internship soon after finishing the course.",
         },
         {
             id: 3,
-            name: "Sumaiya Rahman",
+            name: "Dabasis Das",
             designation: "Digital Marketing Specialist",
-            image: "https://i.pravatar.cc/150?img=32",
+            image: "https://i.ibb.co.com/S7wSxqCg/photo-2025-10-17-17-29-01.jpg",
             details:
                 "Very practical marketing lessons. The SEO and social media modules helped me grow my freelance client base quickly.",
         },

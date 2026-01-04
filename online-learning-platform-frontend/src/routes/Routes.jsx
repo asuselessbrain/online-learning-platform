@@ -16,6 +16,7 @@ import ProtectedRoute from "../Providers/ProtectedRoute";
 import DashboardLayout from "../Layout/Dashboard";
 import Dashboard from "../pages/Dashboard/Student/Dashboard/Dashboard";
 import MyEnrolledCourses from "../pages/Dashboard/Student/My Enrolled Courses/MyEnrolledCourses";
+import CourseProgress from "../pages/Dashboard/Student/Course Progress/CourseProgress";
 
 export const routes = createBrowserRouter([
     {
@@ -55,6 +56,10 @@ export const routes = createBrowserRouter([
             {
                 path: "my-enrolled-courses",
                 element: <MyEnrolledCourses />
+            },
+            {
+                path: "course-progress",
+                element: <CourseProgress />
             }
         ]
     },

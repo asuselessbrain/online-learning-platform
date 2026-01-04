@@ -22,6 +22,7 @@ import Dashboard from "../pages/Dashboard/Student/Dashboard/Dashboard";
 import MyEnrolledCourses from "../pages/Dashboard/Student/My Enrolled Courses/MyEnrolledCourses";
 import CourseProgress from "../pages/Dashboard/Student/Course Progress/CourseProgress";
 import Certificates from "../pages/Dashboard/Student/Certificates/Certificates";
+import ProfileSetting from "../pages/Dashboard/Student/ProfileSetting/ProfileSetting";
 
 export const routes = createBrowserRouter([
     {
@@ -89,6 +90,11 @@ export const routes = createBrowserRouter([
                 path: "certificates",
                 element: <Certificates />
             },
+            {
+                path: "profile",
+                element: <ProfileSetting />,
+                loader: () => fetch('/district.json').then(res => res.json())
+            }
         ]
     },
     {

@@ -4,7 +4,6 @@ import Login from "../pages/Login/Login";
 import Registration from "../pages/Registration/Registration";
 import Root from "../Layout/Root";
 import AllCourses from "../pages/Courses/AllCourses";
-import Dashboard from "../Layout/Dashboard";
 import DashboardSummary from "../pages/Dashboard/DashboardSummary";
 import AddCourse from "../pages/Dashboard/AddCourse";
 import MyAddedCourses from "../pages/Dashboard/MyAddedCourses";
@@ -14,6 +13,8 @@ import MyProfile from "../pages/Dashboard/MyProfile";
 import About from "../pages/About/About";
 import Contact from "../pages/Contact/Contact";
 import ProtectedRoute from "../Providers/ProtectedRoute";
+import DashboardLayout from "../Layout/Dashboard";
+import Dashboard from "../pages/Dashboard/Student/Dashboard";
 
 export const routes = createBrowserRouter([
     {
@@ -43,8 +44,18 @@ export const routes = createBrowserRouter([
         ]
     },
     {
+        path: "/student",
+        element: <DashboardLayout />,
+        children: [
+            {
+                path: "dashboard",
+                element: <Dashboard />
+            }
+        ]
+    },
+    {
         path: "/dashboard",
-        element: <ProtectedRoute><Dashboard /></ProtectedRoute>,
+        element: <ProtectedRoute><DashboardLayout /></ProtectedRoute>,
         children: [
             {
                 index: true,

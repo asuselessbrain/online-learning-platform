@@ -12,11 +12,13 @@ import MyEnrollments from "../pages/Dashboard/MyEnrollments";
 import MyProfile from "../pages/Dashboard/MyProfile";
 import About from "../pages/About/About";
 import Contact from "../pages/Contact/Contact";
+import Privacy from "../pages/Privacy/Privacy";
 import ProtectedRoute from "../Providers/ProtectedRoute";
 import DashboardLayout from "../Layout/Dashboard";
 import Dashboard from "../pages/Dashboard/Student/Dashboard/Dashboard";
 import MyEnrolledCourses from "../pages/Dashboard/Student/My Enrolled Courses/MyEnrolledCourses";
 import CourseProgress from "../pages/Dashboard/Student/Course Progress/CourseProgress";
+import Certificates from "../pages/Dashboard/Student/Certificates/Certificates";
 
 export const routes = createBrowserRouter([
     {
@@ -43,6 +45,11 @@ export const routes = createBrowserRouter([
                 path: "/contact",
                 element: <Contact />
             }
+            ,
+            {
+                path: "/privacy",
+                element: <Privacy />
+            }
         ]
     },
     {
@@ -60,7 +67,11 @@ export const routes = createBrowserRouter([
             {
                 path: "course-progress",
                 element: <CourseProgress />
-            }
+            },
+            {
+                path: "certificates",
+                element: <Certificates />
+            },
         ]
     },
     {

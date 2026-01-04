@@ -4,6 +4,7 @@ import { courseRouter } from "./modules/course/course.router.js";
 import { enrollmentRouter } from "./modules/enrollment/enrollment.router.js";
 import { reviewRouter } from "./modules/review/review.router.js";
 import { UserRoutes } from "./modules/user/user.route.js";
+import { faqRouter } from "./modules/faq/faq.router.js";
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use("/api/v1", courseRouter)
 app.use("/api/v1", enrollmentRouter)
 app.use("/api/v1/reviews", reviewRouter)
 app.use("/api/v1/users", UserRoutes)
+app.use("/api/v1/faqs", faqRouter);
 
 app.get("/", (req, res) => {
   res.send("Server is running...");

@@ -5,7 +5,7 @@ const DashboardCard = ({ title, count, icon: Icon, increase, iconColor, iconBg }
             <div className="flex items-center justify-between">
                 <div>
                     <h4 className="font-semibold">{title}</h4>
-                    <h2 className="text-3xl">{count}</h2>
+                    <h2 className="text-3xl my-2">{count}</h2>
                 </div>
                 {Icon && (
                     <div className={`p-2 rounded-xl ${iconColor} ${iconBg}`}>

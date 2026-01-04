@@ -12,7 +12,10 @@ import MyEnrollments from "../pages/Dashboard/MyEnrollments";
 import MyProfile from "../pages/Dashboard/MyProfile";
 import About from "../pages/About/About";
 import Contact from "../pages/Contact/Contact";
+import Terms from "../pages/Terms/Terms";
 import Privacy from "../pages/Privacy/Privacy";
+import Faq from "../pages/Faq/Faq";
+import Support from "../pages/Support/Support";
 import ProtectedRoute from "../Providers/ProtectedRoute";
 import DashboardLayout from "../Layout/Dashboard";
 import Dashboard from "../pages/Dashboard/Student/Dashboard/Dashboard";
@@ -34,6 +37,10 @@ export const routes = createBrowserRouter([
                 element: <AllCourses />
             },
             {
+                path: "/terms",
+                element: <Terms />
+            },
+            {
                 path: "/courses/:id",
                 element: <CourseDetails />
             },
@@ -49,6 +56,16 @@ export const routes = createBrowserRouter([
             {
                 path: "/privacy",
                 element: <Privacy />
+            }
+            ,
+            {
+                path: "/faq",
+                element: <Faq />
+            }
+            ,
+            {
+                path: "/support",
+                element: <Support />
             }
         ]
     },

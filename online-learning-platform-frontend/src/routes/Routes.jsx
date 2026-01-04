@@ -14,7 +14,8 @@ import About from "../pages/About/About";
 import Contact from "../pages/Contact/Contact";
 import ProtectedRoute from "../Providers/ProtectedRoute";
 import DashboardLayout from "../Layout/Dashboard";
-import Dashboard from "../pages/Dashboard/Student/Dashboard";
+import Dashboard from "../pages/Dashboard/Student/Dashboard/Dashboard";
+import MyEnrolledCourses from "../pages/Dashboard/Student/My Enrolled Courses/MyEnrolledCourses";
 
 export const routes = createBrowserRouter([
     {
@@ -50,6 +51,10 @@ export const routes = createBrowserRouter([
             {
                 path: "dashboard",
                 element: <Dashboard />
+            },
+            {
+                path: "my-enrolled-courses",
+                element: <MyEnrolledCourses />
             }
         ]
     },

@@ -1,7 +1,7 @@
 import { FiAward, FiBookOpen, FiClock, FiTrendingUp } from "react-icons/fi";
-import DashboardCard from "../shared/DashboardCard";
-import PageHeading from "../shared/PageHeading";
-import CourseCard from "../shared/CourseCard";
+import DashboardCard from "../../shared/DashboardCard";
+import PageHeading from "../../shared/PageHeading";
+import CourseCard from "../../shared/CourserCard";
 
 const Dashboard = () => {
     const dashboardCards = [

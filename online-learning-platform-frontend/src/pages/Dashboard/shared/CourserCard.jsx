@@ -1,13 +1,23 @@
-import { FiPlayCircle } from "react-icons/fi";
+import { FiBookOpen, FiClock, FiPlayCircle, FiStar } from "react-icons/fi";
 import ProgressBar from "./ProgressBar";
 
-const CourseCard = ({ thumbnail, title, instructor, progress }) => {
+const CourseCard = ({ thumbnail, title, instructor, progress, lesson, time, rating }) => {
     return (
         <div className="border border-[#E5E7EB] p-3 rounded-xl shadow-sm">
             <img src={thumbnail} alt="Course thumbnail" className="rounded-lg h-60 w-full object-cover" />
             <div className="my-3">
                 <h3 className="text-xl font-semibold">{title}</h3>
                 <p className="text-[#4A5565] text-sm my-2">By {instructor}</p>
+
+                {
+                    lesson && time && rating && (
+                        <div className="text-[#4A5565] flex items-center gap-4 text-sm my-4">
+                            <p className="flex items-center gap-1"><FiBookOpen className="text-sm" /> {lesson} lessons</p>
+                            <p className="flex items-center gap-1"><FiClock className="text-sm" /> {time} hours</p>
+                            <p className="flex items-center gap-1"><FiStar className="text-sm" /> {rating}</p>
+                        </div>
+                    )
+                }
                 <div>
                     <div className="flex items-center justify-between text-sm font-semibold mb-3">
                         <p>progress</p>

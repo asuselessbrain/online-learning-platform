@@ -75,8 +75,8 @@ const Sidebar = ({ isOpen = false, setIsOpen = () => { } }) => {
 
             <nav className="flex flex-col gap-2 mt-2">
                 {
-                    role.role === 'admin' && adminLinks.map(link => (
-                        <NavLink to={link.path} className={({ isActive }) =>
+                    role.role === 'admin' && adminLinks.map((link, index) => (
+                        <NavLink key={index} to={link.path} className={({ isActive }) =>
                             `flex items-center gap-3 px-2 py-2 rounded-md font-semibold transition-colors ${isActive
                                 ? "bg-[#309255] text-white"
                                 : "text-gray-800 hover:bg-[#309255]/10 hover:text-[#309255]"
@@ -88,8 +88,8 @@ const Sidebar = ({ isOpen = false, setIsOpen = () => { } }) => {
                     ))
                 }
                 {
-                    role.role === 'instructor' && instructorLinks.map(link => (
-                        <NavLink to={link.path} className={({ isActive }) =>
+                    role.role === 'instructor' && instructorLinks.map((link, index) => (
+                        <NavLink key={index} to={link.path} className={({ isActive }) =>
                             `flex items-center gap-3 px-2 py-2 rounded-md font-semibold transition-colors ${isActive
                                 ? "bg-[#309255] text-white"
                                 : "text-gray-800 hover:bg-[#309255]/10 hover:text-[#309255]"
@@ -101,8 +101,8 @@ const Sidebar = ({ isOpen = false, setIsOpen = () => { } }) => {
                     ))
                 }
                 {
-                    role.role === 'student' && studentLinks.map(link => (
-                        <NavLink to={link.path} className={({ isActive }) =>
+                    role.role === 'student' && studentLinks.map((link, index) => (
+                        <NavLink key={index} to={link.path} className={({ isActive }) =>
                             `flex items-center gap-3 px-2 py-2 rounded-md font-semibold transition-colors ${isActive
                                 ? "bg-[#309255] text-white"
                                 : "text-gray-800 hover:bg-[#309255]/10 hover:text-[#309255]"

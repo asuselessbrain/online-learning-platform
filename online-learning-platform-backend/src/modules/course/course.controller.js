@@ -34,73 +34,52 @@ const getAllCourses = async (req, res) => {
     }
 }
 
-const myAddedCourses = async (req, res) => {
-    try {
-        let result = await courseService.myAddedCourses(req.query || {});
-        res.status(200).json({
-            success: true,
-            message: "My added courses fetched successfully",
-            data: result
-        });
-    } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: error.message || "Failed to fetch my added courses"
-        });
-    }
-}
-
 const getCourseById = async (req, res) => {
+    const id = req.params.id;
+    console.log(id)
     try {
-        const id = req.params.id;
-        const course = await courseService.getCourseById(id);
+        const course = await courseService.getSingleCourse(id);
         if (!course) {
             return res.status(404).json({ success: false, message: 'Course not found' });
         }
-        const ratingStats = await reviewService.getCourseRatingStats(id);
 
-        const courseWithRating = {
-            ...course.toObject(),
-            ratingStats
-        };
-
-        res.status(200).json({ success: true, message: 'Course fetched', data: courseWithRating });
+        res.status(200).json({ success: true, message: 'Course fetched', data: course });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message || 'Failed to fetch course' });
     }
 }
 
-const deleteCourse = async (req, res) => {
-    try {
-        const id = req.params.id;
-        const deleted = await courseService.deleteCourse(id);
-        if (!deleted) {
-            return res.status(404).json({ success: false, message: 'Course not found' });
-        }
-        res.status(200).json({ success: true, message: 'Course deleted', data: deleted });
-    } catch (error) {
-        res.status(500).json({ success: false, message: error.message || 'Failed to delete course' });
-    }
-}
+// const deleteCourse = async (req, res) => {
+//     try {
+//         const id = req.params.id;
+//         const deleted = await courseService.deleteCourse(id);
+//         if (!deleted) {
+//             return res.status(404).json({ success: false, message: 'Course not found' });
+//         }
+//         res.status(200).json({ success: true, message: 'Course deleted', data: deleted });
+//     } catch (error) {
+//         res.status(500).json({ success: false, message: error.message || 'Failed to delete course' });
+//     }
+// }
 
-const updateCourse = async (req, res) => {
-    try {
-        const id = req.params.id;
-        const updated = await courseService.updateCourse(id, req.body);
-        if (!updated) {
-            return res.status(404).json({ success: false, message: 'Course not found' });
-        }
-        res.status(200).json({ success: true, message: 'Course updated successfully', data: updated });
-    } catch (error) {
-        res.status(500).json({ success: false, message: error.message || 'Failed to update course' });
-    }
-}
+// const updateCourse = async (req, res) => {
+//     try {
+//         const id = req.params.id;
+//         const updated = await courseService.updateCourse(id, req.body);
+//         if (!updated) {
+//             return res.status(404).json({ success: false, message: 'Course not found' });
+//         }
+//         res.status(200).json({ success: true, message: 'Course updated successfully', data: updated });
+//     } catch (error) {
+//         res.status(500).json({ success: false, message: error.message || 'Failed to update course' });
+//     }
+// }
 
 export const courseController = {
     createCourse,
     getAllCourses,
     getCourseById,
-    updateCourse,
-    deleteCourse,
-    myAddedCourses
+    // updateCourse,
+    // deleteCourse,
+    // myAddedCourses
 };

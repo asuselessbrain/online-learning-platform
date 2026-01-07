@@ -1,4 +1,3 @@
-import mongoose from 'mongoose';
 import { NewCourse } from './course.model.js';
 
 const createCourse = async (payload) => {
@@ -129,6 +128,19 @@ const getAllCourses = async (queryOptions) => {
     };
 }
 
+const getSingleCourse = async (id) => {
+    const course =  await NewCourse.findById(id).populate({
+        path: 'instructorId',
+        populate: {
+            path: 'userId',
+            select: 'name email'
+        }
+    }).populate('categoryId');
+
+    // course.price = parseFloat(course.price) - (parseFloat(course.discountedPrice) || 0)
+    return course
+}
+
 // const myAddedCourses = async (opts = {}) => {
 //     const {
 //         q,
@@ -178,6 +190,7 @@ const getAllCourses = async (queryOptions) => {
 export const courseService = {
     createCourse,
     getAllCourses,
+    getSingleCourse
     // myAddedCourses,
     // getCourseById,
     // deleteCourse,

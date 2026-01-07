@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router";
-import { FiEye, FiEyeOff, FiEdit, FiTrash2, FiExternalLink } from "react-icons/fi";
+import { FiEdit, FiTrash2, FiExternalLink } from "react-icons/fi";
 import PageHeading from "../../shared/PageHeading";
 import Pagination from "../../shared/Pagination";
 import { useQuery, useMutation } from "@tanstack/react-query";
@@ -36,7 +36,6 @@ const ManageCourses = () => {
     }
   })
 
-
   const deleteMutation = useMutation({
     mutationFn: async (id) => await axiosSecure.delete(`/courses/${id}`),
     onSuccess: async () => {
@@ -44,15 +43,6 @@ const ManageCourses = () => {
       await refetch();
     },
     onError: () => toast.error("Failed to delete course"),
-  });
-
-  const togglePublishMutation = useMutation({
-    mutationFn: async ({ id, publish }) => await axiosSecure.put(`/courses/${id}`, { status: publish ? "published" : "draft" }),
-    onSuccess: async () => {
-      toast.success("Course updated");
-      await refetch();
-    },
-    onError: () => toast.error("Failed to update course"),
   });
 
 
@@ -160,7 +150,7 @@ const ManageCourses = () => {
                       </span>
                     </td>
                     <td className="px-4 py-3 flex gap-2">
-                      <Link to={`/courses/${course._id}`} className="text-[#309255] p-2 rounded-md border border-[#E6F4EA] hover:bg-[#eefbf3] inline-flex items-center gap-2">
+                      <Link to={`/admin/view-course/${course._id}`} className="text-[#309255] p-2 rounded-md border border-[#E6F4EA] hover:bg-[#eefbf3] inline-flex items-center gap-2">
                         <FiExternalLink /> View
                       </Link>
                       <Link to={`/admin/edit-course/${course._id}`} className="p-2 rounded-md bg-white border border-[#309255] text-[#309255] hover:bg-[#e7f8ee] inline-flex items-center gap-2">

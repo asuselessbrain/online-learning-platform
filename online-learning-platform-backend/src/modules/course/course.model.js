@@ -28,7 +28,7 @@ const courseSchema = new mongoose.Schema(
     language: { type: String, required: [true, "Language is required"] },
 
     price: { type: Number, required: [true, "Price is required"] },
-    discountPrice: { type: Number },
+    discount: { type: Number },
     isFree: { type: Boolean, default: false },
 
     instructorId: {

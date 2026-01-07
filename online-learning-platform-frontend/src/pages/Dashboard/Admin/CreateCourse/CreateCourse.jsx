@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import PageHeading from '../../shared/PageHeading';
 import { useForm } from 'react-hook-form';
 import { FiUpload } from 'react-icons/fi';
@@ -13,14 +13,9 @@ const CreateCourse = () => {
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
     const [successMsg, setSuccessMsg] = useState('');
-    const fileInputRef = useRef(null);
     const [preview, setPreview] = useState(null);
 
     const { register, handleSubmit, reset } = useForm();
-
-    const handleDivClick = () => {
-        fileInputRef.current.click();
-    };
 
     const { mutate, isPending: loading } = useMutation({
         mutationFn: async (newCourse) => await axiosSecure.post('/new-courses', newCourse),
@@ -97,8 +92,8 @@ const CreateCourse = () => {
                 previewVideo: formData.previewVideo || '',
                 thumbnail: thumbnailUrl,
             };
-
-            mutate(payload)
+            console.log(payload)
+            mutate(payload);
         } catch (error) {
             setErrors({ api: error?.response?.data?.message || error.message || 'Failed to create course' });
         }
@@ -153,7 +148,7 @@ const CreateCourse = () => {
 
                     <div
                         className="flex flex-col items-center justify-center w-full h-56 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-[#309255] transition overflow-hidden"
-                        onClick={handleDivClick}
+                        onClick={() => document.querySelector('input[type="file"]').click()}
                     >
                         {!preview && (
                             <>
@@ -183,7 +178,6 @@ const CreateCourse = () => {
                                     if (file) setPreview(URL.createObjectURL(file));
                                 },
                             })}
-                            ref={fileInputRef}
                             className="hidden"
                         />
                     </div>

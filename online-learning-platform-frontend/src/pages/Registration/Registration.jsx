@@ -168,9 +168,10 @@ const Registration = () => {
                                             message: "Password must be at least 8 characters"
                                         },
                                         pattern: {
-                                            value: /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
-                                            message: "Password must include uppercase, number, and special character"
+                                            value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&]).+$/,
+                                            message: "Password must include uppercase, lowercase and special character"
                                         }
+
                                     })} placeholder="Password" className="block p-4 rounded-xl border border-[rgba(48,146,85,0.2)] focus:outline-none focus:ring-0 focus:border-[rgba(48,146,85,0.2)] w-full mb-6 dark:bg-gray-800 dark:border-gray-700 dark:text-white transition-colors duration-300" />
                                     {
                                         showPassword ?

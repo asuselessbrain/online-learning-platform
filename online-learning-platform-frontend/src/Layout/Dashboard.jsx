@@ -22,7 +22,7 @@ const DashboardLayout = () => {
                 />
             )}
 
-            <main className="ml-0 lg:ml-[252px] flex-1 bg-[#F9FAFB]">
+            <main className="ml-0 lg:ml-72 flex-1 bg-[#F9FAFB]">
                 <div className="lg:hidden mb-4 flex items-center justify-between p-4 border-b border-gray-200">
                     <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
                         <img

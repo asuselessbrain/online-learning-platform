@@ -1,5 +1,5 @@
+import { Course } from '../courses/course.model.js';
 import { Enrollment } from './enrollment.model.js';
-import { Course } from '../course/course.model.js';
 
 const enrollInCourse = async (studentEmail, courseId) => {
     const course = await Course.findById(courseId);

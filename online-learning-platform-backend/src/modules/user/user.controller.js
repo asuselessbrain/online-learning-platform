@@ -37,8 +37,26 @@ const getUserRole = async (req, res) => {
     }
 }
 
+const getAllUsers = async (req, res) => {
+    try{
+        const result = await UserService.getAllUsers();
+        res.status(200).json({
+            success: true,
+            message: "Users fetched successfully",
+            data: result
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Failed to fetch users",
+            error: error
+        });
+    }
+}
+
 
 export const UserController = {
     createUserInDB,
-    getUserRole
+    getUserRole,
+    getAllUsers
 }

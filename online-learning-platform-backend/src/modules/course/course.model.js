@@ -1,19 +1,49 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-const courseSchema = new mongoose.Schema({
-    title: { type: String, required: true },
-    category: { type: String, required: true },
-    shortDescription: { type: String },
-    description: { type: String },
-    price: { type: Number, default: 0 },
-    duration: { type: String },
-    level: { type: String },
-    tags: [{ type: String }],
-    thumbnail: { type: String },
-    instructorName: { type: String },
-    instructorEmail: { type: String },
-    instructorPhoto: { type: String },
-    createdAt: { type: Date, default: Date.now },
-});
+const courseSchema = new mongoose.Schema(
+  {
+    title: { type: String, required: [true, "Course title is required"] },
+    subtitle: { type: String },
+    description: { type: String, required: [true, "Course description is required"] },
+    thumbnail: { type: String, required: [true, "Course thumbnail is required"] },
+    previewVideo: { type: String },
 
-export const Course = mongoose.model('Course', courseSchema);
+    learningOutcomes: {
+      type: [{ type: String }],
+      required: [true, "Learning outcomes are required"]
+    },
+    prerequisites: [{ type: String }],
+    targetAudience: [{ type: String }],
+
+    categoryId: { 
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: "Category", 
+      required: [true, "Category is required"] 
+    },
+    level: {
+      type: String,
+      enum: ["Beginner", "Intermediate", "Advanced"],
+      required: [true, "Course level is required"]
+    },
+    language: { type: String, required: [true, "Language is required"] },
+
+    price: { type: Number, required: [true, "Price is required"] },
+    discountPrice: { type: Number },
+    isFree: { type: Boolean, default: false },
+
+    instructorId: {
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: "Instructor", 
+      required: [true, "Instructor is required"] 
+    },
+    status: { 
+      type: String, 
+      enum: ["draft", "published"], 
+      default: "draft", 
+      required: [true, "Status is required"] 
+    }
+  },
+  { timestamps: true }
+);
+
+export const NewCourse = mongoose.model("NewCourse", courseSchema);

@@ -1,137 +1,185 @@
-import { Course } from './course.model.js';
-import fs from 'fs';
 import mongoose from 'mongoose';
-import path from 'path';
+import { NewCourse } from './course.model.js';
 
 const createCourse = async (payload) => {
-    const created = await Course.create(payload);
+    const created = await NewCourse.create(payload);
     return created;
 };
 
-const getAllCourses = async (opts = {}) => {
-    const {
-        q,
-        category,
-        level,
-        minPrice,
-        maxPrice,
-        sortBy = 'createdAt',
-        sortDir = 'desc',
-        page,
-        limit,
-    } = opts;
+const getAllCourses = async (queryOptions) => {
 
-    const filter = {};
+    const pipeline = [
+        {
+            $lookup: {
+                from: "instructors",
+                localField: "instructorId",
+                foreignField: "_id",
+                as: "instructor"
+            }
+        },
+        { $unwind: "$instructor" },
+        {
+            $lookup: {
+                from: "users",
+                localField: "instructor.userId",
+                foreignField: "_id",
+                as: "instructorUser"
+            }
+        },
+        {
+            $unwind: "$instructorUser"
+        },
+        {
+            $addFields: {
+                "instructor.name": "$instructorUser.name",
+                "instructor.email": "$instructorUser.email"
+            }
+        },
+        {
+            $project: {
+                instructorUser: 0
+            }
+        },
+        {
+            $lookup: {
+                from: "categories",
+                localField: "categoryId",
+                foreignField: "_id",
+                as: "category"
+            }
+        },
+        { $unwind: "$category" },
+    ];
 
-    if (q) {
-        const regex = new RegExp(q.toString().trim(), 'i');
-        filter.$or = [
-            { title: { $regex: regex } },
-            { shortDescription: { $regex: regex } },
-            { category: { $regex: regex } },
-        ];
+    if (queryOptions.searchTerm) {
+        pipeline.push({
+            $match: {
+                $or: [
+                    { title: { $regex: queryOptions.searchTerm, $options: "i" } },
+                    { "instructor.name": { $regex: queryOptions.searchTerm, $options: "i" } },
+                    { "category.name": { $regex: queryOptions.searchTerm, $options: "i" } },
+                    { "level": { $regex: queryOptions.searchTerm, $options: "i" } },
+                    { "language": { $regex: queryOptions.searchTerm, $options: "i" } },
+                ]
+            }
+        })
     }
 
-    if (category) filter.category = category;
-    if (level) filter.level = level;
+    const sortOption = {}
 
-    if (minPrice !== undefined || maxPrice !== undefined) {
-        filter.price = {};
-        if (minPrice !== undefined) {
-            const n = Number(minPrice);
-            if (!Number.isNaN(n)) filter.price.$gte = n;
-        }
-        if (maxPrice !== undefined) {
-            const n = Number(maxPrice);
-            if (!Number.isNaN(n)) filter.price.$lte = n;
-        }
-        if (Object.keys(filter.price).length === 0) delete filter.price;
+    if (queryOptions.sortBy && queryOptions.sortOrder) {
+        sortOption[queryOptions.sortBy] = queryOptions.sortOrder.toLowerCase() === 'asc' ? 1 : -1;
+        pipeline.push({ $sort: sortOption });
     }
 
-    const allowedSort = ['createdAt'];
-    const sortField = allowedSort.includes(sortBy) ? sortBy : 'createdAt';
-    const sortOrder = sortDir === 'asc' ? 1 : -1;
-    const sortObj = { [sortField]: sortOrder };
-
-    let skip = 0;
-    let lim = 10;
-    const pageNum = page ? parseInt(page, 10) : undefined;
-    const limitNum = limit ? parseInt(limit, 10) : undefined;
-    if (!Number.isNaN(pageNum) && pageNum > 0 && !Number.isNaN(limitNum) && limitNum > 0) {
-        lim = limitNum;
-        skip = (pageNum - 1) * lim;
-    } else if (!Number.isNaN(limitNum) && limitNum > 0) {
-        lim = limitNum;
+    if (queryOptions.category) {
+        pipeline.push({
+            $match: {
+                "category.slug": queryOptions.category
+            }
+        })
     }
 
-    const total = await Course.countDocuments(filter);
+    if (queryOptions.level) {
+        pipeline.push({
+            $match: {
+                level: queryOptions.level
+            }
+        })
+    }
 
-    let query = Course.find(filter).sort(sortObj);
-    if (lim > 0) query = query.skip(skip).limit(lim);
+    if (queryOptions.status) {
+        pipeline.push({
+            $match: {
+                status: queryOptions.status
+            }
+        })
+    }
 
-    const courses = await query.exec();
+    if (queryOptions.isFree) {
+        pipeline.push({
+            $match: {
+                isFree: queryOptions.isFree === 'true'
+            }
+        })
+    }
+
+    const page = parseInt(queryOptions.page) || 1;
+
+    const limit = parseInt(queryOptions.limit) || 10;
+
+    const skip = ((parseInt(queryOptions.page) || 1) - 1) * (parseInt(queryOptions.limit) || 10);
+
+    const courses = await NewCourse.aggregate(pipeline).skip(skip).limit(limit);
+
+    const totalAgg = await NewCourse.aggregate([
+        ...pipeline,
+        { $count: "total" }
+    ]);
+
+    const total = totalAgg[0]?.total
 
     return {
         courses,
         meta: {
             total,
-            page: pageNum || 1,
-            limit: lim || total,
+            page,
+            limit,
         },
     };
 }
 
-const myAddedCourses = async (opts = {}) => {
-    const {
-        q,
-        instructorEmail
-    } = opts;
+// const myAddedCourses = async (opts = {}) => {
+//     const {
+//         q,
+//         instructorEmail
+//     } = opts;
 
-    const filter = {
-        instructorEmail: instructorEmail
-    };
+//     const filter = {
+//         instructorEmail: instructorEmail
+//     };
 
-    if (q) {
-        const regex = new RegExp(q.toString().trim(), 'i');
-        filter.$or = [
-            { title: { $regex: regex } },
-            { shortDescription: { $regex: regex } },
-            { category: { $regex: regex } },
-        ];
-    }
+//     if (q) {
+//         const regex = new RegExp(q.toString().trim(), 'i');
+//         filter.$or = [
+//             { title: { $regex: regex } },
+//             { shortDescription: { $regex: regex } },
+//             { category: { $regex: regex } },
+//         ];
+//     }
 
-    const courses = await Course.find(filter);
-    return courses;
-}
+//     const courses = await Course.find(filter);
+//     return courses;
+// }
 
-const deleteCourse = async (id) => {
-    const course = await Course.findById(id);
-    if (!course) return null;
+// const deleteCourse = async (id) => {
+//     const course = await Course.findById(id);
+//     if (!course) return null;
 
-    const deleted = await Course.findByIdAndDelete(id);
+//     const deleted = await Course.findByIdAndDelete(id);
 
-    return deleted;
-}
+//     return deleted;
+// }
 
-const updateCourse = async (id, payload) => {
-    const course = await Course.findById(id);
-    if (!course) return null;
+// const updateCourse = async (id, payload) => {
+//     const course = await Course.findById(id);
+//     if (!course) return null;
 
-    const updated = await Course.findByIdAndUpdate(id, payload, { new: true });
-    return updated;
-}
+//     const updated = await Course.findByIdAndUpdate(id, payload, { new: true });
+//     return updated;
+// }
 
-const getCourseById = async (id) => {
-    
-    const course = await Course.findById(id);
-    return course
-}
+// const getCourseById = async (id) => {
+
+//     const course = await Course.findById(id);
+//     return course
+// }
 
 export const courseService = {
     createCourse,
     getAllCourses,
-    myAddedCourses,
-    getCourseById,
-    deleteCourse,
-    updateCourse
+    // myAddedCourses,
+    // getCourseById,
+    // deleteCourse,
+    // updateCourse
 };

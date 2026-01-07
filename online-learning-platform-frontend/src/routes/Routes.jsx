@@ -5,7 +5,6 @@ import Registration from "../pages/Registration/Registration";
 import Root from "../Layout/Root";
 import AllCourses from "../pages/Courses/AllCourses";
 import DashboardSummary from "../pages/Dashboard/DashboardSummary";
-import AddCourse from "../pages/Dashboard/AddCourse";
 import MyAddedCourses from "../pages/Dashboard/MyAddedCourses";
 import CourseDetails from "../pages/CourseDetails/CourseDetails";
 import MyEnrollments from "../pages/Dashboard/MyEnrollments";
@@ -23,6 +22,14 @@ import MyEnrolledCourses from "../pages/Dashboard/Student/My Enrolled Courses/My
 import CourseProgress from "../pages/Dashboard/Student/Course Progress/CourseProgress";
 import Certificates from "../pages/Dashboard/Student/Certificates/Certificates";
 import ProfileSetting from "../pages/Dashboard/Student/ProfileSetting/ProfileSetting";
+import InstructorDashboard from "../pages/Dashboard/Instructor/Dashboard/InstructorDashboard";
+import AdminDashboard from "../pages/Dashboard/Admin/Dashboard/AdminDashboard";
+import CreateCourse from "../pages/Dashboard/Admin/CreateCourse/CreateCourse";
+import ManageCategory from "../pages/Dashboard/Admin/ManageCategory/ManageCategory";
+import ManageInstructor from "../pages/Dashboard/Admin/ManageInstructor/ManageInstructor";
+import AddInstructor from "../pages/Dashboard/Admin/ManageInstructor/AddInstructor";
+import InstructorDetailsPage from "../pages/Dashboard/Admin/ManageInstructor/InstructorDetailsPage";
+import ManageCourses from "../pages/Dashboard/Admin/ManageCourses/ManageCourses";
 
 export const routes = createBrowserRouter([
     {
@@ -98,6 +105,51 @@ export const routes = createBrowserRouter([
         ]
     },
     {
+        path: "/instructor",
+        element: <DashboardLayout />,
+        children: [
+            {
+                path: "dashboard",
+                element: <InstructorDashboard />
+            }
+        ]
+    },
+    {
+        path: "/admin",
+        element: <DashboardLayout />,
+        children: [
+            {
+                path: "dashboard",
+                element: <AdminDashboard />
+            },
+            {
+                path: "add-course",
+                element: <CreateCourse />
+            },
+            {
+                path: "manage-category",
+                element: <ManageCategory />
+            },
+            {
+                path: "manage-instructors",
+                element: <ManageInstructor />
+            },
+            {
+                path: "add-instructor",
+                element: <AddInstructor />,
+                loader: () => fetch('/district.json').then(res => res.json())
+            },
+            {
+                path: "view-instructor/:id",
+                element: <InstructorDetailsPage />
+            },
+            {
+                path: "manage-courses",
+                element: <ManageCourses />
+            }
+        ]
+    },
+    {
         path: "/dashboard",
         element: <ProtectedRoute><DashboardLayout /></ProtectedRoute>,
         children: [
@@ -106,10 +158,6 @@ export const routes = createBrowserRouter([
                 element: <ProtectedRoute><DashboardSummary /></ProtectedRoute>
             }
             ,
-            {
-                path: "add-course",
-                element: <ProtectedRoute><AddCourse /></ProtectedRoute>
-            },
             {
                 path: "my-courses",
                 element: <ProtectedRoute><MyAddedCourses /></ProtectedRoute>

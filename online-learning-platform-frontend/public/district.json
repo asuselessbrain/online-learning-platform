@@ -1,73 +1,2123 @@
 [
-  { "id": 1, "name": "Dhaka" },
-  { "id": 2, "name": "Gazipur" },
-  { "id": 3, "name": "Narayanganj" },
-  { "id": 4, "name": "Narsingdi" },
-  { "id": 5, "name": "Tangail" },
-  { "id": 6, "name": "Manikganj" },
-  { "id": 7, "name": "Munshiganj" },
-  { "id": 8, "name": "Faridpur" },
-  { "id": 9, "name": "Gopalganj" },
-  { "id": 10, "name": "Madaripur" },
-  { "id": 11, "name": "Rajbari" },
-  { "id": 12, "name": "Shariatpur" },
-  { "id": 13, "name": "Kishoreganj" },
-
-  { "id": 14, "name": "Chattogram" },
-  { "id": 15, "name": "Cox's Bazar" },
-  { "id": 16, "name": "Cumilla" },
-  { "id": 17, "name": "Feni" },
-  { "id": 18, "name": "Brahmanbaria" },
-  { "id": 19, "name": "Chandpur" },
-  { "id": 20, "name": "Lakshmipur" },
-  { "id": 21, "name": "Noakhali" },
-  { "id": 22, "name": "Khagrachhari" },
-  { "id": 23, "name": "Rangamati" },
-  { "id": 24, "name": "Bandarban" },
-
-  { "id": 25, "name": "Rajshahi" },
-  { "id": 26, "name": "Bogura" },
-  { "id": 27, "name": "Pabna" },
-  { "id": 28, "name": "Sirajganj" },
-  { "id": 29, "name": "Joypurhat" },
-  { "id": 30, "name": "Naogaon" },
-  { "id": 31, "name": "Natore" },
-  { "id": 32, "name": "Chapainawabganj" },
-
-  { "id": 33, "name": "Khulna" },
-  { "id": 34, "name": "Bagerhat" },
-  { "id": 35, "name": "Satkhira" },
-  { "id": 36, "name": "Jashore" },
-  { "id": 37, "name": "Jhenaidah" },
-  { "id": 38, "name": "Magura" },
-  { "id": 39, "name": "Narail" },
-  { "id": 40, "name": "Kushtia" },
-  { "id": 41, "name": "Chuadanga" },
-  { "id": 42, "name": "Meherpur" },
-
-  { "id": 43, "name": "Barishal" },
-  { "id": 44, "name": "Barguna" },
-  { "id": 45, "name": "Bhola" },
-  { "id": 46, "name": "Jhalokati" },
-  { "id": 47, "name": "Patuakhali" },
-  { "id": 48, "name": "Pirojpur" },
-
-  { "id": 49, "name": "Sylhet" },
-  { "id": 50, "name": "Moulvibazar" },
-  { "id": 51, "name": "Habiganj" },
-  { "id": 52, "name": "Sunamganj" },
-
-  { "id": 53, "name": "Rangpur" },
-  { "id": 54, "name": "Dinajpur" },
-  { "id": 55, "name": "Kurigram" },
-  { "id": 56, "name": "Gaibandha" },
-  { "id": 57, "name": "Lalmonirhat" },
-  { "id": 58, "name": "Nilphamari" },
-  { "id": 59, "name": "Panchagarh" },
-  { "id": 60, "name": "Thakurgaon" },
-
-  { "id": 61, "name": "Mymensingh" },
-  { "id": 62, "name": "Jamalpur" },
-  { "id": 63, "name": "Netrokona" },
-  { "id": 64, "name": "Sherpur" }
+  {
+    "id": 1,
+    "name": "Dhaka",
+    "upazilas": [
+      {
+        "name": "Motijheel",
+        "postOffices": [
+          {
+            "name": "Dhaka GPO",
+            "postalCode": "1000"
+          }
+        ]
+      },
+      {
+        "name": "Dhaka Sadar",
+        "postOffices": [
+          {
+            "name": "Dhaka Sadar HO",
+            "postalCode": "1100"
+          }
+        ]
+      },
+      {
+        "name": "Wari",
+        "postOffices": [
+          {
+            "name": "Wari TSO",
+            "postalCode": "1203"
+          }
+        ]
+      },
+      {
+        "name": "Dhanmondi",
+        "postOffices": [
+          {
+            "name": "Jigatola TSO",
+            "postalCode": "1209"
+          }
+        ]
+      },
+      {
+        "name": "Gulshan",
+        "postOffices": [
+          {
+            "name": "Gulshan TSO",
+            "postalCode": "1212"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Gazipur",
+    "upazilas": [
+      {
+        "name": "Gazipur Sadar",
+        "postOffices": [
+          {
+            "name": "Gazipur Sadar HO",
+            "postalCode": "1700"
+          }
+        ]
+      },
+      {
+        "name": "Kaliakoir",
+        "postOffices": [
+          {
+            "name": "Kaliakoir",
+            "postalCode": "1750"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Narayanganj",
+    "upazilas": [
+      {
+        "name": "Narayanganj Sadar",
+        "postOffices": [
+          {
+            "name": "Narayanganj Sadar",
+            "postalCode": "1400"
+          }
+        ]
+      },
+      {
+        "name": "Araihazar",
+        "postOffices": [
+          {
+            "name": "Araihazar",
+            "postalCode": "1450"
+          }
+        ]
+      },
+      {
+        "name": "Rupganj",
+        "postOffices": [
+          {
+            "name": "Rupganj",
+            "postalCode": "1460"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Narsingdi",
+    "upazilas": [
+      {
+        "name": "Narsingdi Sadar",
+        "postOffices": [
+          {
+            "name": "Narsingdi Sadar",
+            "postalCode": "1600"
+          }
+        ]
+      },
+      {
+        "name": "Belabo",
+        "postOffices": [
+          {
+            "name": "Belabo",
+            "postalCode": "1610"
+          }
+        ]
+      },
+      {
+        "name": "Monohardi",
+        "postOffices": [
+          {
+            "name": "Monohardi",
+            "postalCode": "1620"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Tangail",
+    "upazilas": [
+      {
+        "name": "Tangail Sadar",
+        "postOffices": [
+          {
+            "name": "Tangail Sadar",
+            "postalCode": "1900"
+          }
+        ]
+      },
+      {
+        "name": "Basail",
+        "postOffices": [
+          {
+            "name": "Basail",
+            "postalCode": "1920"
+          }
+        ]
+      },
+      {
+        "name": "Mirzapur",
+        "postOffices": [
+          {
+            "name": "Mirzapur",
+            "postalCode": "1940"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Manikganj",
+    "upazilas": [
+      {
+        "name": "Manikganj Sadar",
+        "postOffices": [
+          {
+            "name": "Manikganj Sadar",
+            "postalCode": "1800"
+          }
+        ]
+      },
+      {
+        "name": "Singair",
+        "postOffices": [
+          {
+            "name": "Singair",
+            "postalCode": "1810"
+          }
+        ]
+      },
+      {
+        "name": "Shibalaya",
+        "postOffices": [
+          {
+            "name": "Shibalaya",
+            "postalCode": "1820"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Munshiganj",
+    "upazilas": [
+      {
+        "name": "Munshiganj Sadar",
+        "postOffices": [
+          {
+            "name": "Munshiganj Sadar",
+            "postalCode": "1500"
+          }
+        ]
+      },
+      {
+        "name": "Sirajdikhan",
+        "postOffices": [
+          {
+            "name": "Sirajdikhan",
+            "postalCode": "1510"
+          }
+        ]
+      },
+      {
+        "name": "Lohajang",
+        "postOffices": [
+          {
+            "name": "Lohajang",
+            "postalCode": "1520"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Faridpur",
+    "upazilas": [
+      {
+        "name": "Faridpur Sadar",
+        "postOffices": [
+          {
+            "name": "Faridpur Sadar",
+            "postalCode": "7800"
+          }
+        ]
+      },
+      {
+        "name": "Alfadanga",
+        "postOffices": [
+          {
+            "name": "Alfadanga",
+            "postalCode": "7860"
+          }
+        ]
+      },
+      {
+        "name": "Bhanga",
+        "postOffices": [
+          {
+            "name": "Bhanga",
+            "postalCode": "7830"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "name": "Gopalganj",
+    "upazilas": [
+      {
+        "name": "Gopalganj Sadar",
+        "postOffices": [
+          {
+            "name": "Gopalganj Sadar",
+            "postalCode": "8100"
+          }
+        ]
+      },
+      {
+        "name": "Kashiani",
+        "postOffices": [
+          {
+            "name": "Kashiani",
+            "postalCode": "8130"
+          }
+        ]
+      },
+      {
+        "name": "Kotalipara",
+        "postOffices": [
+          {
+            "name": "Kotalipara",
+            "postalCode": "8120"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Madaripur",
+    "upazilas": [
+      {
+        "name": "Madaripur Sadar",
+        "postOffices": [
+          {
+            "name": "Madaripur Sadar",
+            "postalCode": "7900"
+          }
+        ]
+      },
+      {
+        "name": "Kalkini",
+        "postOffices": [
+          {
+            "name": "Kalkini",
+            "postalCode": "7920"
+          }
+        ]
+      },
+      {
+        "name": "Rajoir",
+        "postOffices": [
+          {
+            "name": "Rajoir",
+            "postalCode": "7910"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "name": "Rajbari",
+    "upazilas": [
+      {
+        "name": "Rajbari Sadar",
+        "postOffices": [
+          {
+            "name": "Rajbari Sadar",
+            "postalCode": "7700"
+          }
+        ]
+      },
+      {
+        "name": "Baliakandi",
+        "postOffices": [
+          {
+            "name": "Baliakandi",
+            "postalCode": "7730"
+          }
+        ]
+      },
+      {
+        "name": "Goalandaghat",
+        "postOffices": [
+          {
+            "name": "Goalandaghat",
+            "postalCode": "7720"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "name": "Shariatpur",
+    "upazilas": [
+      {
+        "name": "Shariatpur Sadar",
+        "postOffices": [
+          {
+            "name": "Shariatpur Sadar",
+            "postalCode": "8000"
+          }
+        ]
+      },
+      {
+        "name": "Bhedarganj",
+        "postOffices": [
+          {
+            "name": "Bhedarganj",
+            "postalCode": "8030"
+          }
+        ]
+      },
+      {
+        "name": "Damudya",
+        "postOffices": [
+          {
+            "name": "Damudya",
+            "postalCode": "8020"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "name": "Kishoreganj",
+    "upazilas": [
+      {
+        "name": "Kishoreganj Sadar",
+        "postOffices": [
+          {
+            "name": "Kishoreganj Sadar",
+            "postalCode": "2300"
+          }
+        ]
+      },
+      {
+        "name": "Bajitpur",
+        "postOffices": [
+          {
+            "name": "Bajitpur",
+            "postalCode": "2336"
+          }
+        ]
+      },
+      {
+        "name": "Bhairab",
+        "postOffices": [
+          {
+            "name": "Bhairab",
+            "postalCode": "2350"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "name": "Chattogram",
+    "upazilas": [
+      {
+        "name": "Chattogram Sadar",
+        "postOffices": [
+          {
+            "name": "Chattogram GPO",
+            "postalCode": "4000"
+          }
+        ]
+      },
+      {
+        "name": "Anwara",
+        "postOffices": [
+          {
+            "name": "Anawara",
+            "postalCode": "4376"
+          }
+        ]
+      },
+      {
+        "name": "Sitakunda",
+        "postOffices": [
+          {
+            "name": "Sitakunda",
+            "postalCode": "4310"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "name": "Cox's Bazar",
+    "upazilas": [
+      {
+        "name": "Ukhiya",
+        "postOffices": [
+          {
+            "name": "Ukhiya UPO",
+            "postalCode": "4750"
+          }
+        ]
+      },
+      {
+        "name": "Cox's Bazar Sadar",
+        "postOffices": [
+          {
+            "name": "Cox's Bazar Sadar",
+            "postalCode": "4700"
+          }
+        ]
+      },
+      {
+        "name": "Chakaria",
+        "postOffices": [
+          {
+            "name": "Chakaria",
+            "postalCode": "4740"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "name": "Cumilla",
+    "upazilas": [
+      {
+        "name": "Cumilla Sadar",
+        "postOffices": [
+          {
+            "name": "Cumilla Sadar",
+            "postalCode": "3500"
+          }
+        ]
+      },
+      {
+        "name": "Barura",
+        "postOffices": [
+          {
+            "name": "Barura",
+            "postalCode": "3560"
+          }
+        ]
+      },
+      {
+        "name": "Brahmanpara",
+        "postOffices": [
+          {
+            "name": "Brahmanpara",
+            "postalCode": "3526"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "name": "Feni",
+    "upazilas": [
+      {
+        "name": "Feni Sadar",
+        "postOffices": [
+          {
+            "name": "Feni Sadar",
+            "postalCode": "3900"
+          }
+        ]
+      },
+      {
+        "name": "Chhagalnaiya",
+        "postOffices": [
+          {
+            "name": "Chhagalnaiya",
+            "postalCode": "3910"
+          }
+        ]
+      },
+      {
+        "name": "Daganbhuiyan",
+        "postOffices": [
+          {
+            "name": "Daganbhuiyan",
+            "postalCode": "3920"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "name": "Brahmanbaria",
+    "upazilas": [
+      {
+        "name": "Brahmanbaria Sadar",
+        "postOffices": [
+          {
+            "name": "Brahmanbaria Sadar",
+            "postalCode": "3400"
+          }
+        ]
+      },
+      {
+        "name": "Akhaura",
+        "postOffices": [
+          {
+            "name": "Akhaura",
+            "postalCode": "3450"
+          }
+        ]
+      },
+      {
+        "name": "Ashuganj",
+        "postOffices": [
+          {
+            "name": "Ashuganj",
+            "postalCode": "3420"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "name": "Chandpur",
+    "upazilas": [
+      {
+        "name": "Chandpur Sadar",
+        "postOffices": [
+          {
+            "name": "Chandpur Sadar",
+            "postalCode": "3600"
+          }
+        ]
+      },
+      {
+        "name": "Faridganj",
+        "postOffices": [
+          {
+            "name": "Faridganj",
+            "postalCode": "3650"
+          }
+        ]
+      },
+      {
+        "name": "Haimchar",
+        "postOffices": [
+          {
+            "name": "Haimchar",
+            "postalCode": "3660"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 20,
+    "name": "Lakshmipur",
+    "upazilas": [
+      {
+        "name": "Lakshmipur Sadar",
+        "postOffices": [
+          {
+            "name": "Lakshmipur Sadar",
+            "postalCode": "3700"
+          }
+        ]
+      },
+      {
+        "name": "Ramganj",
+        "postOffices": [
+          {
+            "name": "Ramganj",
+            "postalCode": "3720"
+          }
+        ]
+      },
+      {
+        "name": "Raipur",
+        "postOffices": [
+          {
+            "name": "Raipur",
+            "postalCode": "3730"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 21,
+    "name": "Noakhali",
+    "upazilas": [
+      {
+        "name": "Noakhali Sadar",
+        "postOffices": [
+          {
+            "name": "Noakhali Sadar",
+            "postalCode": "3800"
+          }
+        ]
+      },
+      {
+        "name": "Begumganj",
+        "postOffices": [
+          {
+            "name": "Begumganj",
+            "postalCode": "3820"
+          }
+        ]
+      },
+      {
+        "name": "Chatkhil",
+        "postOffices": [
+          {
+            "name": "Chatkhil",
+            "postalCode": "3870"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 22,
+    "name": "Khagrachhari",
+    "upazilas": [
+      {
+        "name": "Khagrachhari Sadar",
+        "postOffices": [
+          {
+            "name": "Khagrachhari Sadar",
+            "postalCode": "4400"
+          }
+        ]
+      },
+      {
+        "name": "Dighinala",
+        "postOffices": [
+          {
+            "name": "Dighinala",
+            "postalCode": "4420"
+          }
+        ]
+      },
+      {
+        "name": "Lakshmichhari",
+        "postOffices": [
+          {
+            "name": "Lakshmichhari",
+            "postalCode": "4430"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 23,
+    "name": "Rangamati",
+    "upazilas": [
+      {
+        "name": "Rangamati Sadar",
+        "postOffices": [
+          {
+            "name": "Rangamati Sadar",
+            "postalCode": "4500"
+          }
+        ]
+      },
+      {
+        "name": "Bagaichhari",
+        "postOffices": [
+          {
+            "name": "Bagaichhari",
+            "postalCode": "4510"
+          }
+        ]
+      },
+      {
+        "name": "Barkal",
+        "postOffices": [
+          {
+            "name": "Barkal",
+            "postalCode": "4580"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 24,
+    "name": "Bandarban",
+    "upazilas": [
+      {
+        "name": "Bandarban Sadar",
+        "postOffices": [
+          {
+            "name": "Bandarban Sadar",
+            "postalCode": "4600"
+          }
+        ]
+      },
+      {
+        "name": "Alikadam",
+        "postOffices": [
+          {
+            "name": "Alikadam",
+            "postalCode": "4660"
+          }
+        ]
+      },
+      {
+        "name": "Thanchi",
+        "postOffices": [
+          {
+            "name": "Thanchi",
+            "postalCode": "4630"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 25,
+    "name": "Rajshahi",
+    "upazilas": [
+      {
+        "name": "Rajshahi Sadar",
+        "postOffices": [
+          {
+            "name": "Rajshahi Sadar",
+            "postalCode": "6000"
+          }
+        ]
+      },
+      {
+        "name": "Bagha",
+        "postOffices": [
+          {
+            "name": "Bagha",
+            "postalCode": "6280"
+          }
+        ]
+      },
+      {
+        "name": "Bagmara",
+        "postOffices": [
+          {
+            "name": "Bagmara",
+            "postalCode": "6250"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 26,
+    "name": "Bogura",
+    "upazilas": [
+      {
+        "name": "Bogura Sadar",
+        "postOffices": [
+          {
+            "name": "Bogura Sadar",
+            "postalCode": "5800"
+          }
+        ]
+      },
+      {
+        "name": "Adamdighi",
+        "postOffices": [
+          {
+            "name": "Adamdighi",
+            "postalCode": "5890"
+          }
+        ]
+      },
+      {
+        "name": "Dhunat",
+        "postOffices": [
+          {
+            "name": "Dhunat",
+            "postalCode": "5880"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 27,
+    "name": "Pabna",
+    "upazilas": [
+      {
+        "name": "Pabna Sadar",
+        "postOffices": [
+          {
+            "name": "Pabna Sadar",
+            "postalCode": "6600"
+          }
+        ]
+      },
+      {
+        "name": "Atgharia",
+        "postOffices": [
+          {
+            "name": "Atgharia",
+            "postalCode": "6680"
+          }
+        ]
+      },
+      {
+        "name": "Bera",
+        "postOffices": [
+          {
+            "name": "Bera",
+            "postalCode": "6682"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 28,
+    "name": "Sirajganj",
+    "upazilas": [
+      {
+        "name": "Sirajganj Sadar",
+        "postOffices": [
+          {
+            "name": "Sirajganj Sadar",
+            "postalCode": "6700"
+          }
+        ]
+      },
+      {
+        "name": "Belkuchi",
+        "postOffices": [
+          {
+            "name": "Belkuchi",
+            "postalCode": "6740"
+          }
+        ]
+      },
+      {
+        "name": "Chauhali",
+        "postOffices": [
+          {
+            "name": "Chauhali",
+            "postalCode": "6750"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 29,
+    "name": "Joypurhat",
+    "upazilas": [
+      {
+        "name": "Joypurhat Sadar",
+        "postOffices": [
+          {
+            "name": "Joypurhat Sadar",
+            "postalCode": "5900"
+          }
+        ]
+      },
+      {
+        "name": "Akkelpur",
+        "postOffices": [
+          {
+            "name": "Akkelpur",
+            "postalCode": "5940"
+          }
+        ]
+      },
+      {
+        "name": "Kalai",
+        "postOffices": [
+          {
+            "name": "Kalai",
+            "postalCode": "5930"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 30,
+    "name": "Naogaon",
+    "upazilas": [
+      {
+        "name": "Naogaon Sadar",
+        "postOffices": [
+          {
+            "name": "Naogaon Sadar",
+            "postalCode": "6500"
+          }
+        ]
+      },
+      {
+        "name": "Atrai",
+        "postOffices": [
+          {
+            "name": "Atrai",
+            "postalCode": "6550"
+          }
+        ]
+      },
+      {
+        "name": "Badalgachi",
+        "postOffices": [
+          {
+            "name": "Badalgachi",
+            "postalCode": "6570"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 31,
+    "name": "Natore",
+    "upazilas": [
+      {
+        "name": "Natore Sadar",
+        "postOffices": [
+          {
+            "name": "Natore Sadar",
+            "postalCode": "6400"
+          }
+        ]
+      },
+      {
+        "name": "Bagatipara",
+        "postOffices": [
+          {
+            "name": "Bagatipara",
+            "postalCode": "6440"
+          }
+        ]
+      },
+      {
+        "name": "Baraigram",
+        "postOffices": [
+          {
+            "name": "Baraigram",
+            "postalCode": "6430"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 32,
+    "name": "Chapainawabganj",
+    "upazilas": [
+      {
+        "name": "Chapainawabganj Sadar",
+        "postOffices": [
+          {
+            "name": "Chapainawabganj Sadar",
+            "postalCode": "6300"
+          }
+        ]
+      },
+      {
+        "name": "Bholahat",
+        "postOffices": [
+          {
+            "name": "Bholahat",
+            "postalCode": "6330"
+          }
+        ]
+      },
+      {
+        "name": "Gomastapur",
+        "postOffices": [
+          {
+            "name": "Gomastapur",
+            "postalCode": "6320"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 33,
+    "name": "Khulna",
+    "upazilas": [
+      {
+        "name": "Khulna Sadar",
+        "postOffices": [
+          {
+            "name": "Khulna GPO",
+            "postalCode": "9000"
+          }
+        ]
+      },
+      {
+        "name": "Batiaghata",
+        "postOffices": [
+          {
+            "name": "Batiaghata",
+            "postalCode": "9260"
+          }
+        ]
+      },
+      {
+        "name": "Dacope",
+        "postOffices": [
+          {
+            "name": "Dacope",
+            "postalCode": "9310"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 34,
+    "name": "Bagerhat",
+    "upazilas": [
+      {
+        "name": "Bagerhat Sadar",
+        "postOffices": [
+          {
+            "name": "Bagerhat Sadar",
+            "postalCode": "9300"
+          }
+        ]
+      },
+      {
+        "name": "Chitalmari",
+        "postOffices": [
+          {
+            "name": "Chitalmari",
+            "postalCode": "9360"
+          }
+        ]
+      },
+      {
+        "name": "Fakirhat",
+        "postOffices": [
+          {
+            "name": "Fakirhat",
+            "postalCode": "9370"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 35,
+    "name": "Satkhira",
+    "upazilas": [
+      {
+        "name": "Satkhira Sadar",
+        "postOffices": [
+          {
+            "name": "Satkhira Sadar",
+            "postalCode": "9400"
+          }
+        ]
+      },
+      {
+        "name": "Assasuni",
+        "postOffices": [
+          {
+            "name": "Assasuni",
+            "postalCode": "9430"
+          }
+        ]
+      },
+      {
+        "name": "Debhata",
+        "postOffices": [
+          {
+            "name": "Debhata",
+            "postalCode": "9440"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 36,
+    "name": "Jashore",
+    "upazilas": [
+      {
+        "name": "Jashore Sadar",
+        "postOffices": [
+          {
+            "name": "Jashore Sadar",
+            "postalCode": "7400"
+          }
+        ]
+      },
+      {
+        "name": "Abhaynagar",
+        "postOffices": [
+          {
+            "name": "Abhaynagar",
+            "postalCode": "7460"
+          }
+        ]
+      },
+      {
+        "name": "Bagherpara",
+        "postOffices": [
+          {
+            "name": "Bagherpara",
+            "postalCode": "7470"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 37,
+    "name": "Jhenaidah",
+    "upazilas": [
+      {
+        "name": "Jhenaidah Sadar",
+        "postOffices": [
+          {
+            "name": "Jhenaidah Sadar",
+            "postalCode": "7300"
+          }
+        ]
+      },
+      {
+        "name": "Harinakunda",
+        "postOffices": [
+          {
+            "name": "Harinakunda",
+            "postalCode": "7320"
+          }
+        ]
+      },
+      {
+        "name": "Kaliganj",
+        "postOffices": [
+          {
+            "name": "Kaliganj",
+            "postalCode": "7330"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 38,
+    "name": "Magura",
+    "upazilas": [
+      {
+        "name": "Magura Sadar",
+        "postOffices": [
+          {
+            "name": "Magura Sadar",
+            "postalCode": "7600"
+          }
+        ]
+      },
+      {
+        "name": "Mohammadpur",
+        "postOffices": [
+          {
+            "name": "Mohammadpur",
+            "postalCode": "7610"
+          }
+        ]
+      },
+      {
+        "name": "Shalikha",
+        "postOffices": [
+          {
+            "name": "Shalikha",
+            "postalCode": "7620"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 39,
+    "name": "Narail",
+    "upazilas": [
+      {
+        "name": "Narail Sadar",
+        "postOffices": [
+          {
+            "name": "Narail Sadar",
+            "postalCode": "7500"
+          }
+        ]
+      },
+      {
+        "name": "Kalia",
+        "postOffices": [
+          {
+            "name": "Kalia",
+            "postalCode": "7520"
+          }
+        ]
+      },
+      {
+        "name": "Lohagara",
+        "postOffices": [
+          {
+            "name": "Lohagara",
+            "postalCode": "7510"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 40,
+    "name": "Kushtia",
+    "upazilas": [
+      {
+        "name": "Kushtia Sadar",
+        "postOffices": [
+          {
+            "name": "Kushtia Sadar",
+            "postalCode": "7000"
+          }
+        ]
+      },
+      {
+        "name": "Bheramara",
+        "postOffices": [
+          {
+            "name": "Bheramara",
+            "postalCode": "7040"
+          }
+        ]
+      },
+      {
+        "name": "Daulatpur",
+        "postOffices": [
+          {
+            "name": "Daulatpur",
+            "postalCode": "7020"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 41,
+    "name": "Chuadanga",
+    "upazilas": [
+      {
+        "name": "Chuadanga Sadar",
+        "postOffices": [
+          {
+            "name": "Chuadanga Sadar",
+            "postalCode": "7200"
+          }
+        ]
+      },
+      {
+        "name": "Alamdanga",
+        "postOffices": [
+          {
+            "name": "Alamdanga",
+            "postalCode": "7210"
+          }
+        ]
+      },
+      {
+        "name": "Damurhuda",
+        "postOffices": [
+          {
+            "name": "Damurhuda",
+            "postalCode": "7220"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 42,
+    "name": "Meherpur",
+    "upazilas": [
+      {
+        "name": "Meherpur Sadar",
+        "postOffices": [
+          {
+            "name": "Meherpur Sadar",
+            "postalCode": "7100"
+          }
+        ]
+      },
+      {
+        "name": "Gangni",
+        "postOffices": [
+          {
+            "name": "Gangni",
+            "postalCode": "7110"
+          }
+        ]
+      },
+      {
+        "name": "Mujibnagar",
+        "postOffices": [
+          {
+            "name": "Mujibnagar",
+            "postalCode": "7120"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 43,
+    "name": "Barishal",
+    "upazilas": [
+      {
+        "name": "Barishal Sadar",
+        "postOffices": [
+          {
+            "name": "Barishal GPO",
+            "postalCode": "8200"
+          }
+        ]
+      },
+      {
+        "name": "Agailjhara",
+        "postOffices": [
+          {
+            "name": "Agailjhara",
+            "postalCode": "8240"
+          }
+        ]
+      },
+      {
+        "name": "Babuganj",
+        "postOffices": [
+          {
+            "name": "Babuganj",
+            "postalCode": "8210"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 44,
+    "name": "Barguna",
+    "upazilas": [
+      {
+        "name": "Barguna Sadar",
+        "postOffices": [
+          {
+            "name": "Barguna Sadar",
+            "postalCode": "8700"
+          }
+        ]
+      },
+      {
+        "name": "Amtali",
+        "postOffices": [
+          {
+            "name": "Amtali",
+            "postalCode": "8710"
+          }
+        ]
+      },
+      {
+        "name": "Bamna",
+        "postOffices": [
+          {
+            "name": "Bamna",
+            "postalCode": "8720"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 45,
+    "name": "Bhola",
+    "upazilas": [
+      {
+        "name": "Bhola Sadar",
+        "postOffices": [
+          {
+            "name": "Bhola Sadar",
+            "postalCode": "8300"
+          }
+        ]
+      },
+      {
+        "name": "Borhanuddin",
+        "postOffices": [
+          {
+            "name": "Borhanuddin",
+            "postalCode": "8320"
+          }
+        ]
+      },
+      {
+        "name": "Char Fasson",
+        "postOffices": [
+          {
+            "name": "Char Fasson",
+            "postalCode": "8340"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 46,
+    "name": "Jhalokati",
+    "upazilas": [
+      {
+        "name": "Jhalokati Sadar",
+        "postOffices": [
+          {
+            "name": "Jhalokati Sadar",
+            "postalCode": "8400"
+          }
+        ]
+      },
+      {
+        "name": "Kathalia",
+        "postOffices": [
+          {
+            "name": "Kathalia",
+            "postalCode": "8420"
+          }
+        ]
+      },
+      {
+        "name": "Nalchity",
+        "postOffices": [
+          {
+            "name": "Nalchity",
+            "postalCode": "8410"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 47,
+    "name": "Patuakhali",
+    "upazilas": [
+      {
+        "name": "Patuakhali Sadar",
+        "postOffices": [
+          {
+            "name": "Patuakhali Sadar",
+            "postalCode": "8600"
+          }
+        ]
+      },
+      {
+        "name": "Bauphal",
+        "postOffices": [
+          {
+            "name": "Bauphal",
+            "postalCode": "8620"
+          }
+        ]
+      },
+      {
+        "name": "Dashmina",
+        "postOffices": [
+          {
+            "name": "Dashmina",
+            "postalCode": "8610"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 48,
+    "name": "Pirojpur",
+    "upazilas": [
+      {
+        "name": "Pirojpur Sadar",
+        "postOffices": [
+          {
+            "name": "Pirojpur Sadar",
+            "postalCode": "8500"
+          }
+        ]
+      },
+      {
+        "name": "Bhandaria",
+        "postOffices": [
+          {
+            "name": "Bhandaria",
+            "postalCode": "8550"
+          }
+        ]
+      },
+      {
+        "name": "Kawkhali",
+        "postOffices": [
+          {
+            "name": "Kawkhali",
+            "postalCode": "8540"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 49,
+    "name": "Sylhet",
+    "upazilas": [
+      {
+        "name": "Sylhet Sadar",
+        "postOffices": [
+          {
+            "name": "Sylhet GPO",
+            "postalCode": "3100"
+          }
+        ]
+      },
+      {
+        "name": "Balaganj",
+        "postOffices": [
+          {
+            "name": "Balaganj",
+            "postalCode": "3120"
+          }
+        ]
+      },
+      {
+        "name": "Beanibazar",
+        "postOffices": [
+          {
+            "name": "Beanibazar",
+            "postalCode": "3150"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 50,
+    "name": "Moulvibazar",
+    "upazilas": [
+      {
+        "name": "Moulvibazar Sadar",
+        "postOffices": [
+          {
+            "name": "Moulvibazar Sadar",
+            "postalCode": "3200"
+          }
+        ]
+      },
+      {
+        "name": "Barlekha",
+        "postOffices": [
+          {
+            "name": "Barlekha",
+            "postalCode": "3250"
+          }
+        ]
+      },
+      {
+        "name": "Juri",
+        "postOffices": [
+          {
+            "name": "Juri",
+            "postalCode": "3230"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 51,
+    "name": "Habiganj",
+    "upazilas": [
+      {
+        "name": "Habiganj Sadar",
+        "postOffices": [
+          {
+            "name": "Habiganj Sadar",
+            "postalCode": "3300"
+          }
+        ]
+      },
+      {
+        "name": "Ajmiriganj",
+        "postOffices": [
+          {
+            "name": "Ajmiriganj",
+            "postalCode": "3320"
+          }
+        ]
+      },
+      {
+        "name": "Bahubal",
+        "postOffices": [
+          {
+            "name": "Bahubal",
+            "postalCode": "3350"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 52,
+    "name": "Sunamganj",
+    "upazilas": [
+      {
+        "name": "Sunamganj Sadar",
+        "postOffices": [
+          {
+            "name": "Sunamganj Sadar",
+            "postalCode": "3000"
+          }
+        ]
+      },
+      {
+        "name": "Bishwambarpur",
+        "postOffices": [
+          {
+            "name": "Bishwambarpur",
+            "postalCode": "3010"
+          }
+        ]
+      },
+      {
+        "name": "Chhatak",
+        "postOffices": [
+          {
+            "name": "Chhatak",
+            "postalCode": "3080"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 53,
+    "name": "Rangpur",
+    "upazilas": [
+      {
+        "name": "Rangpur Sadar",
+        "postOffices": [
+          {
+            "name": "Rangpur Sadar",
+            "postalCode": "5400"
+          }
+        ]
+      },
+      {
+        "name": "Badarganj",
+        "postOffices": [
+          {
+            "name": "Badarganj",
+            "postalCode": "5430"
+          }
+        ]
+      },
+      {
+        "name": "Gangachara",
+        "postOffices": [
+          {
+            "name": "Gangachara",
+            "postalCode": "5410"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 54,
+    "name": "Dinajpur",
+    "upazilas": [
+      {
+        "name": "Dinajpur Sadar",
+        "postOffices": [
+          {
+            "name": "Dinajpur Sadar",
+            "postalCode": "5200"
+          }
+        ]
+      },
+      {
+        "name": "Birampur",
+        "postOffices": [
+          {
+            "name": "Birampur",
+            "postalCode": "5250"
+          }
+        ]
+      },
+      {
+        "name": "Birganj",
+        "postOffices": [
+          {
+            "name": "Birganj",
+            "postalCode": "5210"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 55,
+    "name": "Kurigram",
+    "upazilas": [
+      {
+        "name": "Kurigram Sadar",
+        "postOffices": [
+          {
+            "name": "Kurigram Sadar",
+            "postalCode": "5600"
+          }
+        ]
+      },
+      {
+        "name": "Bhurungamari",
+        "postOffices": [
+          {
+            "name": "Bhurungamari",
+            "postalCode": "5650"
+          }
+        ]
+      },
+      {
+        "name": "Char Rajibpur",
+        "postOffices": [
+          {
+            "name": "Char Rajibpur",
+            "postalCode": "5640"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 56,
+    "name": "Gaibandha",
+    "upazilas": [
+      {
+        "name": "Gaibandha Sadar",
+        "postOffices": [
+          {
+            "name": "Gaibandha Sadar",
+            "postalCode": "5700"
+          }
+        ]
+      },
+      {
+        "name": "Fulchhari",
+        "postOffices": [
+          {
+            "name": "Fulchhari",
+            "postalCode": "5770"
+          }
+        ]
+      },
+      {
+        "name": "Gobindaganj",
+        "postOffices": [
+          {
+            "name": "Gobindaganj",
+            "postalCode": "5740"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 57,
+    "name": "Lalmonirhat",
+    "upazilas": [
+      {
+        "name": "Lalmonirhat Sadar",
+        "postOffices": [
+          {
+            "name": "Lalmonirhat Sadar",
+            "postalCode": "5500"
+          }
+        ]
+      },
+      {
+        "name": "Aditmari",
+        "postOffices": [
+          {
+            "name": "Aditmari",
+            "postalCode": "5510"
+          }
+        ]
+      },
+      {
+        "name": "Hatibandha",
+        "postOffices": [
+          {
+            "name": "Hatibandha",
+            "postalCode": "5530"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 58,
+    "name": "Nilphamari",
+    "upazilas": [
+      {
+        "name": "Nilphamari Sadar",
+        "postOffices": [
+          {
+            "name": "Nilphamari Sadar",
+            "postalCode": "5300"
+          }
+        ]
+      },
+      {
+        "name": "Dimla",
+        "postOffices": [
+          {
+            "name": "Dimla",
+            "postalCode": "5350"
+          }
+        ]
+      },
+      {
+        "name": "Domar",
+        "postOffices": [
+          {
+            "name": "Domar",
+            "postalCode": "5340"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 59,
+    "name": "Panchagarh",
+    "upazilas": [
+      {
+        "name": "Panchagarh Sadar",
+        "postOffices": [
+          {
+            "name": "Panchagarh Sadar",
+            "postalCode": "5000"
+          }
+        ]
+      },
+      {
+        "name": "Atwari",
+        "postOffices": [
+          {
+            "name": "Atwari",
+            "postalCode": "5040"
+          }
+        ]
+      },
+      {
+        "name": "Boda",
+        "postOffices": [
+          {
+            "name": "Boda",
+            "postalCode": "5010"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 60,
+    "name": "Thakurgaon",
+    "upazilas": [
+      {
+        "name": "Thakurgaon Sadar",
+        "postOffices": [
+          {
+            "name": "Thakurgaon Sadar",
+            "postalCode": "5100"
+          }
+        ]
+      },
+      {
+        "name": "Baliadangi",
+        "postOffices": [
+          {
+            "name": "Baliadangi",
+            "postalCode": "5120"
+          }
+        ]
+      },
+      {
+        "name": "Haripur",
+        "postOffices": [
+          {
+            "name": "Haripur",
+            "postalCode": "5140"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 61,
+    "name": "Mymensingh",
+    "upazilas": [
+      {
+        "name": "Mymensingh Sadar",
+        "postOffices": [
+          {
+            "name": "Mymensingh HO",
+            "postalCode": "2200"
+          }
+        ]
+      },
+      {
+        "name": "Bhaluka",
+        "postOffices": [
+          {
+            "name": "Bhaluka",
+            "postalCode": "2240"
+          }
+        ]
+      },
+      {
+        "name": "Dhobaura",
+        "postOffices": [
+          {
+            "name": "Dhobaura",
+            "postalCode": "2250"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 62,
+    "name": "Jamalpur",
+    "upazilas": [
+      {
+        "name": "Jamalpur Sadar",
+        "postOffices": [
+          {
+            "name": "Jamalpur Sadar",
+            "postalCode": "2000"
+          }
+        ]
+      },
+      {
+        "name": "Bakshiganj",
+        "postOffices": [
+          {
+            "name": "Bakshiganj",
+            "postalCode": "2120"
+          }
+        ]
+      },
+      {
+        "name": "Dewanganj",
+        "postOffices": [
+          {
+            "name": "Dewanganj",
+            "postalCode": "2030"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 63,
+    "name": "Netrokona",
+    "upazilas": [
+      {
+        "name": "Netrokona Sadar",
+        "postOffices": [
+          {
+            "name": "Netrokona Sadar",
+            "postalCode": "2400"
+          }
+        ]
+      },
+      {
+        "name": "Atpara",
+        "postOffices": [
+          {
+            "name": "Atpara",
+            "postalCode": "2440"
+          }
+        ]
+      },
+      {
+        "name": "Barhatta",
+        "postOffices": [
+          {
+            "name": "Barhatta",
+            "postalCode": "2410"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 64,
+    "name": "Sherpur",
+    "upazilas": [
+      {
+        "name": "Sherpur Sadar",
+        "postOffices": [
+          {
+            "name": "Sherpur Sadar",
+            "postalCode": "2100"
+          }
+        ]
+      },
+      {
+        "name": "Jhenaigati",
+        "postOffices": [
+          {
+            "name": "Jhenaigati",
+            "postalCode": "2140"
+          }
+        ]
+      },
+      {
+        "name": "Nakla",
+        "postOffices": [
+          {
+            "name": "Nakla",
+            "postalCode": "2110"
+          }
+        ]
+      }
+    ]
+  }
 ]

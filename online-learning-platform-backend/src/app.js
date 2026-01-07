@@ -1,10 +1,13 @@
 import express from "express";
 import cors from "cors";
-import { courseRouter } from "./modules/course/course.router.js";
 import { enrollmentRouter } from "./modules/enrollment/enrollment.router.js";
 import { reviewRouter } from "./modules/review/review.router.js";
 import { UserRoutes } from "./modules/user/user.route.js";
 import { faqRouter } from "./modules/faq/faq.router.js";
+import { categoryRouter } from "./modules/category/category.router.js";
+import { InstructorRouter } from "./modules/instructor/instructor.router.js";
+import { courseRouter } from "./modules/courses/course.router.js";
+import { newCourseRouter } from "./modules/course/course.router.js";
 
 const app = express();
 
@@ -12,10 +15,13 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/v1", courseRouter)
+app.use("/api/v1/new-courses", newCourseRouter)
 app.use("/api/v1", enrollmentRouter)
 app.use("/api/v1/reviews", reviewRouter)
 app.use("/api/v1/users", UserRoutes)
 app.use("/api/v1/faqs", faqRouter);
+app.use("/api/v1/categories", categoryRouter);
+app.use("/api/v1/instructors", InstructorRouter);
 
 app.get("/", (req, res) => {
   res.send("Server is running...");

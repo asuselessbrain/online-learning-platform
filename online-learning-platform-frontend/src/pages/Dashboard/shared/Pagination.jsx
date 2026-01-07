@@ -1,4 +1,6 @@
-const Pagination = ({ page, setPage, pageNumbers, totalPages }) => {
+const Pagination = ({ page, setPage, total, limit }) => {
+  const totalPages = total ? Math.ceil(total / limit) : 1;
+    const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
   return (
     <div className="flex items-center justify-between mt-6">
       {/* Pagination buttons */}

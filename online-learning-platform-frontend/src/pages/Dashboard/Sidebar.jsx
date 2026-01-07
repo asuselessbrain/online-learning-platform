@@ -1,6 +1,6 @@
 import logo from "../../assets/images/logo.png"
 import { Link, NavLink, useNavigate } from "react-router";
-import { FiHome, FiBookOpen, FiUsers, FiUser, FiLogOut, FiInfo, FiX, FiPlus, FiUserCheck, FiBarChart, FiFileText, FiStar, FiTrendingUp } from "react-icons/fi";
+import { FiHome, FiBookOpen, FiUsers, FiUser, FiLogOut, FiInfo, FiX, FiPlus, FiUserCheck, FiBarChart, FiFileText, FiStar, FiTrendingUp, FiTag } from "react-icons/fi";
 import { LuGraduationCap } from "react-icons/lu";
 import { GiProgression } from "react-icons/gi";
 import { LiaCertificateSolid } from "react-icons/lia";
@@ -25,6 +25,8 @@ const Sidebar = ({ isOpen = false, setIsOpen = () => { } }) => {
         { name: "Dashboard", path: "/admin/dashboard", icon: <FiHome size={24} /> },
         { name: "Add Course", path: "/admin/add-course", icon: <FiPlus size={24} /> },
         { name: "Manage Courses", path: "/admin/manage-courses", icon: <FiBookOpen size={24} /> },
+        { name: "Manage Category", path: "/admin/manage-category", icon: <FiTag size={24} /> },
+        { name: "Add Instructor", path: "/admin/add-instructor", icon: <FiPlus size={24} /> },
         { name: "Manage Instructors", path: "/admin/manage-instructors", icon: <FiUsers size={24} /> },
         { name: "Manage Students", path: "/admin/manage-students", icon: <FiUsers size={24} /> },
         { name: "Enrollments", path: "/admin/enrollments", icon: <FiUserCheck size={24} /> },
@@ -47,12 +49,11 @@ const Sidebar = ({ isOpen = false, setIsOpen = () => { } }) => {
         { name: "My Enrolled Courses", path: "/student/my-enrolled-courses", icon: <FiBookOpen size={24} /> },
         { name: "Course Progress", path: "/student/course-progress", icon: <FiTrendingUp size={24} /> },
         { name: "Certificates", path: "/student/certificates", icon: <LiaCertificateSolid size={24} /> },
-        { name: "Reviews", path: "/student/reviews", icon: <FiStar size={24} /> },
         { name: "Profile Settings", path: "/student/profile", icon: <FiUser size={24} /> },
     ]
     return (
         <aside
-            className={`fixed top-0 left-0 h-screen max-w-72 bg-[#e7f8ee] border-r border-gray-200 p-5 flex flex-col gap-3 overflow-auto z-40 transform transition-transform duration-200 ease-in-out
+            className={`fixed top-0 left-0 h-screen w-72 bg-[#e7f8ee] border-r border-gray-200 p-5 flex flex-col gap-3 overflow-auto z-40 transform transition-transform duration-200 ease-in-out
         ${isOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0`}
         >
             <div className="flex items-center justify-between pb-2 border-b border-transparent">

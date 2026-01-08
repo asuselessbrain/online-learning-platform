@@ -1,7 +1,7 @@
 import PageHeading from "../../shared/PageHeading";
 import { useState } from "react";
 import AddFAQModal from "./AddFAQModal";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import useAxios from "../../../../hooks/useAxios";
 import { useForm } from "react-hook-form";
 import Pagination from "../../shared/Pagination";
@@ -9,6 +9,7 @@ import { Link } from "react-router";
 import { FiEdit, FiExternalLink, FiTrash2 } from "react-icons/fi";
 import ViewDetailsFAQModal from "./ViewDetailsFAQModal";
 import EditFAQModal from "./EditFAQModal";
+import { toast } from "react-toastify";
 
 const ManageFAQ = () => {
     const [open, setOpen] = useState(false);
@@ -32,6 +33,21 @@ const ManageFAQ = () => {
             return res.data.data;
         }
     })
+
+    const { mutate: deleteFAQ, isPending } = useMutation({
+        mutationFn: async (id) => await axiosSecure.delete(`/faqs/${id}`),
+        onSuccess: async () => {
+            toast.success("FAQ deleted successfully");
+            await refetch();
+        },
+        onError: () => {
+            toast.error("Failed to delete FAQ");
+        }
+    })
+
+    const deleteMutation = (id) => {
+        deleteFAQ(id);
+    }
 
     const viewDetailsFAQ = (id) => {
         setShowFAQDetailsModal(!showFAQDetailsModal);
@@ -132,15 +148,16 @@ const ManageFAQ = () => {
                                         <td className="px-4 py-3">{new Date(course.createdAt).toLocaleDateString()}</td>
 
                                         <td className="px-4 py-3 flex gap-2">
-                                            <button onClick={() => viewDetailsFAQ(course._id)} className="text-[#309255] p-2 rounded-md border border-[#E6F4EA] hover:bg-[#eefbf3] inline-flex items-center gap-2">
+                                            <button onClick={() => viewDetailsFAQ(course._id)} disabled={isPending}  className="text-[#309255] p-2 disabled:cursor-no-drop rounded-md border border-[#E6F4EA] hover:bg-[#eefbf3] inline-flex items-center gap-2">
                                                 <FiExternalLink /> View
                                             </button>
-                                            <button onClick={() => updateFAQ(course._id)} className="p-2 rounded-md bg-white border border-[#309255] text-[#309255] hover:bg-[#e7f8ee] inline-flex items-center gap-2">
+                                            <button onClick={() => updateFAQ(course._id)} disabled={isPending} className="p-2 rounded-md disabled:cursor-no-drop bg-white border border-[#309255] text-[#309255] hover:bg-[#e7f8ee] inline-flex items-center gap-2">
                                                 <FiEdit /> Edit
                                             </button>
                                             <button
-                                                // onClick={() => deleteMutation.mutate(course._id)}
-                                                className="p-2 rounded-md bg-red-500 text-white hover:bg-red-600 inline-flex items-center gap-2"
+                                                onClick={() => deleteMutation(course._id)}
+                                                disabled={isPending}
+                                                className="p-2 rounded-md disabled:cursor-not-allowed disabled:bg-red-400 bg-red-500 text-white hover:bg-red-600 inline-flex items-center gap-2"
                                             >
                                                 <FiTrash2 /> Delete
                                             </button>

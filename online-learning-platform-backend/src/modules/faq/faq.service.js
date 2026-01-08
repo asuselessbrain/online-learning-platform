@@ -55,9 +55,14 @@ const updateFAQ = async (faqId, faqData) => {
     return await faqModel.findByIdAndUpdate(faqId, faqData, { new: true });
 }
 
+const deleteFAQ = async (faqId) => {
+    return await faqModel.findByIdAndDelete(faqId);
+}
+
 export const faqService = {
     createFAQ,
     getAllFAQ,
     getSingleFAQ,
-    updateFAQ
+    updateFAQ,
+    deleteFAQ
 };

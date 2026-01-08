@@ -75,9 +75,29 @@ const updateFAQ = async (req, res) => {
     }
 }
 
+const deleteFAQ = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const result = await faqService.deleteFAQ(id);
+        res.status(200).json({
+            success: true,
+            message: "FAQ deleted successfully",
+            data: result
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Failed to delete FAQ",
+            error: error
+        });
+    }
+}
+
 export const faqController = {
     createFAQ,
     getAllFAQ,
     getSingleFAQ,
-    updateFAQ
+    updateFAQ,
+    deleteFAQ
 };

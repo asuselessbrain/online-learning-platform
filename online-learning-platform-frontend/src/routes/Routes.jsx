@@ -31,6 +31,7 @@ import AddInstructor from "../pages/Dashboard/Admin/ManageInstructor/AddInstruct
 import InstructorDetailsPage from "../pages/Dashboard/Admin/ManageInstructor/InstructorDetailsPage";
 import ManageCourses from "../pages/Dashboard/Admin/ManageCourses/ManageCourses";
 import ViewCourseDetailsForAdmin from "../pages/Dashboard/Admin/ManageCourses/ViewCourseDetailsForAdmin";
+import EditCourse from "../pages/Dashboard/Admin/ManageCourses/EditCourse";
 
 export const routes = createBrowserRouter([
     {
@@ -147,6 +148,10 @@ export const routes = createBrowserRouter([
             {
                 path: "manage-courses",
                 element: <ManageCourses />
+            },
+            {
+                path: "edit-course/:id",
+                element: <EditCourse />
             },
             {
                 path: "view-course/:id",

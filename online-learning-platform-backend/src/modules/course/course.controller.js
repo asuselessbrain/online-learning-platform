@@ -62,24 +62,24 @@ const getCourseById = async (req, res) => {
 //     }
 // }
 
-// const updateCourse = async (req, res) => {
-//     try {
-//         const id = req.params.id;
-//         const updated = await courseService.updateCourse(id, req.body);
-//         if (!updated) {
-//             return res.status(404).json({ success: false, message: 'Course not found' });
-//         }
-//         res.status(200).json({ success: true, message: 'Course updated successfully', data: updated });
-//     } catch (error) {
-//         res.status(500).json({ success: false, message: error.message || 'Failed to update course' });
-//     }
-// }
+const updateCourse = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const updated = await courseService.updateCourse(id, req.body);
+        if (!updated) {
+            return res.status(404).json({ success: false, message: 'Course not found' });
+        }
+        res.status(200).json({ success: true, message: 'Course updated successfully', data: updated });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message || 'Failed to update course' });
+    }
+}
 
 export const courseController = {
     createCourse,
     getAllCourses,
     getCourseById,
-    // updateCourse,
+    updateCourse,
     // deleteCourse,
     // myAddedCourses
 };

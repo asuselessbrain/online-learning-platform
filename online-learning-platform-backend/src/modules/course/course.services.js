@@ -1,7 +1,24 @@
+import { InstructorModel } from '../instructor/instructor.model.js';
 import { NewCourse } from './course.model.js';
 
 const createCourse = async (payload) => {
-    const created = await NewCourse.create(payload);
+    const discountedPrice = parseFloat(payload.price) - (parseFloat(payload.price) * (parseFloat(payload.discount) / 100));
+
+    const created = await NewCourse.create({ ...payload, discountedPrice });
+
+    if (created._id) {
+        await InstructorModel.findByIdAndUpdate({
+            _id: payload.instructorId,
+        },
+            {
+                $push: { courses: created._id }
+            },
+            {
+                new: true
+            }
+        )
+    }
+
     return created;
 };
 
@@ -129,7 +146,7 @@ const getAllCourses = async (queryOptions) => {
 }
 
 const getSingleCourse = async (id) => {
-    const course =  await NewCourse.findById(id).populate({
+    const course = await NewCourse.findById(id).populate({
         path: 'instructorId',
         populate: {
             path: 'userId',
@@ -137,7 +154,6 @@ const getSingleCourse = async (id) => {
         }
     }).populate('categoryId');
 
-    // course.price = parseFloat(course.price) - (parseFloat(course.discountedPrice) || 0)
     return course
 }
 
@@ -173,13 +189,13 @@ const getSingleCourse = async (id) => {
 //     return deleted;
 // }
 
-// const updateCourse = async (id, payload) => {
-//     const course = await Course.findById(id);
-//     if (!course) return null;
+const updateCourse = async (id, payload) => {
 
-//     const updated = await Course.findByIdAndUpdate(id, payload, { new: true });
-//     return updated;
-// }
+    payload.discountedPrice = parseFloat(payload.price) - (parseFloat(payload.price) * (parseFloat(payload.discount) / 100));
+
+    const updated = await NewCourse.findByIdAndUpdate(id, payload, { new: true });
+    return updated;
+}
 
 // const getCourseById = async (id) => {
 
@@ -190,9 +206,9 @@ const getSingleCourse = async (id) => {
 export const courseService = {
     createCourse,
     getAllCourses,
-    getSingleCourse
+    getSingleCourse,
     // myAddedCourses,
     // getCourseById,
     // deleteCourse,
-    // updateCourse
+    updateCourse
 };

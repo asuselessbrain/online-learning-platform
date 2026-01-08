@@ -40,11 +40,35 @@ const ViewCourseDetailsForAdmin = () => {
     if (!course) return <div className="p-6">Course not found.</div>;
 
     const embedVideo = (url) => {
-        if (!url) return null;
-        if (url.includes("youtube.com/watch")) {
-            return url.replace("watch?v=", "embed/");
+        if (!url) return "";
+        try {
+            const parsed = new URL(url);
+            const host = parsed.hostname.toLowerCase();
+
+            // YouTube long URL e.g. https://www.youtube.com/watch?v=ID
+            if (host.includes("youtube.com")) {
+                const v = parsed.searchParams.get("v");
+                if (v) return `https://www.youtube.com/embed/${v}`;
+            }
+
+            // YouTube short URL e.g. https://youtu.be/ID
+            if (host === "youtu.be") {
+                const id = parsed.pathname.split("/").filter(Boolean)[0];
+                if (id) return `https://www.youtube.com/embed/${id}`;
+            }
+
+            // Vimeo URL e.g. https://vimeo.com/ID
+            if (host.includes("vimeo.com")) {
+                const id = parsed.pathname.split("/").filter(Boolean).pop();
+                if (id) return `https://player.vimeo.com/video/${id}`;
+            }
+
+            // If already an embed URL or unknown host, return as-is
+            return url;
+        // eslint-disable-next-line no-unused-vars
+        } catch (e) {
+            return url;
         }
-        return url;
     };
 
     return (
@@ -57,9 +81,18 @@ const ViewCourseDetailsForAdmin = () => {
                     <div className="absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-black/40 via-transparent to-transparent" />
 
                     {/* Price badge (top-left) */}
-                    <div className="absolute left-3 top-3 bg-white/95 text-sm text-gray-900 px-3 py-1 rounded-full font-semibold shadow">
-                        {course.isFree ? "Free" : `৳ ${course.discountPrice ?? course.price}`}
-                    </div>
+                        <div className="absolute left-3 top-3 bg-white/95 text-sm text-gray-900 px-3 py-1 rounded-full font-semibold shadow">
+                            {course.isFree ? (
+                                "Free"
+                            ) : course.discountPrice && course.discountPrice < course.price ? (
+                                <div className="flex items-center gap-2">
+                                    <span className="text-sm font-semibold text-[#0f5132]">৳ {course.discountPrice}</span>
+                                    <span className="text-xs text-gray-400 line-through">৳ {course.price}</span>
+                                </div>
+                            ) : (
+                                <span className="text-sm font-semibold">৳ {course.price}</span>
+                            )}
+                        </div>
 
                     {/* Status badge (top-right) */}
                     <div className="absolute right-3 top-3">
@@ -74,7 +107,7 @@ const ViewCourseDetailsForAdmin = () => {
                     {/* bottom-left meta: category */}
                     <div className="absolute left-4 bottom-4 text-white">
                         <div className="text-xs md:text-sm font-medium drop-shadow">{course.category?.name || course.categoryId?.name || "Category"}</div>
-                        <div className="text-sm md:text-base font-semibold drop-shadow truncate max-w-[12rem]">{course.title.length > 36 ? course.title.slice(0, 36) + "..." : course.title}</div>
+                        <div className="text-sm md:text-base font-semibold drop-shadow truncate max-w-48">{course.title.length > 36 ? course.title.slice(0, 36) + "..." : course.title}</div>
                     </div>
                 </div>
 
@@ -105,7 +138,18 @@ const ViewCourseDetailsForAdmin = () => {
                 <div className="w-full md:w-64 mt-4 md:mt-0">
                     <div className="p-4 bg-white border border-gray-100 rounded-lg shadow-sm">
                         <div className="text-sm text-gray-500">Price</div>
-                        <div className="text-2xl font-semibold mt-1">{course.isFree ? "Free" : `৳ ${course.discountPrice ?? course.price}`}</div>
+                            <div className="text-2xl font-semibold mt-1">
+                                {course.isFree ? (
+                                    "Free"
+                                ) : course.discountedPrice && course.discountedPrice < course.price ? (
+                                    <div className="flex items-baseline gap-3">
+                                        <span className="text-2xl font-bold text-[#0f5132]">৳ {course.discountedPrice}</span>
+                                        <span className="text-sm text-gray-400 line-through">৳ {course.price}</span>
+                                    </div>
+                                ) : (
+                                    <span>৳ {course.price}</span>
+                                )}
+                            </div>
                         <div className="text-sm text-gray-500 mt-3">Enrolled</div>
                         <div className="text-lg font-medium">{course.enrolledCount || course.enrollments?.length || 0}</div>
                     </div>
@@ -151,9 +195,10 @@ const ViewCourseDetailsForAdmin = () => {
                                     title="preview"
                                     src={embedVideo(course.previewVideo)}
                                     frameBorder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                     allowFullScreen
-                                    className="w-full h-64 md:h-80"
-                                />
+                                    className="w-full h-64 md:h-94"
+                                ></iframe>
                             </div>
                         ) : (
                             <div className="text-gray-500">No preview available.</div>

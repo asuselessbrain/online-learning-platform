@@ -7,9 +7,12 @@ import { useForm } from "react-hook-form";
 import Pagination from "../../shared/Pagination";
 import { Link } from "react-router";
 import { FiEdit, FiExternalLink, FiTrash2 } from "react-icons/fi";
+import ViewDetailsFAQModal from "./ViewDetailsFAQModal";
+import EditFAQModal from "./EditFAQModal";
 
 const ManageFAQ = () => {
     const [open, setOpen] = useState(false);
+    const [showFAQDetailsModal, setShowFAQDetailsModal] = useState(false);
     const axiosSecure = useAxios()
     const [page, setPage] = useState(1);
     const limit = 10;
@@ -19,6 +22,8 @@ const ManageFAQ = () => {
     const [sortBy, setSortBy] = useState('');
     const [sortOrder, setSortOrder] = useState('');
     const { register, handleSubmit } = useForm();
+    const [id, setId] = useState(null);
+    const [editOpen, setEditOpen] = useState(false);
 
     const { data, isLoading, refetch } = useQuery({
         queryKey: ['faqs-admin', searchTerm, category, status, sortBy, sortOrder, page, limit],
@@ -27,6 +32,16 @@ const ManageFAQ = () => {
             return res.data.data;
         }
     })
+
+    const viewDetailsFAQ = (id) => {
+        setShowFAQDetailsModal(!showFAQDetailsModal);
+        setId(id)
+    }
+
+    const updateFAQ = (id) => {
+        setEditOpen(!editOpen);
+        setId(id);
+    }
 
     const handleSearch = data => {
         setSearchTerm(data.searchTerm);
@@ -117,12 +132,12 @@ const ManageFAQ = () => {
                                         <td className="px-4 py-3">{new Date(course.createdAt).toLocaleDateString()}</td>
 
                                         <td className="px-4 py-3 flex gap-2">
-                                            <Link to={`/admin/manage-courses/view-course/${course._id}`} className="text-[#309255] p-2 rounded-md border border-[#E6F4EA] hover:bg-[#eefbf3] inline-flex items-center gap-2">
+                                            <button onClick={() => viewDetailsFAQ(course._id)} className="text-[#309255] p-2 rounded-md border border-[#E6F4EA] hover:bg-[#eefbf3] inline-flex items-center gap-2">
                                                 <FiExternalLink /> View
-                                            </Link>
-                                            <Link to={`/admin/manage-courses/edit-course/${course._id}`} className="p-2 rounded-md bg-white border border-[#309255] text-[#309255] hover:bg-[#e7f8ee] inline-flex items-center gap-2">
+                                            </button>
+                                            <button onClick={() => updateFAQ(course._id)} className="p-2 rounded-md bg-white border border-[#309255] text-[#309255] hover:bg-[#e7f8ee] inline-flex items-center gap-2">
                                                 <FiEdit /> Edit
-                                            </Link>
+                                            </button>
                                             <button
                                                 // onClick={() => deleteMutation.mutate(course._id)}
                                                 className="p-2 rounded-md bg-red-500 text-white hover:bg-red-600 inline-flex items-center gap-2"
@@ -144,6 +159,12 @@ const ManageFAQ = () => {
 
             {
                 open && <AddFAQModal setOpen={setOpen} refetch={refetch} />
+            }
+            {
+                showFAQDetailsModal && <ViewDetailsFAQModal setShowFAQDetailsModal={setShowFAQDetailsModal} id={id} />
+            }
+            {
+                editOpen && <EditFAQModal setOpen={setEditOpen} refetch={refetch} id={id} />
             }
         </div>
     );

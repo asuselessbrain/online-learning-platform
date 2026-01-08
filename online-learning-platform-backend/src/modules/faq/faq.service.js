@@ -47,7 +47,17 @@ const getAllFAQ = async (options) => {
     }
 }
 
+const getSingleFAQ = async (faqId) => {
+    return await faqModel.findById(faqId);
+}
+
+const updateFAQ = async (faqId, faqData) => {
+    return await faqModel.findByIdAndUpdate(faqId, faqData, { new: true });
+}
+
 export const faqService = {
     createFAQ,
     getAllFAQ,
+    getSingleFAQ,
+    updateFAQ
 };

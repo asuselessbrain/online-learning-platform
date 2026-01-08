@@ -37,7 +37,47 @@ const getAllFAQ = async (req, res) => {
         });
     }
 }
+
+const getSingleFAQ = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const result = await faqService.getSingleFAQ(id);
+        res.status(200).json({
+            success: true,
+            message: "FAQ retrieved successfully",
+            data: result
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Failed to retrieve FAQ",
+            error: error
+        });
+    }
+}
+
+const updateFAQ = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const faqData = req.body;
+        const result = await faqService.updateFAQ(id, faqData);
+        res.status(200).json({
+            success: true,
+            message: "FAQ updated successfully",
+            data: result
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Failed to update FAQ",
+            error: error
+        });
+    }
+}
+
 export const faqController = {
     createFAQ,
     getAllFAQ,
+    getSingleFAQ,
+    updateFAQ
 };

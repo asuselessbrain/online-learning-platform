@@ -150,7 +150,7 @@ const getSingleCourse = async (id) => {
         path: 'instructorId',
         populate: {
             path: 'userId',
-            select: 'name email'
+            select: 'name email photoUrl'
         }
     }).populate('categoryId');
 

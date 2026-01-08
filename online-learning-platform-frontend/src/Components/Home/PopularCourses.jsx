@@ -1,31 +1,21 @@
-import { useEffect } from "react";
 import CourseCard from "../Shared/CourseCard";
-import axios from "axios";
-import { useState } from "react";
 import Loading from "../Shared/Loading";
-import { toast } from "react-toastify";
 import { Link } from "react-router";
+import { useQuery } from "@tanstack/react-query";
+import useAxios from "../../hooks/useAxios";
 
 
 const PopularCourses = () => {
-    const [loading, setLoading] = useState(true);
-    const [course, setCourse] = useState([]);
+    const axiosPublic = useAxios()
+    const { data, isLoading } = useQuery({
+        queryKey: ['popular-courses'],
+        queryFn: async () => {
+            const res = await axiosPublic.get('/new-courses/user/courses')
+            return res.data.data
+        }
+    })
 
-    useEffect(() => {
-        const fetchCourses = async () => {
-            try {
-                setLoading(true);
 
-                const res = await axios.get(`https://online-learning-platform-backend-two.vercel.app/api/v1/courses`);
-                setCourse(res.data.data)
-            } catch {
-                toast.error('Failed to load courses');
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchCourses();
-    }, []);
     return (
         <section className="my-20 px-4 2xl:px-0">
             <div className="max-w-[1440px] mx-auto">
@@ -43,12 +33,12 @@ const PopularCourses = () => {
                 </h2>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center gap-6">
-                    {loading ? (
+                    {isLoading ? (
                         <div className="col-span-full">
                             <Loading message="Loading popular courses..." size="md" />
                         </div>
                     ) : (
-                        course && course.slice(0, 6).map((course) => (
+                        data && data?.data.slice(0, 6).map((course) => (
                             <CourseCard key={course._id} course={course} />
                         ))
                     )}

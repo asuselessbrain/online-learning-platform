@@ -75,11 +75,28 @@ const updateCourse = async (req, res) => {
     }
 }
 
+const getAllCoursesForUser = async (req, res) => {
+    try {
+        const result = await courseService.getAllCoursesForUser(req.query || {});
+        res.status(200).json({
+            success: true,
+            message: "Courses fetched successfully",
+            data: result
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message || "Failed to fetch courses"
+        });
+    }
+}
+
 export const courseController = {
     createCourse,
     getAllCourses,
     getCourseById,
     updateCourse,
+    getAllCoursesForUser,
     // deleteCourse,
     // myAddedCourses
 };

@@ -157,6 +157,122 @@ const getSingleCourse = async (id) => {
     return course
 }
 
+const getAllCoursesForUser = async (queryOptions) => {
+
+    const pipeline = [
+        {
+            $lookup: {
+                from: "instructors",
+                localField: "instructorId",
+                foreignField: "_id",
+                as: "instructor"
+            }
+        },
+        { $unwind: "$instructor" },
+        {
+            $lookup: {
+                from: "users",
+                localField: "instructor.userId",
+                foreignField: "_id",
+                as: "instructorUser"
+            }
+        },
+        {
+            $unwind: "$instructorUser"
+        },
+        {
+            $addFields: {
+                "instructor.name": "$instructorUser.name",
+                "instructor.email": "$instructorUser.email",
+                "instructor.photoUrl": "$instructorUser.photoUrl"
+            }
+        },
+        {
+            $project: {
+                instructorUser: 0
+            }
+        },
+        {
+            $lookup: {
+                from: "categories",
+                localField: "categoryId",
+                foreignField: "_id",
+                as: "category"
+            }
+        },
+        { $unwind: "$category" },
+    ];
+
+    if (queryOptions.searchTerm) {
+        pipeline.push({
+            $match: {
+                $or: [
+                    { title: { $regex: queryOptions.searchTerm, $options: "i" } },
+                    { "instructor.name": { $regex: queryOptions.searchTerm, $options: "i" } },
+                    { "category.name": { $regex: queryOptions.searchTerm, $options: "i" } },
+                    { "level": { $regex: queryOptions.searchTerm, $options: "i" } },
+                    { "language": { $regex: queryOptions.searchTerm, $options: "i" } },
+                ]
+            }
+        })
+    }
+
+    const sortOption = {}
+
+    if (queryOptions.sortBy && queryOptions.sortOrder) {
+        sortOption[queryOptions.sortBy] = queryOptions.sortOrder.toLowerCase() === 'asc' ? 1 : -1;
+        pipeline.push({ $sort: sortOption });
+    }
+
+    if (queryOptions.category) {
+        pipeline.push({
+            $match: {
+                "category.slug": queryOptions.category
+            }
+        })
+    }
+
+    if (queryOptions.level) {
+        pipeline.push({
+            $match: {
+                level: queryOptions.level
+            }
+        })
+    }
+
+    if (queryOptions.isFree) {
+        pipeline.push({
+            $match: {
+                isFree: queryOptions.isFree === 'true'
+            }
+        })
+    }
+
+    const page = parseInt(queryOptions.page) || 1;
+
+    const limit = parseInt(queryOptions.limit) || 10;
+
+    const skip = ((parseInt(queryOptions.page) || 1) - 1) * (parseInt(queryOptions.limit) || 10);
+
+    const courses = await NewCourse.aggregate(pipeline).skip(skip).limit(limit);
+
+    const totalAgg = await NewCourse.aggregate([
+        ...pipeline,
+        { $count: "total" }
+    ]);
+
+    const total = totalAgg[0]?.total
+
+    return {
+        meta: {
+            total,
+            page,
+            limit,
+        },
+        data: courses,
+    };
+}
+
 // const myAddedCourses = async (opts = {}) => {
 //     const {
 //         q,
@@ -207,7 +323,7 @@ export const courseService = {
     createCourse,
     getAllCourses,
     getSingleCourse,
-    // myAddedCourses,
+    getAllCoursesForUser,
     // getCourseById,
     // deleteCourse,
     updateCourse

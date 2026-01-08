@@ -3,6 +3,7 @@ import { faqService } from "./faq.service.js";
 const createFAQ = async (req, res) => {
     try {
         const faqData = req.body;
+        console.log(faqData)
         const result = await faqService.createFAQ(faqData);
         res.status(201).json({
             success: true,

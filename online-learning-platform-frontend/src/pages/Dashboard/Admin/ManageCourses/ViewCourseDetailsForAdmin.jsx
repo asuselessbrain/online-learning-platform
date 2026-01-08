@@ -123,7 +123,7 @@ const ViewCourseDetailsForAdmin = () => {
                     </div>
 
                     <div className="mt-5 flex flex-wrap gap-3">
-                        <Link to={`/admin/edit-course/${course._id}`} className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-[#309255] text-[#309255] rounded-md shadow-sm hover:bg-[#f0fbf4]"><FiEdit /> Edit</Link>
+                        <Link to={`/admin/manage-courses/edit-course/${course._id}`} className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-[#309255] text-[#309255] rounded-md shadow-sm hover:bg-[#f0fbf4]"><FiEdit /> Edit</Link>
                         <button
                             className="inline-flex items-center gap-2 px-4 py-2 bg-[#309255] text-white rounded-md shadow hover:bg-[#267a43]"
                             // onClick={() => toggleMutation.mutate(course.status === "published" ? "draft" : "published")}

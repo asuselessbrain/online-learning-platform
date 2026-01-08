@@ -14,6 +14,11 @@ const faqSchema = new mongoose.Schema({
         enum: ['enrollment', 'payments', 'technical', 'certificates', 'courses', 'others'],
         required: [true, 'Category is required'],
     },
+    status: {
+        type: String,
+        enum: ['unpublished', 'published'],
+        default: 'unpublished'
+    }
 
 }, { timestamps: true })
 

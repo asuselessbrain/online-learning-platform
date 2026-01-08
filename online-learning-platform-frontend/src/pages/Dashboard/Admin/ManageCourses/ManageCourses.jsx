@@ -150,10 +150,10 @@ const ManageCourses = () => {
                       </span>
                     </td>
                     <td className="px-4 py-3 flex gap-2">
-                      <Link to={`/admin/view-course/${course._id}`} className="text-[#309255] p-2 rounded-md border border-[#E6F4EA] hover:bg-[#eefbf3] inline-flex items-center gap-2">
+                      <Link to={`/admin/manage-courses/view-course/${course._id}`} className="text-[#309255] p-2 rounded-md border border-[#E6F4EA] hover:bg-[#eefbf3] inline-flex items-center gap-2">
                         <FiExternalLink /> View
                       </Link>
-                      <Link to={`/admin/edit-course/${course._id}`} className="p-2 rounded-md bg-white border border-[#309255] text-[#309255] hover:bg-[#e7f8ee] inline-flex items-center gap-2">
+                      <Link to={`/admin/manage-courses/edit-course/${course._id}`} className="p-2 rounded-md bg-white border border-[#309255] text-[#309255] hover:bg-[#e7f8ee] inline-flex items-center gap-2">
                         <FiEdit /> Edit
                       </Link>
                       <button

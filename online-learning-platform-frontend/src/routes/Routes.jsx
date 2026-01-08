@@ -32,6 +32,7 @@ import InstructorDetailsPage from "../pages/Dashboard/Admin/ManageInstructor/Ins
 import ManageCourses from "../pages/Dashboard/Admin/ManageCourses/ManageCourses";
 import ViewCourseDetailsForAdmin from "../pages/Dashboard/Admin/ManageCourses/ViewCourseDetailsForAdmin";
 import EditCourse from "../pages/Dashboard/Admin/ManageCourses/EditCourse";
+import ManageFAQ from "../pages/Dashboard/Admin/ManageFAQ/ManageFAQ";
 
 export const routes = createBrowserRouter([
     {
@@ -142,7 +143,7 @@ export const routes = createBrowserRouter([
                 loader: () => fetch('/district.json').then(res => res.json())
             },
             {
-                path: "view-instructor/:id",
+                path: "manage-instructors/:id",
                 element: <InstructorDetailsPage />
             },
             {
@@ -150,12 +151,16 @@ export const routes = createBrowserRouter([
                 element: <ManageCourses />
             },
             {
-                path: "edit-course/:id",
+                path: "manage-courses/edit-course/:id",
                 element: <EditCourse />
             },
             {
-                path: "view-course/:id",
+                path: "manage-courses/view-course/:id",
                 element: <ViewCourseDetailsForAdmin />
+            },
+            {
+                path: "manage-faq",
+                element: <ManageFAQ />
             }
         ]
     },

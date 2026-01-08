@@ -30,6 +30,7 @@ const Sidebar = ({ isOpen = false, setIsOpen = () => { } }) => {
         { name: "Manage Instructors", path: "/admin/manage-instructors", icon: <FiUsers size={24} /> },
         { name: "Manage Students", path: "/admin/manage-students", icon: <FiUsers size={24} /> },
         { name: "Enrollments", path: "/admin/enrollments", icon: <FiUserCheck size={24} /> },
+        {name: "Manage FAQ", path: "/admin/manage-faq", icon: <FiInfo size={24} /> },
         { name: "Analytics", path: "/admin/analytics", icon: <FiBarChart size={24} /> },
         { name: "Settings", path: "/admin/settings", icon: <FiUser size={24} /> },
     ]

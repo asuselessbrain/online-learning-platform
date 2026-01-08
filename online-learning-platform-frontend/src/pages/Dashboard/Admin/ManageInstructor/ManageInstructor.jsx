@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Modal from "react-modal";
-import { FiBookOpen, FiStar, FiUserCheck, FiUsers, FiEdit, FiTrash2, FiEye, FiUserX, FiClock } from "react-icons/fi";
+import { FiStar, FiUserCheck, FiUsers, FiUserX, FiClock } from "react-icons/fi";
 import PageHeading from "../../shared/PageHeading";
 import DashboardCard from "../../shared/DashboardCard";
 import Pagination from "../../shared/Pagination";
 import { Link } from "react-router";
-import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import useAxios from "../../../../hooks/useAxios";
 import { toast } from "react-toastify";
 
@@ -300,7 +300,7 @@ const ManageInstructor = () => {
 
                                         </td>
                                         <td className="px-6 py-4 gap-2 flex">
-                                            <Link to={`/admin/view-instructor/${inst._id}`} >
+                                            <Link to={`/admin/manage-instructors/${inst._id}`} >
                                                 <button className="bg-white text-black border border-[#309255] hover:bg-[#e7f8ee] transition-all duration-500 p-2 rounded-md cursor-pointer">
                                                     View Details
                                                 </button>

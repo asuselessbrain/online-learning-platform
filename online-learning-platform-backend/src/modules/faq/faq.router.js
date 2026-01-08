@@ -4,5 +4,6 @@ import { faqController } from './faq.controller.js';
 const router = express.Router();
 
 router.post('/', faqController.createFAQ);
+router.get('/', faqController.getAllFAQ);
 
 export const faqRouter = router;

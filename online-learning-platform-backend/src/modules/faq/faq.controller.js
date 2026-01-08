@@ -19,6 +19,25 @@ const createFAQ = async (req, res) => {
     }
 }
 
+const getAllFAQ = async (req, res) => {
+    const options = req.query;
+
+    try {
+        const result = await faqService.getAllFAQ(options);
+        res.status(200).json({
+            success: true,
+            message: "FAQs retrieved successfully",
+            data: result
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Failed to retrieve FAQs",
+            error: error
+        });
+    }
+}
 export const faqController = {
     createFAQ,
+    getAllFAQ,
 };

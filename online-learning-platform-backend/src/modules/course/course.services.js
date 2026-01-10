@@ -273,28 +273,92 @@ const getAllCoursesForUser = async (queryOptions) => {
     };
 }
 
-// const myAddedCourses = async (opts = {}) => {
-//     const {
-//         q,
-//         instructorEmail
-//     } = opts;
+const myAssignedCourses = async (userId, queryOptions) => {
+    // Find the instructor by userId
+    const instructor = await InstructorModel.findOne({ userId });
+    if (!instructor) {
+        throw new Error("Instructor not found");
+    }
 
-//     const filter = {
-//         instructorEmail: instructorEmail
-//     };
+    const instructorId = instructor._id;
 
-//     if (q) {
-//         const regex = new RegExp(q.toString().trim(), 'i');
-//         filter.$or = [
-//             { title: { $regex: regex } },
-//             { shortDescription: { $regex: regex } },
-//             { category: { $regex: regex } },
-//         ];
-//     }
+    // Build the match object for filtering
+    const match = { instructorId };
 
-//     const courses = await Course.find(filter);
-//     return courses;
-// }
+    if (queryOptions.status) match.status = queryOptions.status;
+    if (queryOptions.isFree !== undefined) match.isFree = queryOptions.isFree === 'true';
+    if (queryOptions.level) match.level = queryOptions.level;
+    if (queryOptions.category) match['category.slug'] = queryOptions.category;
+    if (queryOptions.searchTerm) {
+        match.$or = [
+            { title: { $regex: queryOptions.searchTerm, $options: "i" } },
+            { "category.name": { $regex: queryOptions.searchTerm, $options: "i" } },
+        ];
+    }
+
+    // Build the aggregation pipeline
+    const pipeline = [
+        {
+            $lookup: {
+                from: "categories",
+                localField: "categoryId",
+                foreignField: "_id",
+                as: "category"
+            }
+        },
+        { $unwind: "$category" },
+        {
+            $lookup: {
+                from: "instructors",
+                localField: "instructorId",
+                foreignField: "_id",
+                as: "instructor"
+            }
+        },
+        { $unwind: "$instructor" },
+        { $match: match } // Apply all filters here
+    ];
+
+    // Sorting
+    if (queryOptions.sortBy && queryOptions.sortOrder) {
+        const sortOption = {
+            [queryOptions.sortBy]: queryOptions.sortOrder.toLowerCase() === 'asc' ? 1 : -1
+        };
+        pipeline.push({ $sort: sortOption });
+    }
+
+    // Pagination
+    const page = parseInt(queryOptions.page) || 1;
+    const limit = parseInt(queryOptions.limit) || 10;
+    const skip = (page - 1) * limit;
+    pipeline.push({ $skip: skip }, { $limit: limit });
+
+    // Execute aggregation for courses
+    const courses = await NewCourse.aggregate(pipeline);
+
+    // Total count without pagination and sorting
+    const totalAgg = await NewCourse.aggregate([
+        {
+            $lookup: {
+                from: "categories",
+                localField: "categoryId",
+                foreignField: "_id",
+                as: "category"
+            }
+        },
+        { $unwind: "$category" },
+        { $match: match },
+        { $count: "total" }
+    ]);
+
+    const total = totalAgg[0]?.total || 0;
+
+    return {
+        meta: { total, page, limit },
+        data: courses
+    };
+};
+
 
 // const deleteCourse = async (id) => {
 //     const course = await Course.findById(id);
@@ -324,7 +388,7 @@ export const courseService = {
     getAllCourses,
     getSingleCourse,
     getAllCoursesForUser,
-    // getCourseById,
+    myAssignedCourses,
     // deleteCourse,
     updateCourse
 };

@@ -8,6 +8,8 @@ import { categoryRouter } from "./modules/category/category.router.js";
 import { InstructorRouter } from "./modules/instructor/instructor.router.js";
 import { courseRouter } from "./modules/courses/course.router.js";
 import { newCourseRouter } from "./modules/course/course.router.js";
+import { blogsRouter } from "./modules/blogs/blogs.router.js";
+import { moduleRouter } from "./modules/module/module.router.js";
 
 const app = express();
 
@@ -22,6 +24,8 @@ app.use("/api/v1/users", UserRoutes)
 app.use("/api/v1/faqs", faqRouter);
 app.use("/api/v1/categories", categoryRouter);
 app.use("/api/v1/instructors", InstructorRouter);
+app.use("/api/v1/blogs", blogsRouter);
+app.use("/api/v1/modules", moduleRouter)
 
 app.get("/", (req, res) => {
   res.send("Server is running...");

@@ -15,10 +15,10 @@ const courseSchema = new mongoose.Schema(
     prerequisites: [{ type: String }],
     targetAudience: [{ type: String }],
 
-    categoryId: { 
-      type: mongoose.Schema.Types.ObjectId, 
-      ref: "Category", 
-      required: [true, "Category is required"] 
+    categoryId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
+      required: [true, "Category is required"]
     },
     level: {
       type: String,
@@ -32,16 +32,18 @@ const courseSchema = new mongoose.Schema(
     discountedPrice: { type: Number },
     isFree: { type: Boolean, default: false },
 
+    modules: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Module', default: [] }],
+
     instructorId: {
-      type: mongoose.Schema.Types.ObjectId, 
-      ref: "Instructor", 
-      required: [true, "Instructor is required"] 
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Instructor",
+      required: [true, "Instructor is required"]
     },
-    status: { 
-      type: String, 
-      enum: ["draft", "published"], 
-      default: "draft", 
-      required: [true, "Status is required"] 
+    status: {
+      type: String,
+      enum: ["draft", "published"],
+      default: "draft",
+      required: [true, "Status is required"]
     }
   },
   { timestamps: true }

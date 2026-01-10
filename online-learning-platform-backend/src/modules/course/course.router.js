@@ -8,6 +8,6 @@ router.get("/", courseController.getAllCourses);
 router.get("/:id", courseController.getCourseById);
 router.put("/:id", courseController.updateCourse);
 router.get("/user/courses", courseController.getAllCoursesForUser);
-// router.delete("/courses/:id", courseController.deleteCourse);
+router.get("/instructor/:userId/assigned-courses", courseController.myAssignedCourses);
 
 export const newCourseRouter = router;

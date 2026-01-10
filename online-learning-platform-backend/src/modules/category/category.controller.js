@@ -11,8 +11,9 @@ const createCategory = async (req, res) => {
         });
     } catch (error) {
         res.status(500).json({
+            success: false,
             message: "Failed to create category",
-            error: error.message,
+            error: error,
         });
     }
 }
@@ -70,8 +71,9 @@ const updateCategory = async (req, res) => {
     }
     catch (error) {
         res.status(500).json({
+            success: false,
             message: "Failed to update category",
-            error: error.message,
+            error: error,
         });
     }
 }

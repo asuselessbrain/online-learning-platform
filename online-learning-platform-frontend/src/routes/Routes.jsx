@@ -33,6 +33,10 @@ import ManageCourses from "../pages/Dashboard/Admin/ManageCourses/ManageCourses"
 import ViewCourseDetailsForAdmin from "../pages/Dashboard/Admin/ManageCourses/ViewCourseDetailsForAdmin";
 import EditCourse from "../pages/Dashboard/Admin/ManageCourses/EditCourse";
 import ManageFAQ from "../pages/Dashboard/Admin/ManageFAQ/ManageFAQ";
+import AddBlogs from "../pages/Dashboard/Admin/ManageBlogs/AddBlogs";
+import ManageBlogs from "../pages/Dashboard/Admin/ManageBlogs/ManageBlogs";
+import ViewBlog from "../pages/Dashboard/Admin/ManageBlogs/ViewBlog";
+import MyAssignedCourse from "../pages/Dashboard/Instructor/MyAssignedCourse/MyAssignedCourse";
 
 export const routes = createBrowserRouter([
     {
@@ -107,6 +111,7 @@ export const routes = createBrowserRouter([
             }
         ]
     },
+    // instructor routes
     {
         path: "/instructor",
         element: <DashboardLayout />,
@@ -114,9 +119,14 @@ export const routes = createBrowserRouter([
             {
                 path: "dashboard",
                 element: <InstructorDashboard />
+            },
+            {
+                path: "my-assigned-courses",
+                element: <MyAssignedCourse />
             }
         ]
     },
+    // admin routes
     {
         path: "/admin",
         element: <DashboardLayout />,
@@ -161,6 +171,18 @@ export const routes = createBrowserRouter([
             {
                 path: "manage-faq",
                 element: <ManageFAQ />
+            },
+            {
+                path: "add-blog",
+                element: <AddBlogs />
+            },
+            {
+                path: "manage-blogs",
+                element: <ManageBlogs />
+            },
+            {
+                path: "manage-blogs/:id",
+                element: <ViewBlog />
             }
         ]
     },

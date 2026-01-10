@@ -38,7 +38,7 @@ const getUserRole = async (req, res) => {
 }
 
 const getAllUsers = async (req, res) => {
-    try{
+    try {
         const result = await UserService.getAllUsers();
         res.status(200).json({
             success: true,
@@ -54,9 +54,28 @@ const getAllUsers = async (req, res) => {
     }
 }
 
+const getMyProfile = async (req, res) => {
+    const email = req.params.email;
+    try {
+        const user = await UserService.getMyProfile(email);
+        res.status(200).json({
+            success: true,
+            message: "User profile fetched successfully",
+            data: user
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Failed to fetch user profile",
+            error: error
+        });
+    }
+}
+
 
 export const UserController = {
     createUserInDB,
     getUserRole,
-    getAllUsers
+    getAllUsers,
+    getMyProfile
 }

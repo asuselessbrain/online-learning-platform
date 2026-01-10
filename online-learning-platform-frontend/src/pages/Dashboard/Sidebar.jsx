@@ -21,6 +21,8 @@ const Sidebar = ({ isOpen = false, setIsOpen = () => { } }) => {
         navigate("/");
     };
 
+    
+
     const adminLinks = [
         { name: "Dashboard", path: "/admin/dashboard", icon: <FiHome size={24} /> },
         { name: "Add Course", path: "/admin/add-course", icon: <FiPlus size={24} /> },
@@ -31,6 +33,8 @@ const Sidebar = ({ isOpen = false, setIsOpen = () => { } }) => {
         { name: "Manage Students", path: "/admin/manage-students", icon: <FiUsers size={24} /> },
         { name: "Enrollments", path: "/admin/enrollments", icon: <FiUserCheck size={24} /> },
         {name: "Manage FAQ", path: "/admin/manage-faq", icon: <FiInfo size={24} /> },
+        { name: "Add Blog", path: "/admin/add-blog", icon: <FiFileText size={24} /> },
+        { name: "Manage Blogs", path: "/admin/manage-blogs", icon: <FiFileText size={24} /> },
         { name: "Analytics", path: "/admin/analytics", icon: <FiBarChart size={24} /> },
         { name: "Settings", path: "/admin/settings", icon: <FiUser size={24} /> },
     ]

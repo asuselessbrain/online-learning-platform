@@ -49,18 +49,6 @@ const getCourseById = async (req, res) => {
     }
 }
 
-// const deleteCourse = async (req, res) => {
-//     try {
-//         const id = req.params.id;
-//         const deleted = await courseService.deleteCourse(id);
-//         if (!deleted) {
-//             return res.status(404).json({ success: false, message: 'Course not found' });
-//         }
-//         res.status(200).json({ success: true, message: 'Course deleted', data: deleted });
-//     } catch (error) {
-//         res.status(500).json({ success: false, message: error.message || 'Failed to delete course' });
-//     }
-// }
 
 const updateCourse = async (req, res) => {
     try {
@@ -91,12 +79,29 @@ const getAllCoursesForUser = async (req, res) => {
     }
 }
 
+const myAssignedCourses = async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const result = await courseService.myAssignedCourses(userId, req.query);
+        res.status(200).json({
+            success: true,
+            message: "Assigned courses fetched successfully",
+            data: result
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message || "Failed to fetch assigned courses"
+        });
+    }
+}
+
 export const courseController = {
     createCourse,
     getAllCourses,
     getCourseById,
     updateCourse,
     getAllCoursesForUser,
-    // deleteCourse,
+    myAssignedCourses,
     // myAddedCourses
 };

@@ -24,8 +24,14 @@ const getAllUsers = async () => {
     }
 }
 
+const getMyProfile = async (email) => {
+    const user = await UserModel.findOne({ email });
+    return user;
+}
+
 export const UserService = {
     createUserInDB,
     getUserRole,
-    getAllUsers
+    getAllUsers,
+    getMyProfile
 }

@@ -15,7 +15,6 @@ const PopularCourses = () => {
         }
     })
 
-
     return (
         <section className="my-20 px-4 2xl:px-0">
             <div className="max-w-[1440px] mx-auto">

@@ -10,6 +10,7 @@ const createLecture = async (req, res) => {
             data: newLecture,
         });
     } catch (error) {
+        console.log(error)
         res.status(error.status || error.statusCode || 500).json({
             success: false,
             message: "Failed to create lecture",

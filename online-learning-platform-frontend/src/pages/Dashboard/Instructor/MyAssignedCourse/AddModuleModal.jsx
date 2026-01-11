@@ -1,12 +1,15 @@
 import { useForm } from "react-hook-form";
 import useAxios from "../../../../hooks/useAxios";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { FiX } from "react-icons/fi";
+import { use } from "react";
+import { AuthContext } from "../../../../Providers/AuthContext";
 
-const AddModuleModal = ({ setOpen, refetch, userId, courseId }) => {
+const AddModuleModal = ({ setOpen, refetch, courseId }) => {
     const { register, handleSubmit } = useForm();
     const axiosSecure = useAxios();
+    const { user } = use(AuthContext)
 
     const { mutate, isPending } = useMutation({
         mutationFn: async (data) => {
@@ -21,16 +24,25 @@ const AddModuleModal = ({ setOpen, refetch, userId, courseId }) => {
         onError: (error) => toast.error(`Failed to add category: ${error.message}`),
     })
 
+    const { data: profile } = useQuery({
+        queryKey: ['myProfile', user?.email],
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/users/${user?.email}/profile`);
+            return res.data.data;
+        },
+        enabled: !!user?.email,
+    })
+
     const onSubmit = data => {
         mutate({
             ...data,
             courseId,
-            userId
+            userId: profile._id
         });
         console.log({
             ...data,
             courseId,
-            userId
+            userId: profile._id
         })
     }
     return (

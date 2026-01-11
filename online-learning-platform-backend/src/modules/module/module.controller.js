@@ -10,6 +10,7 @@ const createModule = async (req, res) => {
             data: newModule,
         });
     } catch (error) {
+        console.log(error)
         res.status(error.status || error.statusCode || 500).json({
             success: false,
             message: "Failed to create module",

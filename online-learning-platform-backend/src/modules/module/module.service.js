@@ -11,6 +11,8 @@ const createModule = async (moduleData) => {
         throw new Error("Course is not exist")
     }
 
+    console.log(instructorId)
+
     moduleData.instructorId = instructorId._id
 
     const module = await ModuleModel.create(moduleData)

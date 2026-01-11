@@ -15,7 +15,6 @@ const MyAssignedCourse = () => {
     const axiosPublic = useAxios();
     const { register, handleSubmit } = useForm()
     const [courseId, setCourseId] = useState("")
-    const [userId, setUserId] = useState("")
 
     // filters / ui state
     const [page, setPage] = useState(1);
@@ -97,7 +96,6 @@ const MyAssignedCourse = () => {
     const handleCreateModule = (id) => {
         setIsOpen(!isOpen)
         setCourseId(id)
-        setUserId(profile._id)
     }
 
     return (
@@ -198,7 +196,7 @@ const MyAssignedCourse = () => {
                 </div>
 
                 {
-                    isOpen && <AddModuleModal setOpen={setIsOpen} refetch={refetch} userId={userId} courseId={courseId} />
+                    isOpen && <AddModuleModal setOpen={setIsOpen} refetch={refetch} courseId={courseId} />
                 }
 
                 <div className="mt-4">

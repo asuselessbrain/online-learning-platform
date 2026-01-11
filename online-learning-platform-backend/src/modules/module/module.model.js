@@ -15,7 +15,7 @@ const ModuleSchema = new mongoose.Schema({
         ref: "Lecture",
         default: [],
     }],
-    moduleNo: { type: Number, default: 1 },
+    moduleNo: { type: String, required: true},
     status: {
         type: String,
         enum: ["draft", "published"],

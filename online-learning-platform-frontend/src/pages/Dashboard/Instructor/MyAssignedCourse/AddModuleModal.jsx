@@ -99,7 +99,6 @@ const AddModuleModal = ({ setOpen, refetch, userId, courseId }) => {
                                 <option value="published">Published</option>
                             </select>
                         </div>
-
                         {
                             isPending ? <button
                                 type="submit"

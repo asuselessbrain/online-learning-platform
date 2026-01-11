@@ -10,6 +10,7 @@ import { courseRouter } from "./modules/courses/course.router.js";
 import { newCourseRouter } from "./modules/course/course.router.js";
 import { blogsRouter } from "./modules/blogs/blogs.router.js";
 import { moduleRouter } from "./modules/module/module.router.js";
+import { lectureRouter } from "./modules/lectures/lectures.router.js";
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use("/api/v1/categories", categoryRouter);
 app.use("/api/v1/instructors", InstructorRouter);
 app.use("/api/v1/blogs", blogsRouter);
 app.use("/api/v1/modules", moduleRouter)
+app.use("/api/v1/lectures", lectureRouter)
 
 app.get("/", (req, res) => {
   res.send("Server is running...");

@@ -5,7 +5,7 @@ import { ModuleModel } from "./module.model.js";
 const createModule = async (moduleData) => {
     const course = await NewCourse.findById(moduleData.courseId);
 
-    const instructorId = await InstructorModel.find({userId: moduleData.userId})
+    const instructorId = await InstructorModel.findOne({userId: moduleData.userId})
 
     if (!course) {
         throw new Error("Course is not exist")

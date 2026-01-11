@@ -152,7 +152,12 @@ const getSingleCourse = async (id) => {
             path: 'userId',
             select: 'name email photoUrl'
         }
-    }).populate('categoryId');
+    }).populate('categoryId').populate({
+        path: 'modules',
+        populate: {
+            path: 'lectures'
+        }
+    });
 
     return course
 }

@@ -2,14 +2,14 @@ import { enrollmentService } from './enrollment.services.js';
 
 const enrollInCourse = async (req, res) => {
     try {
-        const { studentEmail, courseId } = req.body;
-        if (!studentEmail || !courseId) {
+        const { userId, courseId } = req.body;
+        if (!userId || !courseId) {
             return res.status(400).json({
                 success: false,
-                message: 'studentEmail and courseId are required'
+                message: 'UserId and courseId are required'
             });
         }
-        const result = await enrollmentService.enrollInCourse(studentEmail, courseId);
+        const result = await enrollmentService.enrollInCourse(userId, courseId);
         res.status(201).json({
             success: true,
             message: 'Enrolled successfully',
@@ -23,28 +23,6 @@ const enrollInCourse = async (req, res) => {
     }
 };
 
-const unenrollFromCourse = async (req, res) => {
-    try {
-        const { studentEmail, courseId } = req.body;
-        if (!studentEmail || !courseId) {
-            return res.status(400).json({
-                success: false,
-                message: 'studentEmail and courseId are required'
-            });
-        }
-        const result = await enrollmentService.unenrollFromCourse(studentEmail, courseId);
-        res.status(200).json({
-            success: true,
-            message: 'Unenrolled successfully',
-            data: result
-        });
-    } catch (error) {
-        res.status(400).json({
-            success: false,
-            message: error.message || 'Failed to unenroll'
-        });
-    }
-};
 
 const getMyEnrollments = async (req, res) => {
     try {
@@ -160,13 +138,33 @@ const getEnrollmentStats = async (req, res) => {
     }
 };
 
+const isEnrolled = async (req, res) => {
+    const { courseId, userId } = req.params
+
+    try {
+        const isUserEnrolled = await enrollmentService.isEnrolled(courseId, userId)
+
+        res.status(200).json({
+            success: true,
+            message: 'Is user already enrolled fetched',
+            data: isUserEnrolled
+        });
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            success: false,
+            message: error.message || 'Failed to fetch enrollment'
+        });
+    }
+}
+
 export const enrollmentController = {
     enrollInCourse,
-    unenrollFromCourse,
     getMyEnrollments,
     getCourseEnrollments,
     updateEnrollment,
     getEnrollmentStatus,
     getMonthlyEnrollmentStats,
     getEnrollmentStats,
+    isEnrolled
 };

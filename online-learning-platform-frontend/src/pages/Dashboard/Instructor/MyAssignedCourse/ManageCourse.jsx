@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import AddModuleModal from "./AddModuleModal";
 import useAxios from "../../../../hooks/useAxios";
-import { FiArrowDown, FiCheckCircle, FiCheckSquare, FiChevronDown, FiClock, FiEdit2, FiFile, FiFileText, FiPlus, FiTrash2, FiVideo } from "react-icons/fi";
+import { FiCheckCircle, FiCheckSquare, FiClock, FiEdit2, FiFile, FiFileText, FiPlus, FiTrash2, FiVideo } from "react-icons/fi";
 import AddLesson from "../ManageCourseContent/AddLesson";
 
 const ManageCourse = () => {
@@ -14,6 +14,7 @@ const ManageCourse = () => {
     const [moduleIsOpen, setModuleIsOpen] = useState("")
     const [instructorId, setInstructorId] = useState("")
     const [moduleId, setModuleId] = useState("")
+    const navigate = useNavigate()
 
     const { data: course, isLoading: courseLoading, refetch: refetchCourse } = useQuery({
         queryKey: ["instructorCourse", id],
@@ -58,7 +59,7 @@ const ManageCourse = () => {
                 </div>
                 <div className="flex gap-2">
                     <button onClick={() => setIsOpen(true)} className="px-4 py-2 bg-white border border-[#309255] text-[#309255] rounded-md">Add Module</button>
-                    <button className="px-4 py-2 bg-[#309255] text-white rounded-md">Continue Course</button>
+                    <button onClick={() => navigate(`/instructor/manage-course-content/${course._id}`)} className="px-4 py-2 bg-[#309255] text-white rounded-md">View Course</button>
                 </div>
             </div>
 

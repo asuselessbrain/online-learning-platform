@@ -1,32 +1,21 @@
-import { Course } from '../courses/course.model.js';
+import { NewCourse } from '../course/course.model.js';
 import { Enrollment } from './enrollment.model.js';
 
-const enrollInCourse = async (studentEmail, courseId) => {
-    const course = await Course.findById(courseId);
+const enrollInCourse = async (userId, courseId) => {
+    const course = await NewCourse.findById(courseId);
     if (!course) {
         throw new Error('Course not found');
     }
 
-    if (course.instructorEmail === studentEmail) {
-        throw new Error('You cannot enroll in your own course');
-    }
-
-    const existingEnrollment = await Enrollment.findOne({ studentEmail, courseId });
+    const existingEnrollment = await Enrollment.findOne({ userId, courseId });
     if (existingEnrollment) {
         throw new Error('Already enrolled in this course');
     }
 
-    const enrollment = await Enrollment.create({ studentEmail, courseId });
+    const enrollment = await Enrollment.create({ userId, courseId });
     return enrollment;
 };
 
-const unenrollFromCourse = async (studentEmail, courseId) => {
-    const enrollment = await Enrollment.findOneAndDelete({ studentEmail, courseId });
-    if (!enrollment) {
-        throw new Error('Enrollment not found');
-    }
-    return enrollment;
-};
 
 const getEnrollmentsByStudent = async (studentEmail) => {
     const enrollments = await Enrollment.find({ studentEmail }).populate('courseId');
@@ -109,13 +98,18 @@ const getEnrollmentStats = async () => {
     }
 };
 
+const isEnrolled = async (courseId, userId) => {
+    const userIsEnrolled = await Enrollment.findOne({ courseId, userId })
+    return !!userIsEnrolled
+}
+
 export const enrollmentService = {
     enrollInCourse,
-    unenrollFromCourse,
     getEnrollmentsByStudent,
     getStudentsByCourse,
     updateEnrollmentStatus,
     getEnrollmentStatus,
     getMonthlyEnrollmentStats,
     getEnrollmentStats,
+    isEnrolled
 };

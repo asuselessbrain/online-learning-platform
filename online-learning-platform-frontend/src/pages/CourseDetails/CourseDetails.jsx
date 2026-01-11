@@ -1,10 +1,10 @@
-import { useState, useEffect, useContext } from 'react';
-import { useParams } from 'react-router';
+import { useState, useEffect, useContext, use } from 'react';
+import { useNavigate, useParams } from 'react-router';
 import axios from 'axios';
 import { AuthContext } from '../../Providers/AuthContext';
 import { toast } from 'react-toastify';
 import Loading from '../../Components/Shared/Loading';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import useAxios from '../../hooks/useAxios';
 import { FiShare2, FiHeart, FiPlay, FiChevronDown, FiChevronUp } from 'react-icons/fi';
 
@@ -27,7 +27,7 @@ const embedVideo = (url) => {
             if (id) return `https://player.vimeo.com/video/${id}`;
         }
         return url;
-    // eslint-disable-next-line no-unused-vars
+        // eslint-disable-next-line no-unused-vars
     } catch (e) {
         return url;
     }
@@ -54,9 +54,9 @@ const PriceBlock = ({ course }) => {
 
 const CourseDetails = () => {
     const { id } = useParams();
-    const { user } = useContext(AuthContext);
+    const { user } = use(AuthContext);
     const [enrollmentStatus, setEnrollmentStatus] = useState(null);
-    const [enrolling, setEnrolling] = useState(false);
+    const navigate = useNavigate()
     const [reviews, setReviews] = useState([]);
     const [ratingStats, setRatingStats] = useState(null);
     const [showReviewForm, setShowReviewForm] = useState(false);
@@ -65,6 +65,7 @@ const CourseDetails = () => {
     const [userReview, setUserReview] = useState(null);
 
     const axiosPublic = useAxios();
+    const axiosSecure = useAxios()
 
     const { data: course, isLoading } = useQuery({
         queryKey: ['course', id],
@@ -93,7 +94,7 @@ const CourseDetails = () => {
         try {
             await navigator.clipboard.writeText(window.location.href);
             toast.success('Course link copied to clipboard');
-        // eslint-disable-next-line no-unused-vars
+            // eslint-disable-next-line no-unused-vars
         } catch (e) {
             toast.error('Failed to copy link');
         }
@@ -173,39 +174,45 @@ const CourseDetails = () => {
         }
     };
 
-    const handleEnroll = async () => {
-        if (!user?.email) {
-            toast.error('Please login to enroll');
-            return;
+    const { data: profile } = useQuery({
+        queryKey: ['myProfile', user?.email],
+        queryFn: async () => {
+            const res = await axiosPublic.get(`/users/${user?.email}/profile`);
+            return res.data.data;
+        },
+        enabled: !!user?.email,
+    })
+    const { mutate, isPending } = useMutation({
+        mutationFn: async (data) => await axiosSecure.post(`/enrolment`, data),
+        onSuccess: () => {
+            navigate('/student/my-enrolled-courses')
+            toast.success("Enrollment Successful")
+        },
+        onError: (error) => {
+            toast.error(error.message || "Enrollment Fail")
         }
-        setEnrolling(true);
-        try {
-            if (enrollmentStatus) {
-                await axios.delete('https://online-learning-platform-backend-two.vercel.app/api/v1/unenroll', {
-                    data: { studentEmail: user.email, courseId: id }
-                });
-                setEnrollmentStatus(null);
-                toast.success('Unenrolled successfully');
-            } else {
-                const res = await axios.post('https://online-learning-platform-backend-two.vercel.app/api/v1/enroll', {
-                    studentEmail: user.email,
-                    courseId: id
-                });
-                setEnrollmentStatus(res.data.data);
-                toast.success('Enrolled successfully');
-            }
-        } catch (err) {
-            toast.error(err.response?.data?.message || 'Failed to update enrollment');
-        } finally {
-            setEnrolling(false);
-        }
-    };
+    })
+    const { data: isCourseEnrolled, isLoading: isCourseEnrolledLoading } = useQuery({
+        queryKey: ['isCourseEnrolled', profile?._id, course?._id],
+        queryFn: async () => {
+            const res = await axiosPublic.get(`/enrolment/${profile?._id}/${course?._id}`);
+            return res.data.data;
+        },
+        enabled: !!user?.email,
+    })
 
-    if (isLoading) return <Loading message="Loading course details..." fullScreen={true} />;
+    const handleEnroll = () => {
+        mutate({
+            userId: profile?._id,
+            courseId: course?._id
+        })
+    }
+
+    if (isLoading || isCourseEnrolledLoading) return <Loading message="Loading course details..." fullScreen={true} />;
 
     return (
         <div className="min-h-screen bg-gray-50 py-8">
-            <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-0">
+            <div className="max-w-360 mx-auto px-4 sm:px-6 lg:px-0">
                 <div className="bg-white rounded-lg shadow-lg overflow-hidden">
                     <div className="relative">
                         <img
@@ -381,17 +388,14 @@ const CourseDetails = () => {
 
                                     <button
                                         onClick={handleEnroll}
-                                        disabled={enrolling || course?.instructorEmail === user?.email || enrollmentStatus}
-                                        className={`w-full font-semibold py-3 px-4 rounded-lg transition duration-200 mb-4 ${enrollmentStatus
-                                            ? 'bg-green-500 text-white cursor-not-allowed'
-                                            : course?.instructorEmail === user?.email
-                                                ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
-                                                : 'bg-[#309255] hover:bg-[#267a46] text-white'
+                                        disabled={isPending || isCourseEnrolled}
+                                        className={`w-full font-semibold py-3 px-4 rounded-lg transition duration-200 mb-4 ${isCourseEnrolled
+                                            ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
+                                            : 'bg-[#309255] hover:bg-[#267a46] text-white'
                                             }`}
                                     >
-                                        {enrolling ? 'Processing...' :
-                                            course?.instructorEmail === user?.email ? 'Your Course' :
-                                                enrollmentStatus ? 'Enrolled' : 'Enroll Now'}
+                                        {isPending ? 'Processing...' :
+                                            isCourseEnrolled ? 'Enrolled' : 'Enroll Now'}
                                     </button>
 
                                     <div className="space-y-3 text-sm">

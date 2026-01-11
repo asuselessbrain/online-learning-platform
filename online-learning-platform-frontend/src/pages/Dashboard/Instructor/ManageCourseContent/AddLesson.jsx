@@ -141,7 +141,7 @@ const AddLesson = ({ setOpen, refetch, courseId, instructorId, moduleId }) => {
                                 className="bg-[#f9fafb] border border-[#d1d5db] text-[#111827] text-sm rounded-lg focus:ring-[#2563eb] focus:border-[#2563eb] block w-full px-3 py-2.5 shadow-sm"
                                 required
                             >
-                                <option value="" disabled>Select Content Type</option>
+                                <option value="">Select Content Type</option>
                                 {["video", "document", "text", "quiz"].map(t => (
                                     <option key={t} value={t}>
                                         {t.charAt(0).toUpperCase() + t.slice(1)}
@@ -158,7 +158,7 @@ const AddLesson = ({ setOpen, refetch, courseId, instructorId, moduleId }) => {
                                 className="bg-[#f9fafb] border border-[#d1d5db] text-[#111827] text-sm rounded-lg focus:ring-[#2563eb] focus:border-[#2563eb] block w-full px-3 py-2.5 shadow-sm"
                                 required
                             >
-                                <option value="" disabled>Select status</option>
+                                <option value="">Select status</option>
                                 <option value="draft">Draft</option>
                                 <option value="published">Published</option>
                             </select>

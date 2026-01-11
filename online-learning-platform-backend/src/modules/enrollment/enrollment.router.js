@@ -3,8 +3,8 @@ import { enrollmentController } from './enrollment.controller.js';
 
 const router = express.Router();
 
-router.post('/enroll', enrollmentController.enrollInCourse);
-router.delete('/unenroll', enrollmentController.unenrollFromCourse);
+router.post('/', enrollmentController.enrollInCourse);
+router.get('/:userId/:courseId', enrollmentController.isEnrolled)
 router.get('/my-enrollments', enrollmentController.getMyEnrollments);
 router.get('/courses/:courseId/enrollments', enrollmentController.getCourseEnrollments);
 router.put('/enrollments/:studentEmail/:courseId', enrollmentController.updateEnrollment);

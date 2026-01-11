@@ -19,7 +19,7 @@ app.use(express.json());
 
 app.use("/api/v1", courseRouter)
 app.use("/api/v1/new-courses", newCourseRouter)
-app.use("/api/v1", enrollmentRouter)
+app.use("/api/v1/enrolment", enrollmentRouter)
 app.use("/api/v1/reviews", reviewRouter)
 app.use("/api/v1/users", UserRoutes)
 app.use("/api/v1/faqs", faqRouter);

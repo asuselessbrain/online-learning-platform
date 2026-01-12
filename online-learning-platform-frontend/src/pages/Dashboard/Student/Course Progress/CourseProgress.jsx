@@ -7,10 +7,24 @@ import { useForm } from 'react-hook-form';
 import ProgressBar from '../../shared/ProgressBar';
 import { useState } from 'react';
 import Pagination from '../../shared/Pagination';
+import { use } from 'react';
+import { AuthContext } from '../../../../Providers/AuthContext';
+import { useQuery } from '@tanstack/react-query';
+import useAxios from '../../../../hooks/useAxios';
 
 const CourseProgress = () => {
     const { register, handleSubmit } = useForm();
     const [page, setPage] = useState(1);
+    const limit = 10;
+    const [searchTerm, setSearchTerm] = useState('');
+    const [status, setStatus] = useState('');
+    const [isFree, setIsFree] = useState('');
+    const [category, setCategory] = useState('');
+    const [sortBy, setSortBy] = useState('');
+    const [sortOrder, setSortOrder] = useState('');
+
+    const axiosSecure = useAxios()
+
     const courseProgressCards = [
         {
             title: "Avg Progress",
@@ -82,15 +96,48 @@ const CourseProgress = () => {
     ];
 
 
+    const { user } = use(AuthContext)
 
+    const { data: profile } = useQuery({
+        queryKey: ['myProfile', user?.email],
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/users/${user?.email}/profile`);
+            return res.data.data;
+        },
+        enabled: !!user?.email,
+    })
+
+    const { data: categories, isLoading: categoriesLoading } = useQuery({
+        queryKey: ["categories"],
+        queryFn: async () => {
+            const res = await axiosSecure('/categories/active/list')
+            return res.data.data
+        }
+    })
+
+    const { data, isLoading } = useQuery({
+        queryKey: ["my-courses", searchTerm, page, status, category, sortOrder, sortBy, limit, isFree],
+        queryFn: async () => {
+            const res = await axiosSecure(`/enrolment/${profile?._id}?searchTerm=${searchTerm}&page=${page}&limit=${limit}&status=${status}&category=${category}&sortOrder=${sortOrder}&sortBy=${sortBy}&isFree=${isFree}`);
+            return res.data.data;
+        },
+    });
+
+    // course.title
+    // course.modules
+    // progressPercentage
     const onSubmit = data => {
-        console.log(data);
+        setSearchTerm(data.searchTerm)
+        setStatus(data.status)
+        setIsFree(data.isFree)
+        setCategory(data.category)
+        setSortBy("createdAt")
+        setSortOrder(data.sortOrder)
+        setPage(1);
     }
 
-    // const totalPages = data ? Math.ceil(data.meta.total / limit) : 1;
-    // const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
-    const totalPages = 10;
-    const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
+    const getTotalLessons = modules =>
+        modules.reduce((sum, m) => sum + m.lectures.length, 0);
 
     return (
         <div className='p-6'>
@@ -105,43 +152,54 @@ const CourseProgress = () => {
             </div>
 
             <div className="bg-white rounded-xl p-4 my-6">
-                <form onChange={handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <input type="text" {...register("search")} id="search" className="w-full p-3 rounded-xl border border-[#E5E7EB] col-span-1 md:col-span-2" placeholder="Search by course name" />
-                    <select id="courseName" {...register("courseName")} className="w-full p-3 rounded-xl border border-[#E5E7EB]">
-                        <option value="">All Categories</option>
-                        <option value="webDevelopment">Web Development</option>
-                        <option value="design">Design</option>
-                        <option value="dataScience">Data Science</option>
+                <form onChange={handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                    <input type="text" {...register("searchTerm")} id="search" className="w-full p-3 rounded-md border border-[#E5E7EB] col-span-1 md:col-span-2" placeholder="Search by course name" />
+                    <select {...register("category")} className="p-3 border border-gray-300 rounded-md w-full">
+                        <option value="">All Category</option>
+                        {
+                            categoriesLoading ? <option>Loading...</option> : categories.map(cat => (
+                                <option key={cat._id} value={cat.slug}>{cat.name}</option>
+                            ))
+                        }
                     </select>
                     <select id="status" {...register("status")} className="w-full p-3 rounded-xl border border-[#E5E7EB]">
                         <option value="">All Status</option>
-                        <option value="completed">Completed</option>
-                        <option value="inProgress">In Progress</option>
+                        {
+                            ["pending", "active", "completed", "cancelled"].map(s => (<option value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>))
+                        }
+                    </select>
+                    <select {...register("sortOrder")} id="sortBy" className="p-3 border border-gray-300 rounded-md">
+                        <option value="">Sort By</option>
+                        <option value="des">Newest First</option>
+                        <option value="asc">Oldest First</option>
                     </select>
                 </form>
             </div>
 
             <div className="rounded-xl p-6 bg-white">
-                <p className="mb-2">Progress by Course</p>
-                <div>
-                    {
-                        courseProgressList.map(course => (<div key={course.id} className='border border-[#E5E7EB] rounded-xl p-4 mb-4 hover:border-[#309255] transition-all duration-500'>
-                            <div className='flex items-center justify-between'>
-                                <div>
-                                    <h3 className='text-xl'>{course.title}</h3>
-                                    <div className='text-sm text-[#4A5565] flex items-center gap-6 my-2'>
-                                        <p>{course.completedLessons}/{course.totalLessons} lessons</p>
-                                        <p className='flex items-center gap-1'><FiClock /> {course.duration}</p>
+                <p className="mb-2">Progress by Course ({data?.meta?.total || 0})</p>
+                {
+                    isLoading ? <p>Loading...</p> : <div>
+                        {
+                            data?.data.map(course => (<div key={course._id} className='border border-[#E5E7EB] rounded-xl p-4 mb-4 hover:border-[#309255] transition-all duration-500'>
+                                <div className='flex items-center justify-between'>
+                                    <div>
+                                        <h3 className='text-xl'>{course.course.title}</h3>
+                                        <div className='text-sm text-[#4A5565] flex items-center gap-6 my-2'>
+                                            <p>{course.completedLectures.length}/{getTotalLessons(course.modules)} lessons</p>
+                                            {/* <p className='flex items-center gap-1'><FiClock /> {course.duration}</p> */}
+                                        </div>
                                     </div>
+                                    <h3 className='text-2xl text-[#309255]'>{course.progressPercentage}%</h3>
                                 </div>
-                                <h3 className='text-2xl text-[#309255]'>{course.progress}%</h3>
-                            </div>
-                            <ProgressBar value={`${course.progress}%`} />
-                        </div>))
-                    }
-                </div>
+                                <ProgressBar value={`${course.progressPercentage}%`} />
+                            </div>))
+                        }
+                    </div>
+                }
+
             </div>
-            <Pagination page={page} setPage={setPage} pageNumbers={pageNumbers} totalPages={totalPages} />
+            <Pagination page={page} setPage={setPage} total={data?.meta.total} limit={limit} />
         </div>
     );
 };

@@ -37,6 +37,14 @@ const getMyEnrolledCourses = async (userId, queryOptions) => {
         { $unwind: "$course" },
         {
             $lookup: {
+                from: "modules",
+                localField: "course.modules",
+                foreignField: "_id",
+                as: "modules"
+            }
+        },
+        {
+            $lookup: {
                 from: "categories",
                 localField: "course.categoryId",
                 foreignField: "_id",

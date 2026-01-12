@@ -31,33 +31,6 @@ const MyEnrolledCourses = () => {
 
     const { user } = use(AuthContext)
 
-    const courseProgressData = [
-        {
-            id: 1,
-            thumbnail: "https://i.ibb.co.com/CsNgf1kj/Screenshot-2026-01-03-180517.png",
-            title: "Complete Web Development Bootcamp",
-            instructor: "Dr. Samsuzzman",
-            progress: 70,
-            buttonText: "Continue Course",
-        },
-        {
-            id: 2,
-            thumbnail: "https://webapplicationdevelopments.com/wp-content/uploads/2023/08/vecteezy_3d-render-seo-data-an-analytics-user-interface-for-web_8884028_341-1-scaled.jpg",
-            title: "UI/UX Design Masterclass",
-            instructor: "Jhankar Mahbub",
-            progress: 45,
-            buttonText: "Resume Course",
-        },
-        {
-            id: 3,
-            thumbnail: "https://media2.dev.to/dynamic/image/width=1280,height=720,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fl8codoa12swslg7ljozk.jpeg",
-            title: "React & Tailwind Advanced",
-            instructor: "Sumit Saha",
-            progress: 85,
-            buttonText: "Continue Course",
-        },
-    ];
-
     const { data: profile } = useQuery({
         queryKey: ['myProfile', user?.email],
         queryFn: async () => {
@@ -75,7 +48,7 @@ const MyEnrolledCourses = () => {
         }
     })
 
-    const { data, isLoading, refetch } = useQuery({
+    const { data, isLoading } = useQuery({
         queryKey: ["my-courses", searchTerm, page, status, category, sortOrder, sortBy, limit, isFree],
         queryFn: async () => {
             const res = await axiosSecure(`/enrolment/${profile?._id}?searchTerm=${searchTerm}&page=${page}&limit=${limit}&status=${status}&category=${category}&sortOrder=${sortOrder}&sortBy=${sortBy}&isFree=${isFree}`);
@@ -102,8 +75,6 @@ const MyEnrolledCourses = () => {
                         {
                             ["pending", "active", "completed", "cancelled"].map(s => (<option value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>))
                         }
-                        <option value="completed">Completed</option>
-                        <option value="inProgress">In Progress</option>
                     </select>
                     <select {...register("isFree")} className="p-3 border border-gray-300 rounded-md w-full">
                         <option value="">Course Type</option>

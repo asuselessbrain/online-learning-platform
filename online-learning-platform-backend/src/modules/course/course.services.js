@@ -364,16 +364,6 @@ const myAssignedCourses = async (userId, queryOptions) => {
     };
 };
 
-
-// const deleteCourse = async (id) => {
-//     const course = await Course.findById(id);
-//     if (!course) return null;
-
-//     const deleted = await Course.findByIdAndDelete(id);
-
-//     return deleted;
-// }
-
 const updateCourse = async (id, payload) => {
 
     payload.discountedPrice = parseFloat(payload.price) - (parseFloat(payload.price) * (parseFloat(payload.discount) / 100));
@@ -382,18 +372,11 @@ const updateCourse = async (id, payload) => {
     return updated;
 }
 
-// const getCourseById = async (id) => {
-
-//     const course = await Course.findById(id);
-//     return course
-// }
-
 export const courseService = {
     createCourse,
     getAllCourses,
     getSingleCourse,
     getAllCoursesForUser,
     myAssignedCourses,
-    // deleteCourse,
     updateCourse
 };

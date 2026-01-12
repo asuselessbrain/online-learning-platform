@@ -63,7 +63,7 @@ const AddLesson = ({ setOpen, refetch, courseId, instructorId, moduleId }) => {
             secureUrl,
             duration,
             instructorId,
-            moduleId
+            moduleId,
         });
         console.log({
             ...data,

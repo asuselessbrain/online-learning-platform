@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { NewCourse } from '../course/course.model.js';
 import { Enrollment } from './enrollment.model.js';
 
@@ -16,100 +17,192 @@ const enrollInCourse = async (userId, courseId) => {
     return enrollment;
 };
 
-
-const getEnrollmentsByStudent = async (studentEmail) => {
-    const enrollments = await Enrollment.find({ studentEmail }).populate('courseId');
-    return enrollments;
-};
-
-const getStudentsByCourse = async (courseId) => {
-    const enrollments = await Enrollment.find({ courseId }).populate('studentEmail'); // Note: studentEmail is string, so populate won't work directly
-    return enrollments;
-};
-
-const updateEnrollmentStatus = async (studentEmail, courseId, status, progress) => {
-    const updateData = { status };
-    if (progress !== undefined) updateData.progress = progress;
-
-    const enrollment = await Enrollment.findOneAndUpdate(
-        { studentEmail, courseId },
-        updateData,
-        { new: true }
-    ).populate('courseId');
-
-    if (!enrollment) {
-        throw new Error('Enrollment not found');
-    }
-    return enrollment;
-};
-
-const getEnrollmentStatus = async (studentEmail, courseId) => {
-    const enrollment = await Enrollment.findOne({ studentEmail, courseId }).populate('courseId');
-    return enrollment;
-};
-
-const getMonthlyEnrollmentStats = async (months = 12) => {
-    const endDate = new Date();
-    const startDate = new Date();
-    startDate.setMonth(startDate.getMonth() - months);
-
-    const stats = await Enrollment.aggregate([
-        {
-            $match: {
-                enrolledAt: { $gte: startDate, $lte: endDate }
-            }
-        },
-        {
-            $group: {
-                _id: {
-                    year: { $year: '$enrolledAt' },
-                    month: { $month: '$enrolledAt' }
-                },
-                count: { $sum: 1 }
-            }
-        },
-        {
-            $sort: { '_id.year': 1, '_id.month': 1 }
-        }
-    ]);
-
-    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-    return stats.map(stat => ({
-        month: monthNames[stat._id.month - 1] + ' ' + stat._id.year.toString().slice(-2),
-        value: stat.count
-    }));
-};
-
-const getEnrollmentStats = async () => {
-    try {
-        const totalEnrollments = await Enrollment.countDocuments();
-        const activeEnrollments = await Enrollment.countDocuments({ status: 'enrolled' });
-        const completedEnrollments = await Enrollment.countDocuments({ status: 'completed' });
-
-        return {
-            total: totalEnrollments,
-            active: activeEnrollments,
-            completed: completedEnrollments
-        };
-    } catch (error) {
-        console.error('Error in getEnrollmentStats:', error);
-        throw error;
-    }
-};
-
 const isEnrolled = async (courseId, userId) => {
     const userIsEnrolled = await Enrollment.findOne({ courseId, userId })
     return !!userIsEnrolled
 }
 
+const getMyEnrolledCourses = async (userId, queryOptions) => {
+
+    const pipeline = [
+        { $match: { userId: new mongoose.Types.ObjectId(userId) } },
+        {
+            $lookup: {
+                from: "newcourses",
+                localField: "courseId",
+                foreignField: "_id",
+                as: "course"
+            }
+        },
+        { $unwind: "$course" },
+        {
+            $lookup: {
+                from: "categories",
+                localField: "course.categoryId",
+                foreignField: "_id",
+                as: "category"
+            }
+        },
+        { $unwind: "$category" },
+        {
+            $lookup: {
+                from: "instructors",
+                localField: "course.instructorId",
+                foreignField: "_id",
+                as: "instructor"
+            }
+        },
+        { $unwind: "$instructor" },
+        {
+            $lookup: {
+                from: "users",
+                localField: "instructor.userId",
+                foreignField: "_id",
+                as: "instructorUser"
+            }
+        },
+        {
+            $unwind: "$instructorUser"
+        },
+        {
+            $addFields: {
+                "instructor.name": "$instructorUser.name",
+                "instructor.email": "$instructorUser.email"
+            }
+        },
+    ]
+
+    if (queryOptions.searchTerm) {
+        pipeline.push({
+            $match: {
+                $or: [
+                    { "course.title": { $regex: queryOptions.searchTerm, $options: "i" } },
+                    { "category.name": { $regex: queryOptions.searchTerm, $options: "i" } },
+                    { "course.level": { $regex: queryOptions.searchTerm, $options: "i" } },
+                    { "course.language": { $regex: queryOptions.searchTerm, $options: "i" } },
+                ]
+            }
+        })
+    }
+
+    const sortOption = {}
+
+    if (queryOptions.sortBy && queryOptions.sortOrder) {
+        sortOption[queryOptions.sortBy] = queryOptions.sortOrder.toLowerCase() === 'asc' ? 1 : -1;
+        pipeline.push({ $sort: sortOption });
+    }
+
+    if (queryOptions.category) {
+        pipeline.push({
+            $match: {
+                "category.slug": queryOptions.category
+            }
+        })
+    }
+
+    if (queryOptions.level) {
+        pipeline.push({
+            $match: {
+                "course.level": queryOptions.level
+            }
+        })
+    }
+
+    if (queryOptions.isFree) {
+        pipeline.push({
+            $match: {
+                "course.isFree": queryOptions.isFree === 'true'
+            }
+        })
+    }
+
+    if (queryOptions.status) {
+        pipeline.push({
+            $match: {
+                status: queryOptions.status
+            }
+        })
+    }
+
+    if (queryOptions.paymentStatus) {
+        pipeline.push({
+            $match: {
+                paymentStatus: queryOptions.paymentStatus
+            }
+        })
+    }
+
+    const page = parseInt(queryOptions.page) || 1;
+
+    const limit = parseInt(queryOptions.limit) || 10;
+
+    const skip = ((parseInt(queryOptions.page) || 1) - 1) * (parseInt(queryOptions.limit) || 10);
+
+    const enrolledCourses = await Enrollment.aggregate(pipeline).skip(skip).limit(limit)
+
+    const totalAgg = await Enrollment.aggregate([
+        ...pipeline,
+        { $count: "total" }
+    ]);
+
+    const total = totalAgg[0]?.total
+    return {
+        meta: {
+            total,
+            page,
+            limit
+        },
+        data: enrolledCourses
+    }
+}
+
+const getSingleCourse = async (userId, courseId) => {
+
+    const isCourseEnrolled = await Enrollment.findOne({ userId: new mongoose.Types.ObjectId(userId), courseId: new mongoose.Types.ObjectId(courseId) })
+
+    if (!isCourseEnrolled) {
+        throw new Error("Course is not enrolled")
+    }
+
+    const enrolledCourse = await NewCourse.findOne({ _id: courseId }).populate({
+        path: "modules",
+        populate: {
+            path: "lectures"
+        }
+    })
+    return enrolledCourse
+}
+
+const getSingleEnrollmentByCourse = async (courseId) => {
+    return await Enrollment.findOne({ courseId: new mongoose.Types.ObjectId(courseId) })
+}
+
+const addCompletedLesson = async (enrollmentId, lectureId, courseId) => {
+    const course = await NewCourse.findById(courseId).populate("modules");
+
+
+    const totalLectures = course.modules.reduce(
+        (sum, module) => sum + module.lectures.length,
+        0
+    );
+
+    const completedLesson = await Enrollment.findOneAndUpdate({
+        _id: enrollmentId, completedLectures: { $ne: lectureId }
+    },
+        {
+            $push: { completedLectures: lectureId }
+        }, { new: true })
+
+    const progress = (completedLesson.completedLectures.length / totalLectures) * 100
+
+    return await Enrollment.findByIdAndUpdate(enrollmentId, { $set: { progressPercentage: progress } }, { new: true })
+}
+
 export const enrollmentService = {
     enrollInCourse,
-    getEnrollmentsByStudent,
-    getStudentsByCourse,
-    updateEnrollmentStatus,
-    getEnrollmentStatus,
-    getMonthlyEnrollmentStats,
-    getEnrollmentStats,
-    isEnrolled
+    isEnrolled,
+    getMyEnrolledCourses,
+    getSingleCourse,
+    getSingleEnrollmentByCourse,
+    addCompletedLesson
 };

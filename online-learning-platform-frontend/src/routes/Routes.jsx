@@ -39,6 +39,7 @@ import ViewBlog from "../pages/Dashboard/Admin/ManageBlogs/ViewBlog";
 import MyAssignedCourse from "../pages/Dashboard/Instructor/MyAssignedCourse/MyAssignedCourse";
 import ManageCourse from "../pages/Dashboard/Instructor/MyAssignedCourse/ManageCourse";
 import ViewCourseContent from "../pages/Dashboard/Instructor/ManageCourseContent/ViewCourseContent";
+import EnrolledCourseDetails from "../pages/Dashboard/Student/CourseDetails/CourseDetails";
 
 export const routes = createBrowserRouter([
     {
@@ -97,6 +98,10 @@ export const routes = createBrowserRouter([
             {
                 path: "my-enrolled-courses",
                 element: <MyEnrolledCourses />
+            },
+            {
+                path: "my-enrolled-courses/:id",
+                element: <EnrolledCourseDetails />
             },
             {
                 path: "course-progress",

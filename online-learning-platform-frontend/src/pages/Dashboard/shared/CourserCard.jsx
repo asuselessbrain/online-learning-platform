@@ -1,7 +1,9 @@
 import { FiBookOpen, FiClock, FiPlayCircle, FiStar } from "react-icons/fi";
 import ProgressBar from "./ProgressBar";
+import { useNavigate } from "react-router";
 
-const CourseCard = ({ thumbnail, title, instructor, progress, lesson, time, rating }) => {
+const CourseCard = ({ thumbnail, title, instructor, progress, lesson, time, rating, id }) => {
+    const navigate = useNavigate()
     return (
         <div className="border border-[#E5E7EB] p-3 rounded-xl shadow-sm h-full flex flex-col">
             <img src={thumbnail} alt="Course thumbnail" className="rounded-lg h-60 w-full object-cover" />
@@ -27,7 +29,7 @@ const CourseCard = ({ thumbnail, title, instructor, progress, lesson, time, rati
                         <ProgressBar value={`${progress}%`} />
                     </div>
 
-                    <button className="flex items-center justify-center font-semibold gap-1 bg-[#309255] text-white px-4 py-3 rounded-xl w-full hover:bg-[#267a43] transition-transform duration-500 cursor-pointer"><FiPlayCircle size={24} /> Continue Course</button>
+                    <button onClick={()=>navigate(`/student/my-enrolled-courses/${id}`)} className="flex items-center justify-center font-semibold gap-1 bg-[#309255] text-white px-4 py-3 rounded-xl w-full hover:bg-[#267a43] transition-transform duration-500 cursor-pointer"><FiPlayCircle size={24} /> Continue Course</button>
                 </div>
             </div>
         </div>

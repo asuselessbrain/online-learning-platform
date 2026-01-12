@@ -3,7 +3,6 @@ import { FaBookOpenReader } from "react-icons/fa6";
 import { Link } from "react-router";
 
 const CourseCard = ({course }) => {
-    console.log(course)
     return (
         <div className="border border-[rgba(48,146,85,0.2)] hover:border-[#309255] rounded-xl p-6 transition-all duration-700 h-auto!">
             <Link to={`/courses/${course?._id}`}>

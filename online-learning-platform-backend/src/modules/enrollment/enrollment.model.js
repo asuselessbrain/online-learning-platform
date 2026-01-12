@@ -21,21 +21,12 @@ const enrollmentSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
-    completedAt: {
-        type: Date,
-        default: ""
-    },
-    completedAt: {type: Date, default: ""},
+    completedAt: { type: Date, default: "" },
 
     // --- Progress Tracking ---
-    completedLectures: {
-        type: [
-            {
-                lectureId: { type: mongoose.Schema.Types.ObjectId, ref: "Lecture" },
-                completedAt: { type: Date, default: Date.now },
-            },
-        ], default: []
-    },
+    completedLectures: [{
+        type: mongoose.Schema.Types.ObjectId, ref: "Lecture", default: []
+    }],
     progressPercentage: {
         type: Number,
         default: 0,

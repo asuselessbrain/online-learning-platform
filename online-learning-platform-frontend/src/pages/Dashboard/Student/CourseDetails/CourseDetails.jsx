@@ -6,6 +6,9 @@ import { FiCheckSquare, FiClock, FiEdit2, FiFile, FiFileText, FiPlus, FiTrash2, 
 import { AuthContext } from "../../../../Providers/AuthContext";
 import { use } from "react";
 import PlayVideo from "../../Instructor/ManageCourseContent/PlayVideo";
+import { toPng } from "html-to-image";
+import { useRef } from "react";
+import Certificate from "../Certificates/Certificate";
 
 const EnrolledCourseDetails = () => {
     const axiosPublic = useAxios();
@@ -14,6 +17,8 @@ const EnrolledCourseDetails = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const axiosSecure = useAxios()
     const [showNotReadyMsg, setShowNotReadyMsg] = useState(false);
+    const ref = useRef(null)
+
 
     const { user } = use(AuthContext)
 
@@ -105,12 +110,30 @@ const EnrolledCourseDetails = () => {
 
         const lessonId = currentVideo._id
 
-        if (enrollment.completedLectures.includes(lessonId)) return;
+        if (enrollment?.completedLectures.includes(lessonId)) return;
 
         mutate(lessonId)
     }
 
     const totalLectures = course?.modules.reduce((sum, m) => sum + m.lectures.length, 0) || 0
+
+    const generateCertificate = async () => {
+        if (!ref.current) return;
+
+        const dataUrl = await toPng(ref.current);
+
+        const form = new FormData();
+        form.append("file", dataUrl);
+        form.append("upload_preset", "my_preset");
+
+        const res = await fetch(
+            "https://api.cloudinary.com/v1_1/dwduymu1l/image/upload",
+            { method: "POST", body: form }
+        );
+
+        const data = await res.json();
+        console.log("Cloudinary URL:", data.secure_url);
+    };
 
     return (
         <div className="max-w-360 mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -231,11 +254,14 @@ const EnrolledCourseDetails = () => {
                         </ul>
                     )}
                     {
-                        totalLectures === enrollment.completedLectures.length && <button className="border border-green-600 text-green-600 px-4 py-2 w-full cursor-pointer disabled:cursor-no-drop rounded-md hover:bg-green-600 hover:text-white transition-all duration-700">
+                        totalLectures === enrollment?.completedLectures.length && <button onClick={generateCertificate} className="border border-green-600 text-green-600 px-4 py-2 w-full cursor-pointer disabled:cursor-no-drop rounded-md hover:bg-green-600 hover:text-white transition-all duration-700">
                             Complete
                         </button>
                     }
                 </section>
+            </div>
+            <div style={{ position: "absolute", top: "-9999px" }}>
+                <Certificate ref={ref} studentName={profile?.name} courseName={course?.title} />
             </div>
         </div>
     );

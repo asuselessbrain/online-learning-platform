@@ -31,7 +31,7 @@ const MyEnrolledCourses = () => {
 
     const { user } = use(AuthContext)
 
-    const { data: profile } = useQuery({
+    const { data: profile, isLoading: profileLoading } = useQuery({
         queryKey: ['myProfile', user?.email],
         queryFn: async () => {
             const res = await axiosSecure.get(`/users/${user?.email}/profile`);
@@ -48,8 +48,10 @@ const MyEnrolledCourses = () => {
         }
     })
 
+
     const { data, isLoading } = useQuery({
-        queryKey: ["my-courses", searchTerm, page, status, category, sortOrder, sortBy, limit, isFree],
+        queryKey: ["my-courses", searchTerm, page, status, category, sortOrder, sortBy, limit, isFree, profile?._id],
+        enabled: !!profile?._id,
         queryFn: async () => {
             const res = await axiosSecure(`/enrolment/${profile?._id}?searchTerm=${searchTerm}&page=${page}&limit=${limit}&status=${status}&category=${category}&sortOrder=${sortOrder}&sortBy=${sortBy}&isFree=${isFree}`);
             return res.data.data;
@@ -73,7 +75,7 @@ const MyEnrolledCourses = () => {
                     <select id="status" {...register("status")} className="w-full p-3 rounded-xl border border-[#E5E7EB]">
                         <option value="">All Status</option>
                         {
-                            ["pending", "active", "completed", "cancelled"].map(s => (<option value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>))
+                            ["pending", "active", "completed", "cancelled"].map(s => (<option key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>))
                         }
                     </select>
                     <select {...register("isFree")} className="p-3 border border-gray-300 rounded-md w-full">
@@ -92,7 +94,7 @@ const MyEnrolledCourses = () => {
                 data?.data.length === 0 ? <p className="text-center">No Enrolled course found</p> : <><div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 items-stretch">
 
                     {
-                        isLoading ? <p>Loading...</p> : data.data.map(c => (<CourseCard thumbnail={c?.course?.thumbnail} title={c?.course?.title} instructor={c?.instructorUser?.name} progress={c?.progressPercentage} buttonText={c?.course?.buttonText} id={c.courseId} />))
+                        profileLoading ? <p>Loading...</p> : isLoading ? <p>Loading...</p> : data?.data.map(c => (<CourseCard key={c._id} thumbnail={c?.course?.thumbnail} title={c?.course?.title} instructor={c?.instructorUser?.name} progress={c?.progressPercentage} buttonText={c?.course?.buttonText} id={c.courseId} />))
                     }
 
                 </div>

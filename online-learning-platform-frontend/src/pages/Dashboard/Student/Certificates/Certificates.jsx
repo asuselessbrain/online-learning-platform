@@ -3,6 +3,7 @@ import DashboardCard from "../../shared/DashboardCard";
 import PageHeading from "../../shared/PageHeading";
 import { useState } from "react";
 import Pagination from "../../shared/Pagination";
+import Certificate from "./Certificate";
 
 const Certificates = () => {
     const [page, setPage] = useState(1);
@@ -146,7 +147,7 @@ const Certificates = () => {
                 </div>
 
             </div>
-
+<Certificate />
             <Pagination page={page} setPage={setPage} pageNumbers={pageNumbers} totalPages={totalPages} />
         </div>
     );

@@ -1,16 +1,17 @@
 import { Review } from './review.model.js';
 import { Enrollment } from '../enrollment/enrollment.model.js';
 import mongoose from 'mongoose';
+import AppError from '../../middleWares/appError.js';
 
 const createReview = async (courseId, studentEmail, rating, review) => {
     const enrollment = await Enrollment.findOne({ studentEmail, courseId });
     if (!enrollment) {
-        throw new Error('You must be enrolled in this course to leave a review');
+        throw new AppError(403, 'You must be enrolled in this course to leave a review');
     }
 
     const existingReview = await Review.findOne({ courseId, studentEmail });
     if (existingReview) {
-        throw new Error('You have already reviewed this course');
+        throw new AppError(409, 'You have already reviewed this course');
     }
 
     const newReview = await Review.create({ courseId, studentEmail, rating, review });
@@ -25,7 +26,7 @@ const updateReview = async (courseId, studentEmail, rating, review) => {
     );
 
     if (!updatedReview) {
-        throw new Error('Review not found');
+        throw new AppError(404, 'Review not found');
     }
 
     return updatedReview;
@@ -34,7 +35,7 @@ const updateReview = async (courseId, studentEmail, rating, review) => {
 const deleteReview = async (courseId, studentEmail) => {
     const deletedReview = await Review.findOneAndDelete({ courseId, studentEmail });
     if (!deletedReview) {
-        throw new Error('Review not found');
+        throw new AppError(404, 'Review not found');
     }
     return deletedReview;
 };

@@ -1,16 +1,17 @@
 import mongoose from 'mongoose';
 import { NewCourse } from '../course/course.model.js';
 import { Enrollment } from './enrollment.model.js';
+import AppError from '../../middleWares/appError.js';
 
 const enrollInCourse = async (userId, courseId) => {
     const course = await NewCourse.findById(courseId);
     if (!course) {
-        throw new Error('Course not found');
+        throw new AppError(404, 'Course not found');
     }
 
     const existingEnrollment = await Enrollment.findOne({ userId, courseId });
     if (existingEnrollment) {
-        throw new Error('Already enrolled in this course');
+        throw new AppError(409, 'Already enrolled in this course');
     }
 
     const enrollment = await Enrollment.create({ userId, courseId });
@@ -169,7 +170,7 @@ const getSingleCourse = async (userId, courseId) => {
     const isCourseEnrolled = await Enrollment.findOne({ userId: new mongoose.Types.ObjectId(userId), courseId: new mongoose.Types.ObjectId(courseId) })
 
     if (!isCourseEnrolled) {
-        throw new Error("Course is not enrolled")
+        throw new AppError(403, "Course is not enrolled")
     }
 
     const enrolledCourse = await NewCourse.findOne({ _id: courseId }).populate({

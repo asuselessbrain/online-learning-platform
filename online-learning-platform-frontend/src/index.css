@@ -1,4 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Great+Vibes&family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+
+
 
 @import "tailwindcss";
 
@@ -48,6 +51,7 @@ body {
   0% {
     transform: translateX(0);
   }
+
   100% {
     transform: translateX(-50%);
   }
@@ -55,4 +59,21 @@ body {
 
 .animate-infinite-scroll {
   animation: scroll-left 20s linear infinite;
+}
+
+
+.font-cinzel {
+  font-family: 'Cinzel', serif;
+}
+
+.font-script {
+  font-family: 'Great Vibes', cursive;
+}
+
+.font-lato {
+  font-family: 'Lato', sans-serif;
+}
+
+.font-playfair {
+  font-family: 'Playfair Display', serif;
 }

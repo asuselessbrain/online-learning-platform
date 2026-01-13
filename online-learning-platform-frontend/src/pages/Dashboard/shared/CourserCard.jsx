@@ -24,7 +24,7 @@ const CourseCard = ({ thumbnail, title, instructor, progress, lesson, time, rati
                     <div className="mb-3">
                         <div className="flex items-center justify-between text-sm font-semibold mb-3">
                             <p>progress</p>
-                            <p className="text-[#309255]">{progress}%</p>
+                            <p className="text-[#309255]">{Math.floor(progress)}%</p>
                         </div>
                         <ProgressBar value={`${progress}%`} />
                     </div>

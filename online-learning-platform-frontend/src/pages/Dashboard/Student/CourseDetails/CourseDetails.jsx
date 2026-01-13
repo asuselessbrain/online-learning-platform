@@ -110,6 +110,8 @@ const EnrolledCourseDetails = () => {
         mutate(lessonId)
     }
 
+    const totalLectures = course?.modules.reduce((sum, m) => sum + m.lectures.length, 0) || 0
+
     return (
         <div className="max-w-360 mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Left side video */}
@@ -228,6 +230,11 @@ const EnrolledCourseDetails = () => {
                             ))}
                         </ul>
                     )}
+                    {
+                        totalLectures === enrollment.completedLectures.length && <button className="border border-green-600 text-green-600 px-4 py-2 w-full cursor-pointer disabled:cursor-no-drop rounded-md hover:bg-green-600 hover:text-white transition-all duration-700">
+                            Complete
+                        </button>
+                    }
                 </section>
             </div>
         </div>

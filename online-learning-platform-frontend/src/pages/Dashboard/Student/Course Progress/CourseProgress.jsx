@@ -11,6 +11,7 @@ import { use } from 'react';
 import { AuthContext } from '../../../../Providers/AuthContext';
 import { useQuery } from '@tanstack/react-query';
 import useAxios from '../../../../hooks/useAxios';
+import Certificate from '../Certificates/Certificate';
 
 const CourseProgress = () => {
     const { register, handleSubmit } = useForm();
@@ -57,41 +58,6 @@ const CourseProgress = () => {
             increase: "days",
             iconColor: "text-[#8B5CF6]",
             iconBg: "bg-[#F5F3FF]",
-        },
-    ];
-
-    const courseProgressList = [
-        {
-            id: 1,
-            title: "Complete Web Development Bootcamp",
-            completedLessons: 36,
-            totalLessons: 48,
-            duration: "28h 45m",
-            progress: 75,
-        },
-        {
-            id: 2,
-            title: "React & Tailwind Advanced",
-            completedLessons: 20,
-            totalLessons: 30,
-            duration: "18h 10m",
-            progress: 66,
-        },
-        {
-            id: 3,
-            title: "UI/UX Design Masterclass",
-            completedLessons: 15,
-            totalLessons: 25,
-            duration: "14h 30m",
-            progress: 60,
-        },
-        {
-            id: 4,
-            title: "Backend Development with Node.js",
-            completedLessons: 42,
-            totalLessons: 50,
-            duration: "32h 05m",
-            progress: 84,
         },
     ];
 
@@ -190,7 +156,7 @@ const CourseProgress = () => {
                                             {/* <p className='flex items-center gap-1'><FiClock /> {course.duration}</p> */}
                                         </div>
                                     </div>
-                                    <h3 className='text-2xl text-[#309255]'>{course.progressPercentage}%</h3>
+                                    <h3 className='text-2xl text-[#309255]'>{Math.floor(course.progressPercentage)}%</h3>
                                 </div>
                                 <ProgressBar value={`${course.progressPercentage}%`} />
                             </div>))
@@ -200,6 +166,7 @@ const CourseProgress = () => {
 
             </div>
             <Pagination page={page} setPage={setPage} total={data?.meta.total} limit={limit} />
+
         </div>
     );
 };

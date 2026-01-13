@@ -8,7 +8,7 @@ const createModule = async (moduleData) => {
     const instructorId = await InstructorModel.findOne({userId: moduleData.userId})
 
     if (!course) {
-        throw new Error("Course is not exist")
+        throw new AppError(404, "Course is not exist")
     }
 
     console.log(instructorId)

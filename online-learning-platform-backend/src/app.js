@@ -11,6 +11,7 @@ import { newCourseRouter } from "./modules/course/course.router.js";
 import { blogsRouter } from "./modules/blogs/blogs.router.js";
 import { moduleRouter } from "./modules/module/module.router.js";
 import { lectureRouter } from "./modules/lectures/lectures.router.js";
+import notFound from "./middleWares/notFound.js";
 
 const app = express();
 
@@ -32,5 +33,7 @@ app.use("/api/v1/lectures", lectureRouter)
 app.get("/", (req, res) => {
   res.send("Server is running...");
 });
+
+app.use(notFound)
 
 export default app;

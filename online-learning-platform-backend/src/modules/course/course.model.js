@@ -44,7 +44,8 @@ const courseSchema = new mongoose.Schema(
       enum: ["draft", "published"],
       default: "draft",
       required: [true, "Status is required"]
-    }
+    },
+    isFinished: { type: Boolean, default: false }
   },
   { timestamps: true }
 );

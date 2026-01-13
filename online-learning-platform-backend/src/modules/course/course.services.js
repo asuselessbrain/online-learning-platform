@@ -1,3 +1,4 @@
+import AppError from '../../middleWares/appError.js';
 import { InstructorModel } from '../instructor/instructor.model.js';
 import { NewCourse } from './course.model.js';
 
@@ -282,7 +283,7 @@ const myAssignedCourses = async (userId, queryOptions) => {
     // Find the instructor by userId
     const instructor = await InstructorModel.findOne({ userId });
     if (!instructor) {
-        throw new Error("Instructor not found");
+        throw new AppError(404, "Instructor not found");
     }
 
     const instructorId = instructor._id;

@@ -1,3 +1,4 @@
+import AppError from "../../middleWares/appError.js";
 import { NewCourse } from "../course/course.model.js";
 import { Enrollment } from "../enrollment/enrollment.model.js";
 import { ModuleModel } from "../module/module.model.js";
@@ -10,7 +11,7 @@ const createLecture = async (lectureData) => {
 
 
     if (!module) {
-        throw new Error("Module is not exist")
+        throw new AppError(404, "Module is not exist")
     }
 
     const lecture = await Lecture.create(lectureData)

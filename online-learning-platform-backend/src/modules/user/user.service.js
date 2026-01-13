@@ -7,7 +7,7 @@ const createUserInDB = async (userData) => {
 const getUserRole = async (email) => {
     const user = await UserModel.findOne({ email })
     if (!user) {
-        throw new Error("User not found");
+        throw new AppError(404, "User not found");
     }
     return user?.role;
 }

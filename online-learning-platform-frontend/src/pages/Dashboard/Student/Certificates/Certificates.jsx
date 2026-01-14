@@ -7,15 +7,43 @@ import Certificate from "./Certificate";
 import { useQuery } from "@tanstack/react-query";
 import useAxios from "../../../../hooks/useAxios";
 import useProfile from "../../../../hooks/useProfile";
+import { useForm } from "react-hook-form";
 
 const Certificates = () => {
     const [page, setPage] = useState(1);
+    const [searchTerm, setSearchTerm] = useState("")
+    const [status, setStatus] = useState("")
+    const sortBy = "createdAt"
+    const [sortOrder, setSortOrder] = useState("des")
+    const limit = 10
     const axiosSecure = useAxios()
     const { profileData, profileLoading } = useProfile()
+    const { register, handleSubmit } = useForm()
+
+    const skillsAcquired = ["HTML", "CSS", "JavaScript", "Node.js", "MongoDB"]
+
+
+    const { data: certificateData, isLoading: certificateLoading } = useQuery({
+        queryKey: ["userCertificates", profileData?._id, searchTerm, status, page, limit, sortBy, sortOrder],
+        enabled: !!profileData?._id && !profileLoading,
+        queryFn: async () => {
+            const res = await axiosSecure(`/certificate/${profileData._id}?searchTerm=${searchTerm}&status=${status}&page=${page}&limit=${limit}&sortBy=${sortBy}&sortOrder=${sortOrder}`)
+            return res.data.data
+        }
+    })
+
+    const handleDownload = (url) => {
+        const downloadUrl = url.replace("/upload/", "/upload/fl_attachment/");
+        const link = document.createElement("a");
+        link.href = downloadUrl;
+        link.download = "certificate.png";
+        link.click();
+    };
+
     const summaryData = [
         {
             title: "Certificates Earned",
-            count: "3",
+            count: certificateData?.meta?.total,
             icon: FiAward,
             increase: "+1 this month",
             iconColor: "text-[#F59E0B]",
@@ -39,25 +67,12 @@ const Certificates = () => {
         },
     ];
 
-    const skillsAcquired = ["HTML", "CSS", "JavaScript", "Node.js", "MongoDB"]
-
-
-    const { data: certificateData, isLoading: certificateLoading } = useQuery({
-        queryKey: ["userCertificates", profileData?._id],
-        enabled: !!profileData?._id && !profileLoading,
-        queryFn: async () => {
-            const res = await axiosSecure(`/certificate/${profileData._id}`)
-            return res.data.data
-        }
-    })
-
-    const handleDownload = (url) => {
-        const downloadUrl = url.replace("/upload/", "/upload/fl_attachment/");
-        const link = document.createElement("a");
-        link.href = downloadUrl;
-        link.download = "certificate.png";
-        link.click();
-    };
+    const onSubmit = data => {
+        setSortOrder(data.sortOrder)
+        setSearchTerm(data.searchTerm)
+        setStatus(data.status)
+        setPage(1)
+    }
 
     return (
         <div className="p-6">
@@ -73,6 +88,22 @@ const Certificates = () => {
                         />
                     ))
                 }
+            </div>
+            <div className="bg-white rounded-xl p-4 my-6">
+                <form onChange={handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <input type="text" {...register("searchTerm")} id="search" className="w-full p-3 rounded-xl border border-[#E5E7EB] col-span-1 md:col-span-2" placeholder="Search by course name" />
+                    <select {...register("status")} className="p-3 border border-gray-300 rounded-md w-full">
+                        <option value="">Status</option>
+                        {
+                            ["valid", "revoked"].map(s => <option key={s} value={s}>{s}</option>)
+                        }
+                    </select>
+                    <select {...register("sortOrder")} id="sortBy" className="p-3 border border-gray-300 rounded-md">
+                        <option value="">Sort By</option>
+                        <option value="des">Newest First</option>
+                        <option value="asc">Oldest First</option>
+                    </select>
+                </form>
             </div>
 
             <div className="rounded-xl p-6 bg-white my-6">
@@ -139,6 +170,9 @@ const Certificates = () => {
                 }
 
 
+            </div>
+            <div className="my-4">
+                <Pagination page={page} setPage={setPage} total={certificateData?.meta.total} limit={limit} />
             </div>
             <Certificate />
             {/* <Pagination page={page} setPage={setPage} pageNumbers={pageNumbers} totalPages={totalPages} /> */}

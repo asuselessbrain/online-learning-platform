@@ -16,6 +16,10 @@ const getSingleUserCertificates = async (userId, queryOptions) => {
         ]
     }
 
+    if (queryOptions.status) {
+        filter.status = queryOptions.status
+    }
+
     const sort = {}
 
     if (queryOptions.sortOrder && queryOptions.sortBy) {

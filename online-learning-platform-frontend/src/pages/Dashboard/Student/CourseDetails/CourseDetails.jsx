@@ -1,4 +1,4 @@
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import useAxios from "../../../../hooks/useAxios";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
@@ -9,6 +9,7 @@ import PlayVideo from "../../Instructor/ManageCourseContent/PlayVideo";
 import { toPng } from "html-to-image";
 import { useRef } from "react";
 import Certificate from "../Certificates/Certificate";
+import { toast } from "react-toastify";
 
 const EnrolledCourseDetails = () => {
     const axiosPublic = useAxios();
@@ -18,6 +19,7 @@ const EnrolledCourseDetails = () => {
     const axiosSecure = useAxios()
     const [showNotReadyMsg, setShowNotReadyMsg] = useState(false);
     const ref = useRef(null)
+    const navigate = useNavigate()
 
 
     const { user } = use(AuthContext)
@@ -117,6 +119,15 @@ const EnrolledCourseDetails = () => {
 
     const totalLectures = course?.modules.reduce((sum, m) => sum + m.lectures.length, 0) || 0
 
+    const { mutate: createCertificate, isPending: certificatePending } = useMutation({
+        mutationFn: async (certificateData) => await axiosSecure.post('/certificate', certificateData),
+        onSuccess: () => {
+            navigate("/student/certificates")
+            toast.success("Certificate Generated Successfully")
+        },
+        onError: () => toast.error("Failed to generate certificate")
+    })
+
     const generateCertificate = async () => {
         if (!ref.current) return;
 
@@ -132,7 +143,16 @@ const EnrolledCourseDetails = () => {
         );
 
         const data = await res.json();
-        console.log("Cloudinary URL:", data.secure_url);
+
+        const certificateData = {
+            studentId: profile?._id,
+            courseId: course?._id,
+            certificateUrl: data.secure_url,
+            studentName: profile?.name,
+            courseName: course?.title,
+        }
+
+        createCertificate(certificateData)
     };
 
     return (
@@ -254,7 +274,7 @@ const EnrolledCourseDetails = () => {
                         </ul>
                     )}
                     {
-                        totalLectures === enrollment?.completedLectures.length && <button onClick={generateCertificate} className="border border-green-600 text-green-600 px-4 py-2 w-full cursor-pointer disabled:cursor-no-drop rounded-md hover:bg-green-600 hover:text-white transition-all duration-700">
+                        totalLectures === enrollment?.completedLectures.length && <button onClick={generateCertificate} disabled={certificatePending} className="border border-green-600 text-green-600 px-4 py-2 w-full cursor-pointer disabled:cursor-no-drop rounded-md hover:bg-green-600 hover:text-white transition-all duration-700">
                             Complete
                         </button>
                     }

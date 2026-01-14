@@ -21,6 +21,7 @@ const CertificateSchema = new mongoose.Schema({
   },
   studentName: String,
   courseName: String,
+  instructorName: String,
   issuedAt: {
     type: Date,
     default: Date.now,

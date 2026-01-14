@@ -4,9 +4,14 @@ import PageHeading from "../../shared/PageHeading";
 import { useState } from "react";
 import Pagination from "../../shared/Pagination";
 import Certificate from "./Certificate";
+import { useQuery } from "@tanstack/react-query";
+import useAxios from "../../../../hooks/useAxios";
+import useProfile from "../../../../hooks/useProfile";
 
 const Certificates = () => {
     const [page, setPage] = useState(1);
+    const axiosSecure = useAxios()
+    const { profileData, profileLoading } = useProfile()
     const summaryData = [
         {
             title: "Certificates Earned",
@@ -34,45 +39,25 @@ const Certificates = () => {
         },
     ];
 
-    const earnedCertificates = [
-        {
-            courseName: "Digital Marketing Fundamentals",
-            instructor: "Alex Turner",
-            completedDate: "December 15, 2025",
-            finalScore: "95%",
-            certificateID: "EDU-2025-001234",
-            skillsAcquired: ["SEO", "Content Marketing", "Social Media", "Analytics"]
-        },
-        {
-            courseName: "Full-Stack Web Development",
-            instructor: "Maria Johnson",
-            completedDate: "November 20, 2025",
-            finalScore: "89%",
-            certificateID: "EDU-2025-001235",
-            skillsAcquired: ["HTML", "CSS", "JavaScript", "Node.js", "MongoDB"]
-        },
-        {
-            courseName: "Data Science with Python",
-            instructor: "David Kim",
-            completedDate: "October 10, 2025",
-            finalScore: "92%",
-            certificateID: "EDU-2025-001236",
-            skillsAcquired: ["Python", "Pandas", "NumPy", "Machine Learning", "Data Visualization"]
-        },
-        {
-            courseName: "UI/UX Design Essentials",
-            instructor: "Sophie Lee",
-            completedDate: "September 5, 2025",
-            finalScore: "87%",
-            certificateID: "EDU-2025-001237",
-            skillsAcquired: ["Wireframing", "Prototyping", "User Research", "Figma", "Design Thinking"]
-        }
-    ];
+    const skillsAcquired = ["HTML", "CSS", "JavaScript", "Node.js", "MongoDB"]
 
-    // const totalPages = data ? Math.ceil(data.meta.total / limit) : 1;
-    // const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
-    const totalPages = 5;
-    const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
+
+    const { data: certificateData, isLoading: certificateLoading } = useQuery({
+        queryKey: ["userCertificates", profileData?._id],
+        enabled: !!profileData?._id && !profileLoading,
+        queryFn: async () => {
+            const res = await axiosSecure(`/certificate/${profileData._id}`)
+            return res.data.data
+        }
+    })
+
+    const handleDownload = (url) => {
+        const downloadUrl = url.replace("/upload/", "/upload/fl_attachment/");
+        const link = document.createElement("a");
+        link.href = downloadUrl;
+        link.download = "certificate.png";
+        link.click();
+    };
 
     return (
         <div className="p-6">
@@ -92,63 +77,71 @@ const Certificates = () => {
 
             <div className="rounded-xl p-6 bg-white my-6">
                 <p className="mb-2">Continue Learning</p>
-                <div>
-                    {
-                        earnedCertificates.map((certificate, index) => (
-                            <div key={index} className="border border-[#E5E7EB] p-4 rounded-xl shadow-sm hover:border-[#309255] transition-all duration-500 cursor-pointer flex items-start justify-between gap-6 w-full mb-6">
-                                <div className="p-6 rounded-xl bg-[#309255] text-white">
-                                    <FiAward size={48} />
-                                </div>
-                                <div className="flex-1">
-                                    <h3 className="text-lg font-semibold">{certificate.courseName}</h3>
-                                    <p className="text-sm text-[#4A5565] mt-2">Instructor: {certificate.instructor}</p>
-                                    <div className="flex flex-col md:flex-row items-center justify-between my-3">
-                                        <div className="text-[#6A7282] flex items-center gap-2">
-                                            <FiCalendar />
-                                            <div className="text-sm">
-                                                <p >Completed</p>
-                                                <p className="text-black">{certificate.completedDate}</p>
+                {
+                    certificateLoading ? <p>Loading....</p> : <div>
+
+                        {
+                            certificateData?.data?.map((certificate, index) => (
+                                <div key={index} className="border border-[#E5E7EB] p-4 rounded-xl shadow-sm hover:border-[#309255] transition-all duration-500 cursor-pointer flex items-start justify-between gap-6 w-full mb-6">
+                                    <div className="p-6 rounded-xl bg-[#309255] text-white">
+                                        <FiAward size={48} />
+                                    </div>
+                                    <div className="flex-1">
+                                        <h3 className="text-lg font-semibold">{certificate.courseName}</h3>
+                                        <p className="text-sm text-[#4A5565] mt-2">Instructor: {certificate.instructorName}</p>
+                                        <div className="flex flex-col md:flex-row items-center justify-between my-3">
+                                            <div className="text-[#6A7282] flex items-center gap-2">
+                                                <FiCalendar />
+                                                <div className="text-sm">
+                                                    <p >Completed</p>
+                                                    <p className="text-black">{new Date(certificate.issuedAt).toLocaleDateString()}</p>
+                                                </div>
+                                            </div>
+                                            <div className="text-[#6A7282] flex items-center gap-2">
+                                                <FiAward className="text-[#F0B100]" />
+                                                <div className="text-sm">
+                                                    <p >Final Score</p>
+                                                    <p className="text-[#309255]">95</p>
+                                                </div>
+                                            </div>
+                                            <div className="text-[#6A7282] flex items-center gap-2">
+                                                <div className="text-sm">
+                                                    <p >Certificate ID</p>
+                                                    <p className="text-black">{certificate.certificateId}</p>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div className="text-[#6A7282] flex items-center gap-2">
-                                            <FiAward className="text-[#F0B100]" />
-                                            <div className="text-sm">
-                                                <p >Final Score</p>
-                                                <p className="text-[#309255]">{certificate.finalScore}</p>
-                                            </div>
-                                        </div>
-                                        <div className="text-[#6A7282] flex items-center gap-2">
-                                            <div className="text-sm">
-                                                <p >Certificate ID</p>
-                                                <p className="text-black">{certificate.certificateID}</p>
-                                            </div>
+                                        <div className="text-sm mt-4">
+                                            <p className="text-[#6A7282]">Skills Acquired</p>
+                                            {
+                                                skillsAcquired.map((skill, idx) => (
+                                                    <p key={idx} className="inline-block mr-2 mt-2 rounded-full bg-[#E8F9EF] text-[#309255] px-4 py-2">{skill}</p>
+                                                ))
+                                            }
                                         </div>
                                     </div>
-                                    <div className="text-sm mt-4">
-                                        <p className="text-[#6A7282]">Skills Acquired</p>
-                                        {
-                                            certificate.skillsAcquired.map((skill, idx) => (
-                                                <p key={idx} className="inline-block mr-2 mt-2 rounded-full bg-[#E8F9EF] text-[#309255] px-4 py-2">{skill}</p>
-                                            ))
-                                        }
+                                    <div className="flex items-center gap-3">
+                                        <div className="p-2 rounded-xl border border-[#309255]">
+                                            <FiShare2 size={26} />
+                                        </div>
+                                        <div onClick={() =>
+                                            handleDownload(
+                                                certificate.certificateUrl
+                                            )
+                                        } className="p-2 rounded-xl text-white bg-[#309255] border border-[#309255]">
+                                            <FiDownload size={26} />
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="flex items-center gap-3">
-                                    <div className="p-2 rounded-xl border border-[#309255]">
-                                        <FiShare2 size={26} />
-                                    </div>
-                                    <div className="p-2 rounded-xl text-white bg-[#309255] border border-[#309255]">
-                                        <FiDownload size={26} />
-                                    </div>
-                                </div>
-                            </div>
-                        ))
-                    }
-                </div>
+                            ))
+                        }
+                    </div>
+                }
+
 
             </div>
-<Certificate />
-            <Pagination page={page} setPage={setPage} pageNumbers={pageNumbers} totalPages={totalPages} />
+            <Certificate />
+            {/* <Pagination page={page} setPage={setPage} pageNumbers={pageNumbers} totalPages={totalPages} /> */}
         </div>
     );
 };

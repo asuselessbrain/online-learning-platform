@@ -103,6 +103,7 @@ const EnrolledCourseDetails = () => {
         }
     })
 
+
     const { mutate, isPending } = useMutation({
         enabled: !!enrollment?._id && !!course?._id && !!isLoading,
         mutationFn: async (lectureId) => axiosSecure.patch(`/enrolment/${enrollment._id}/${lectureId}/${course._id}`)
@@ -150,10 +151,13 @@ const EnrolledCourseDetails = () => {
             certificateUrl: data.secure_url,
             studentName: profile?.name,
             courseName: course?.title,
+            instructorName: course?.instructorId?.userId?.name
         }
 
         createCertificate(certificateData)
     };
+
+
 
     return (
         <div className="max-w-360 mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">

@@ -178,6 +178,11 @@ const getSingleCourse = async (userId, courseId) => {
         populate: {
             path: "lectures"
         }
+    }).populate({
+        path: 'instructorId',
+        populate: {
+            path: "userId"
+        }
     })
     return enrolledCourse
 }

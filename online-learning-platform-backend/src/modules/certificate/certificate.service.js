@@ -1,7 +1,10 @@
+import { Enrollment } from "../enrollment/enrollment.model.js"
 import { certificate } from "./certificate.model.js"
 
 const createCertificate = async (payload) => {
-    payload.certificateId = `EDU-${new Date().getFullYear()}-${Math.floor(Math.random() * 0xffffff).toString(16).padStart(6, '0')}`
+    payload.certificateId = `EduLe-${new Date().getFullYear()}-${Math.floor(Math.random() * 0xffffff).toString(16).padStart(6, '0')}`
+
+    await Enrollment.findOneAndUpdate({ userId: payload.studentId, courseId: payload.courseId }, { completed: true })
     return await certificate.create(payload)
 }
 

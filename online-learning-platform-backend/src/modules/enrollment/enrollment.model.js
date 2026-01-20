@@ -21,7 +21,7 @@ const enrollmentSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
-    completedAt: { type: Date, default: "" },
+    completed: { type: Boolean, default: false },
 
     // --- Progress Tracking ---
     completedLectures: [{

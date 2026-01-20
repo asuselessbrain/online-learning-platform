@@ -2,38 +2,42 @@ import { FiAward, FiBookOpen, FiClock, FiTrendingUp } from "react-icons/fi";
 import DashboardCard from "../../shared/DashboardCard";
 import PageHeading from "../../shared/PageHeading";
 import CourseCard from "../../shared/CourserCard";
+import useStudentDashboardData from "../../../../hooks/useStudentDashboardData";
 
 const Dashboard = () => {
+    const { studentStats, studentStatsLoading } = useStudentDashboardData()
+
+    console.log(studentStats, studentStatsLoading)
     const dashboardCards = [
         {
             title: "Enrolled Courses",
-            count: "6",
+            count: studentStats?.enrolledCourseCount,
             icon: FiBookOpen,
-            increase: "+1 this month",
+            increase: `+${studentStats?.currentMonthEnrolled || 0} this month`,
             iconColor: "text-[#309255]",
             iconBg: "bg-[#eef6f1]",
         },
         {
-            title: "Learning Hours",
-            count: "124",
+            title: "Completed Course",
+            count: studentStats?.completedCourse,
             icon: FiClock,
-            increase: "+12 this week",
+            increase: `+${studentStats?.completedCourse || 0} this month`,
             iconColor: "text-[#3B82F6]",
             iconBg: "bg-[#EFF6FF]",
         },
         {
             title: "Certificates Earned",
-            count: "3",
+            count: studentStats?.certificatesEarned,
             icon: FiAward,
-            increase: "+1 this month",
+            increase: `+${studentStats?.currentMonthCertificatesEarned || 0} this month`,
             iconColor: "text-[#F59E0B]",
             iconBg: "bg-[#FFFBEB]",
         },
         {
             title: "Average Progress",
-            count: "68%",
+            count: `${Math.round(studentStats?.avgProgress)}%`,
             icon: FiTrendingUp,
-            increase: "+8%",
+            increase: `${studentStats?.percentageIncrease > 0 ? "+" : ""}${studentStats?.percentageIncrease || 0}%`,
             iconColor: "text-[#8B5CF6]",
             iconBg: "bg-[#F5F3FF]",
         },
@@ -84,7 +88,7 @@ const Dashboard = () => {
                             <CourseCard key={course.id} thumbnail={course.thumbnail} title={course.title} instructor={course.instructor} progress={course.progress} />
                         ))
                     }
-                    
+
                 </div>
             </div>
         </div>

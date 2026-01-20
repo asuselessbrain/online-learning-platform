@@ -10,6 +10,7 @@ import { InstructorRouter } from "../modules/instructor/instructor.router.js"
 import { blogsRouter } from "../modules/blogs/blogs.router.js"
 import { moduleRouter } from "../modules/module/module.router.js"
 import { lectureRouter } from "../modules/lectures/lectures.router.js"
+import { dashboardDataRouter } from "../modules/dashboardData/dashboardData.router.js"
 
 const router = express.Router()
 
@@ -57,6 +58,10 @@ const routes = [
     {
         path: "/lectures",
         element: lectureRouter
+    },
+    {
+        path: "/dashboard-data",
+        element: dashboardDataRouter
     }
 ]
 

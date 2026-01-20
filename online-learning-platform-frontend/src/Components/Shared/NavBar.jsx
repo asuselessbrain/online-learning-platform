@@ -3,6 +3,7 @@ import { Link, NavLink } from "react-router";
 import logo from "../../assets/images/logo.png"
 import { AuthContext } from "../../Providers/AuthContext";
 import { toast } from "react-toastify";
+import useRole from "../../hooks/useRole";
 
 const NavBar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -11,10 +12,13 @@ const NavBar = () => {
 
     const { user, logout } = use(AuthContext)
 
+    const { role } = useRole()
+
+
     const menuItems = [
         { path: "/", name: "Home" },
         { path: "/courses", name: "Courses" },
-        { path: "/dashboard", name: "Dashboard" },
+        { path: `/${role}/dashboard`, name: "Dashboard" },
         { path: "/about", name: "About" },
         { path: "/contact", name: "Contact Us" },
     ]

@@ -3,11 +3,11 @@ import DashboardCard from "../../shared/DashboardCard";
 import PageHeading from "../../shared/PageHeading";
 import CourseCard from "../../shared/CourserCard";
 import useStudentDashboardData from "../../../../hooks/useStudentDashboardData";
+import Loading from "../../../../Components/Shared/Loading";
+import useCourse from "../../../../hooks/useCourse";
 
 const Dashboard = () => {
     const { studentStats, studentStatsLoading } = useStudentDashboardData()
-
-    console.log(studentStats, studentStatsLoading)
     const dashboardCards = [
         {
             title: "Enrolled Courses",
@@ -43,53 +43,39 @@ const Dashboard = () => {
         },
     ];
 
-    const courseProgressData = [
-        {
-            id: 1,
-            thumbnail: "https://i.ibb.co.com/CsNgf1kj/Screenshot-2026-01-03-180517.png",
-            title: "Complete Web Development Bootcamp",
-            instructor: "Dr. Samsuzzman",
-            progress: 70,
-            buttonText: "Continue Course",
-        },
-        {
-            id: 2,
-            thumbnail: "https://webapplicationdevelopments.com/wp-content/uploads/2023/08/vecteezy_3d-render-seo-data-an-analytics-user-interface-for-web_8884028_341-1-scaled.jpg",
-            title: "UI/UX Design Masterclass",
-            instructor: "Jhankar Mahbub",
-            progress: 45,
-            buttonText: "Resume Course",
-        },
-        {
-            id: 3,
-            thumbnail: "https://media2.dev.to/dynamic/image/width=1280,height=720,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fl8codoa12swslg7ljozk.jpeg",
-            title: "React & Tailwind Advanced",
-            instructor: "Sumit Saha",
-            progress: 85,
-            buttonText: "Continue Course",
-        },
-    ];
+    const { courses, courseLoading } = useCourse({ searchTerm: "", page: 1, status: "", category: "", sortOrder: "", sortBy: "", limit: 3, isFree: "" })
+
     return (
         <div className="p-6">
             <PageHeading title="Student Dashboard" subtitle="Track your learning progress and achievements" />
-            <div className="my-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {
-                    dashboardCards.map((card, index) => (<DashboardCard key={index} title={card.title} count={card.count} icon={card.icon} increase={card.increase} iconColor={card.iconColor} iconBg={card.iconBg} />))
-                }
+            {
+                studentStatsLoading ? <div className="bg-linear-to-b from-[#e7f8ee] to-white p-4 sm:p-6 font-sans text-gray-900 min-h-[calc(100vh-48px)] m-6 rounded-xl flex items-center justify-center">
+                    <Loading message="Loading dashboard data..." fullScreen={false} />
+                </div> : <div className="my-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {
+                        dashboardCards.map((card, index) => (<DashboardCard key={index} title={card.title} count={card.count} icon={card.icon} increase={card.increase} iconColor={card.iconColor} iconBg={card.iconBg} />))
+                    }
 
-            </div>
+                </div>
+            }
+
 
             <div className="rounded-xl p-6 bg-white">
                 <p className="mb-2">Continue Learning</p>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {
-                        courseProgressData.map(course => (
-                            <CourseCard key={course.id} thumbnail={course.thumbnail} title={course.title} instructor={course.instructor} progress={course.progress} />
-                        ))
-                    }
+                {
+                    courseLoading ? <div className="bg-linear-to-b from-[#e7f8ee] to-white p-4 sm:p-6 font-sans text-gray-900 min-h-[calc(100vh-48px)] m-6 rounded-xl flex items-center justify-center">
+                        <Loading message="Loading courses..." fullScreen={false} />
+                    </div> :
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            {
+                                courses?.data.map(c => (
+                                    <CourseCard key={c._id} thumbnail={c?.course?.thumbnail} title={c?.course?.title} instructor={c?.instructorUser?.name} progress={c?.progressPercentage} buttonText={c?.course?.buttonText} id={c.courseId} />
+                                ))
+                            }
 
-                </div>
+                        </div>
+                }
             </div>
         </div>
     );

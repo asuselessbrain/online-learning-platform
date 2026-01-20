@@ -1,11 +1,12 @@
 import { useForm } from "react-hook-form";
 import PageHeading from "../../shared/PageHeading";
 import CourseCard from "../../shared/CourserCard";
-import { use, useState } from "react";
+import { useState } from "react";
 import Pagination from "../../shared/Pagination";
 import { useQuery } from "@tanstack/react-query";
 import useAxios from "../../../../hooks/useAxios";
-import { AuthContext } from "../../../../Providers/AuthContext";
+import Loading from "../../../../Components/Shared/Loading";
+import useCourse from "../../../../hooks/useCourse";
 
 const MyEnrolledCourses = () => {
     const { register, handleSubmit } = useForm();
@@ -29,16 +30,7 @@ const MyEnrolledCourses = () => {
         setPage(1);
     }
 
-    const { user } = use(AuthContext)
 
-    const { data: profile, isLoading: profileLoading } = useQuery({
-        queryKey: ['myProfile', user?.email],
-        queryFn: async () => {
-            const res = await axiosSecure.get(`/users/${user?.email}/profile`);
-            return res.data.data;
-        },
-        enabled: !!user?.email,
-    })
 
     const { data: categories, isLoading: categoriesLoading } = useQuery({
         queryKey: ["categories"],
@@ -48,15 +40,8 @@ const MyEnrolledCourses = () => {
         }
     })
 
+    const { courses, courseLoading } = useCourse({ searchTerm, page, status, category, sortOrder, sortBy, limit, isFree })
 
-    const { data, isLoading } = useQuery({
-        queryKey: ["my-courses", searchTerm, page, status, category, sortOrder, sortBy, limit, isFree, profile?._id],
-        enabled: !!profile?._id,
-        queryFn: async () => {
-            const res = await axiosSecure(`/enrolment/${profile?._id}?searchTerm=${searchTerm}&page=${page}&limit=${limit}&status=${status}&category=${category}&sortOrder=${sortOrder}&sortBy=${sortBy}&isFree=${isFree}`);
-            return res.data.data;
-        },
-    });
 
     return (
         <div className="p-6">
@@ -91,16 +76,18 @@ const MyEnrolledCourses = () => {
                 </form>
             </div>
             {
-                data?.data.length === 0 ? <p className="text-center">No Enrolled course found</p> : <><div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 items-stretch">
+                courses?.data.length === 0 ? <p className="text-center">No Enrolled course found</p> : <><div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 items-stretch">
 
                     {
-                        profileLoading ? <p>Loading...</p> : isLoading ? <p>Loading...</p> : data?.data.map(c => (<CourseCard key={c._id} thumbnail={c?.course?.thumbnail} title={c?.course?.title} instructor={c?.instructorUser?.name} progress={c?.progressPercentage} buttonText={c?.course?.buttonText} id={c.courseId} />))
+                        courseLoading ? <div className="bg-linear-to-b from-[#e7f8ee] to-white col-span-1 md:col-span-2 lg:col-span-3 2xl:col-span-4 p-4 sm:p-6 font-sans text-gray-900 min-h-[calc(100vh-48px)] m-6 rounded-xl flex items-center justify-center">
+                            <Loading message="Loading courses ..." fullScreen={false} />
+                        </div> : courses?.data.map(c => (<CourseCard key={c._id} thumbnail={c?.course?.thumbnail} title={c?.course?.title} instructor={c?.instructorUser?.name} progress={c?.progressPercentage} buttonText={c?.course?.buttonText} id={c.courseId} />))
                     }
 
                 </div>
 
                     <div className="mt-4">
-                        <Pagination page={page} setPage={setPage} total={data?.meta.total} limit={limit} />
+                        <Pagination page={page} setPage={setPage} total={courses?.meta.total} limit={limit} />
                     </div>
                 </>
             }

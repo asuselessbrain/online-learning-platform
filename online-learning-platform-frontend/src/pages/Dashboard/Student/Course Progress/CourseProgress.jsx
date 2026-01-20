@@ -1,7 +1,5 @@
-import { FiClock, FiTrendingUp } from 'react-icons/fi';
+import { FiAward, FiBookOpen, FiClock, FiTrendingUp } from 'react-icons/fi';
 import PageHeading from '../../shared/PageHeading';
-import { LiaCertificateSolid } from 'react-icons/lia';
-import { RiFocus2Line } from "react-icons/ri";
 import DashboardCard from '../../shared/DashboardCard';
 import { useForm } from 'react-hook-form';
 import ProgressBar from '../../shared/ProgressBar';
@@ -11,10 +9,13 @@ import { use } from 'react';
 import { AuthContext } from '../../../../Providers/AuthContext';
 import { useQuery } from '@tanstack/react-query';
 import useAxios from '../../../../hooks/useAxios';
-import Certificate from '../Certificates/Certificate';
+import useStudentDashboardData from '../../../../hooks/useStudentDashboardData';
+import Loading from '../../../../Components/Shared/Loading';
 
 const CourseProgress = () => {
     const { register, handleSubmit } = useForm();
+    const { studentStats, studentStatsLoading } = useStudentDashboardData()
+
     const [page, setPage] = useState(1);
     const limit = 10;
     const [searchTerm, setSearchTerm] = useState('');
@@ -28,34 +29,34 @@ const CourseProgress = () => {
 
     const courseProgressCards = [
         {
-            title: "Avg Progress",
-            count: "68%",
-            icon: FiTrendingUp,
-            increase: "+8% this week",
+            title: "Enrolled Courses",
+            count: studentStats?.enrolledCourseCount,
+            icon: FiBookOpen,
+            increase: `+${studentStats?.currentMonthEnrolled || 0} this month`,
             iconColor: "text-[#309255]",
             iconBg: "bg-[#eef6f1]",
         },
         {
-            title: "Total Hours",
-            count: "76",
+            title: "Completed Course",
+            count: studentStats?.completedCourse,
             icon: FiClock,
-            increase: "+12 this week",
+            increase: `+${studentStats?.completedCourse || 0} this month`,
             iconColor: "text-[#3B82F6]",
             iconBg: "bg-[#EFF6FF]",
         },
         {
-            title: "Completed",
-            count: "93",
-            icon: LiaCertificateSolid,
-            increase: "lessons",
+            title: "Certificates Earned",
+            count: studentStats?.certificatesEarned,
+            icon: FiAward,
+            increase: `+${studentStats?.currentMonthCertificatesEarned || 0} this month`,
             iconColor: "text-[#F59E0B]",
             iconBg: "bg-[#FFFBEB]",
         },
         {
-            title: "Streak",
-            count: "7",
-            icon: RiFocus2Line,
-            increase: "days",
+            title: "Average Progress",
+            count: `${Math.round(studentStats?.avgProgress)}%`,
+            icon: FiTrendingUp,
+            increase: `${studentStats?.percentageIncrease > 0 ? "+" : ""}${studentStats?.percentageIncrease || 0}%`,
             iconColor: "text-[#8B5CF6]",
             iconBg: "bg-[#F5F3FF]",
         },
@@ -88,10 +89,6 @@ const CourseProgress = () => {
             return res.data.data;
         },
     });
-
-    // course.title
-    // course.modules
-    // progressPercentage
     const onSubmit = data => {
         setSearchTerm(data.searchTerm)
         setStatus(data.status)
@@ -109,13 +106,19 @@ const CourseProgress = () => {
         <div className='p-6'>
             <PageHeading title="Course Progress" subtitle="Track your learning progress and achievements" />
 
-            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 my-6'>
-                {
-                    courseProgressCards.map((card, index) => (
-                        <DashboardCard key={index} title={card.title} count={card.count} icon={card.icon} increase={card.increase} iconColor={card.iconColor} iconBg={card.iconBg} />
-                    ))
-                }
-            </div>
+            {
+                studentStatsLoading ? <div className="bg-linear-to-b from-[#e7f8ee] to-white p-4 sm:p-6 font-sans text-gray-900 min-h-[calc(100vh-48px)] m-6 rounded-xl flex items-center justify-center">
+                    <Loading message="Loading dashboard data..." fullScreen={false} />
+                </div> : <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 my-6'>
+                    {
+                        courseProgressCards.map((card, index) => (
+                            <DashboardCard key={index} title={card.title} count={card.count} icon={card.icon} increase={card.increase} iconColor={card.iconColor} iconBg={card.iconBg} />
+                        ))
+                    }
+                </div>
+            }
+
+
 
             <div className="bg-white rounded-xl p-4 my-6">
                 <form onChange={handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">

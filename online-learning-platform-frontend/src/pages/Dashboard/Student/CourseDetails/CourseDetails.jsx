@@ -158,7 +158,7 @@ const EnrolledCourseDetails = () => {
     };
 
 
-
+    console.log(totalLectures === enrollment?.completedLectures.length )
     return (
         <div className="max-w-360 mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Left side video */}
@@ -278,7 +278,7 @@ const EnrolledCourseDetails = () => {
                         </ul>
                     )}
                     {
-                        totalLectures === enrollment?.completedLectures.length && <button onClick={generateCertificate} disabled={certificatePending} className="border border-green-600 text-green-600 px-4 py-2 w-full cursor-pointer disabled:cursor-no-drop rounded-md hover:bg-green-600 hover:text-white transition-all duration-700">
+                        (totalLectures === enrollment?.completedLectures.length && !enrollment?.completed) && <button onClick={generateCertificate} disabled={certificatePending} className="border border-green-600 text-green-600 px-4 py-2 w-full cursor-pointer disabled:cursor-no-drop rounded-md hover:bg-green-600 hover:text-white transition-all duration-700">
                             Complete
                         </button>
                     }
